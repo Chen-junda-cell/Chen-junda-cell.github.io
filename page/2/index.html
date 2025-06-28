@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>tags | 陈小达的个人博客</title>
+    <title>陈小达的个人博客</title>
     <meta name="author" content="chenjunda" />
     <meta name="description" content="学习笔记" />
     <meta name="keywords" content="" />
@@ -46,6 +46,8 @@
 
 
 
+
+<script src="/js/lib/home.js"></script>
 
 <link rel="stylesheet" href="/css/main.css" />
 
@@ -155,44 +157,238 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="archives">
+            <div id="home-head">
+    <div
+        id="home-background"
+        ref="homeBackground"
+        data-images="/images/background.jpg"
+    ></div>
+    <div id="home-info" @click="homeClick">
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="info">
+            <div class="wrap">
+                <h1>陈小达的个人博客</h1>
+                <h3></h3>
+                <h5>学习笔记</h5>
+            </div>
+        </span>
+    </div>
+</div>
+<div
+    id="home-posts-wrap"
+    ref="homePostsWrap"
+    true
+>
+    <div id="home-posts">
+        
+
+<div class="post">
+    <a href="/2025/06/28/IO-%E5%BC%82%E5%B8%B8-FIle-%E7%BB%BC%E5%90%88%E6%A1%88%E4%BE%8B/">
+        <h2 class="post-title">IO(异常&amp;FIle&amp;综合案例)</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/java/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                java
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/28
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="1-异常"><a href="#1-异常" class="headerlink" title="1. 异常"></a>1. 异常</h1>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/javaSE/" style="color: #ffa2c4">javaSE</a>
+        </span>
+        
+    </div>
+    <a href="/2025/06/28/IO-%E5%BC%82%E5%B8%B8-FIle-%E7%BB%BC%E5%90%88%E6%A1%88%E4%BE%8B/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/06/28/API/">
+        <h2 class="post-title">API</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/java/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                java
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/28
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="第一章-Date类"><a href="#第一章-Date类" class="headerlink" title="第一章 Date类"></a>第一章 Date类</h1><h2 id="1-1-Date概述"><a href="#1-1-Date概述" class="headerlink" title="1.1 Date概述"></a>1.1 Date概述</h2><p>java.util.Date&#96;类 表示特定的瞬间，精确到毫秒。</p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/javaSE/" style="color: #00a596">javaSE</a>
+        </span>
+        
+    </div>
+    <a href="/2025/06/28/API/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/06/28/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">
+        <h2 class="post-title">第一篇博客</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/%E5%AD%A6%E4%B9%A0/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                学习
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/28
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>欢迎来到我的博客！这是一篇测试文章。</p>
+<h2 id="🧩-分类与标签"><a href="#🧩-分类与标签" class="headerlink" title="🧩 分类与标签"></a>🧩 分类与标签</h2><p>你可以通过这篇文章了解：</p>
+<ul>
+<li>如何为文章添加分类 <code>categories</code></li>
+<li>如何添加多个标签 <code>tags</code></li>
+<li>如何让文章出现在分类&#x2F;标签页面</li>
+</ul>
+<h2 id="📝-示例代码"><a href="#📝-示例代码" class="headerlink" title="📝 示例代码"></a>📝 示例代码</h2><pre><code class="java">public class HelloWorld &#123;
+    public static void main(String[] args) &#123;
+        System.out.println(&quot;Hello Hexo!&quot;);
+    &#125;
+&#125;
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/Hexo/" style="color: #00bcd4">Hexo</a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/TEST/" style="color: #ff7d73">TEST</a>
+        </span>
+        
+    </div>
+    <a href="/2025/06/28/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" class="go-post">阅读全文</a>
+</div>
+
+
+        <div class="page-current">
     
-    <div class="categories-tags">
+    <a class="page-num" href="/">
+        <i class="fa-solid fa-caret-left fa-fw"></i>
+    </a>
+    <a class="page-num" href="/">1</a>
+    <span class="page-omit">...</span>
+    
+    <span class="current">2</span>
+    
+    
+    
+    
+</div>
+
+    </div>
+    
+    <div id="home-card">
+        <div id="card-style">
+    <div id="card-div">
+        <div class="avatar">
+            <img src="/images/avatar.jpg" alt="avatar" />
+        </div>
+        <div class="name">chenjunda</div>
+        <div class="description">
+            <p>学习ing</p>
+
+        </div>
         
         
+        <div class="friend-links">
+            
+            <div class="friend-link">
+                <a target="_blank" rel="noopener" href="https://argvchs.github.io">Argvchs</a>
+            </div>
+            
+        </div>
         
-        <span>
-            <a href="/tags/Hexo/" style="background: #00a596">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                Hexo
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/javaSE/" style="background: #00bcd4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                javaSE
-            </a>
-        </span>
-        
-        
-        
-        <span>
-            <a href="/tags/TEST/" style="background: #ffa2c4">
-                <span class="icon">
-                    <i class="fa-solid fa-tags fa-fw"></i>
-                </span>
-                TEST
-            </a>
-        </span>
-        
-        
+    </div>
+</div>
+
     </div>
     
 </div>

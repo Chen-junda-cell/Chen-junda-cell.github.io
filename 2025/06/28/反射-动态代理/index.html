@@ -1,0 +1,1506 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>反射&amp;动态代理 | 陈小达的个人博客</title>
+    <meta name="author" content="chenjunda" />
+    <meta name="description" content="学习笔记" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>陈小达的个人博客</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-主页 fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-关于我 fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-分类 fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-标签 fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;陈小达的个人博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-主页 fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-关于我 fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-分类 fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-标签 fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>反射&amp;动态代理</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/28
+        </span>
+        
+        <span class="category">
+            <a href="/categories/java/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                java
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/javaSE/" style="color: #00a596">
+                    javaSE
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="1-反射"><a href="#1-反射" class="headerlink" title="1. 反射"></a>1. 反射</h1><h2 id="1-1-反射的概述："><a href="#1-1-反射的概述：" class="headerlink" title="1.1 反射的概述："></a>1.1 反射的概述：</h2><p>​	<strong>专业的解释（了解一下）：</strong></p>
+<p>​       是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；</p>
+<p>​       对于任意一个对象，都能够调用它的任意属性和方法；</p>
+<p>​       这种动态获取信息以及动态调用对象方法的功能称为Java语言的反射机制。</p>
+<span id="more"></span>
+
+<p>​	<strong>通俗的理解：（掌握）</strong></p>
+<ul>
+<li><p>利用<strong>反射</strong>创建的对象<strong>可以无视修饰符</strong>调用类里面的内容</p>
+</li>
+<li><p>可以跟<strong>配置文件结合起来使用</strong>，把要创建的对象信息和方法写在配置文件中。</p>
+<p>读取到什么类，就创建什么类的对象</p>
+<p>读取到什么方法，就调用什么方法</p>
+<p>此时当需求变更的时候不需要修改代码，只要修改配置文件即可。</p>
+</li>
+</ul>
+<h2 id="1-2-学习反射到底学什么？"><a href="#1-2-学习反射到底学什么？" class="headerlink" title="1.2 学习反射到底学什么？"></a>1.2 学习反射到底学什么？</h2><p>反射都是从class字节码文件中获取的内容。</p>
+<ul>
+<li>如何获取class字节码文件的对象</li>
+<li>利用反射如何获取构造方法（创建对象）</li>
+<li>利用反射如何获取成员变量（赋值，获取值）</li>
+<li>利用反射如何获取成员方法（运行）</li>
+</ul>
+<h2 id="1-3-获取字节码文件对象的三种方式"><a href="#1-3-获取字节码文件对象的三种方式" class="headerlink" title="1.3 获取字节码文件对象的三种方式"></a>1.3 获取字节码文件对象的三种方式</h2><ul>
+<li>Class这个类里面的静态方法forName（“全类名”）<strong>（最常用）</strong></li>
+<li>通过class属性获取  </li>
+<li>通过对象获取字节码文件对象</li>
+</ul>
+<p>代码示例：</p>
+<pre><code class="java">//1.Class这个类里面的静态方法forName
+//Class.forName(&quot;类的全类名&quot;)： 全类名 = 包名 + 类名
+Class clazz1 = Class.forName(&quot;com.itheima.reflectdemo.Student&quot;);
+//源代码阶段获取 --- 先把Student加载到内存中，再获取字节码文件的对象
+//clazz 就表示Student这个类的字节码文件对象。
+//就是当Student.class这个文件加载到内存之后，产生的字节码文件对象
+
+
+//2.通过class属性获取
+//类名.class
+Class clazz2 = Student.class;
+
+//因为class文件在硬盘中是唯一的，所以，当这个文件加载到内存之后产生的对象也是唯一的
+System.out.println(clazz1 == clazz2);//true
+
+
+//3.通过Student对象获取字节码文件对象
+Student s = new Student();
+Class clazz3 = s.getClass();
+System.out.println(clazz1 == clazz2);//true
+System.out.println(clazz2 == clazz3);//true
+</code></pre>
+<h2 id="1-4-字节码文件和字节码文件对象"><a href="#1-4-字节码文件和字节码文件对象" class="headerlink" title="1.4 字节码文件和字节码文件对象"></a>1.4 字节码文件和字节码文件对象</h2><p>java文件：就是我们自己编写的java代码。</p>
+<p>字节码文件：就是通过java文件编译之后的class文件（是在硬盘上真实存在的，用眼睛能看到的）</p>
+<p>字节码文件对象：当class文件加载到内存之后，虚拟机自动创建出来的对象。</p>
+<p>​				这个对象里面至少包含了：构造方法，成员变量，成员方法。</p>
+<p>而我们的反射获取的是什么？字节码文件对象，这个对象在内存中是唯一的。</p>
+<h2 id="1-5-获取构造方法"><a href="#1-5-获取构造方法" class="headerlink" title="1.5 获取构造方法"></a>1.5 获取构造方法</h2><p>规则：</p>
+<p>​	get表示获取</p>
+<p>​	Declared表示私有</p>
+<p>​	最后的s表示所有，复数形式</p>
+<p>​	如果当前获取到的是私有的，必须要临时修改访问权限，否则无法使用</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Constructor&lt;?&gt;[] getConstructors()</td>
+<td>获得所有的构造（只能public修饰）</td>
+</tr>
+<tr>
+<td>Constructor&lt;?&gt;[] getDeclaredConstructors()</td>
+<td>获得所有的构造（包含private修饰）</td>
+</tr>
+<tr>
+<td>Constructor<T> getConstructor(Class&lt;?&gt;… parameterTypes)</td>
+<td>获取指定构造（只能public修饰）</td>
+</tr>
+<tr>
+<td>Constructor<T> getDeclaredConstructor(Class&lt;?&gt;… parameterTypes)</td>
+<td>获取指定构造（包含private修饰）</td>
+</tr>
+</tbody></table>
+<p>代码示例：</p>
+<pre><code class="java">public class ReflectDemo2 &#123;
+    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException &#123;
+        //1.获得整体（class字节码文件对象）
+        Class clazz = Class.forName(&quot;com.itheima.reflectdemo.Student&quot;);
+
+
+        //2.获取构造方法对象
+        //获取所有构造方法（public）
+        Constructor[] constructors1 = clazz.getConstructors();
+        for (Constructor constructor : constructors1) &#123;
+            System.out.println(constructor);
+        &#125;
+
+        System.out.println(&quot;=======================&quot;);
+
+        //获取所有构造（带私有的）
+        Constructor[] constructors2 = clazz.getDeclaredConstructors();
+
+        for (Constructor constructor : constructors2) &#123;
+            System.out.println(constructor);
+        &#125;
+        System.out.println(&quot;=======================&quot;);
+
+        //获取指定的空参构造
+        Constructor con1 = clazz.getConstructor();
+        System.out.println(con1);
+
+        Constructor con2 = clazz.getConstructor(String.class,int.class);
+        System.out.println(con2);
+
+        System.out.println(&quot;=======================&quot;);
+        //获取指定的构造(所有构造都可以获取到，包括public包括private)
+        Constructor con3 = clazz.getDeclaredConstructor();
+        System.out.println(con3);
+        //了解 System.out.println(con3 == con1);
+        //每一次获取构造方法对象的时候，都会新new一个。
+
+        Constructor con4 = clazz.getDeclaredConstructor(String.class);
+        System.out.println(con4);
+    &#125;
+&#125;
+</code></pre>
+<h2 id="1-6-获取构造方法并创建对象"><a href="#1-6-获取构造方法并创建对象" class="headerlink" title="1.6 获取构造方法并创建对象"></a>1.6 获取构造方法并创建对象</h2><p>涉及到的方法：newInstance</p>
+<p>代码示例：</p>
+<pre><code class="java">//首先要有一个javabean类
+public class Student &#123;
+    private String name;
+
+    private int age;
+
+
+    public Student() &#123;
+
+    &#125;
+
+    public Student(String name) &#123;
+        this.name = name;
+    &#125;
+
+    private Student(String name, int age) &#123;
+        this.name = name;
+        this.age = age;
+    &#125;
+
+
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) &#123;
+        this.name = name;
+    &#125;
+
+    /**
+     * 获取
+     * @return age
+     */
+    public int getAge() &#123;
+        return age;
+    &#125;
+
+    /**
+     * 设置
+     * @param age
+     */
+    public void setAge(int age) &#123;
+        this.age = age;
+    &#125;
+
+    public String toString() &#123;
+        return &quot;Student&#123;name = &quot; + name + &quot;, age = &quot; + age + &quot;&#125;&quot;;
+    &#125;
+&#125;
+
+
+
+//测试类中的代码：
+//需求1：
+//获取空参，并创建对象
+
+//1.获取整体的字节码文件对象
+Class clazz = Class.forName(&quot;com.itheima.a02reflectdemo1.Student&quot;);
+//2.获取空参的构造方法
+Constructor con = clazz.getConstructor();
+//3.利用空参构造方法创建对象
+Student stu = (Student) con.newInstance();
+System.out.println(stu);
+
+
+System.out.println(&quot;=============================================&quot;);
+
+
+//测试类中的代码：
+//需求2：
+//获取带参构造，并创建对象
+//1.获取整体的字节码文件对象
+Class clazz = Class.forName(&quot;com.itheima.a02reflectdemo1.Student&quot;);
+//2.获取有参构造方法
+Constructor con = clazz.getDeclaredConstructor(String.class, int.class);
+//3.临时修改构造方法的访问权限（暴力反射）
+con.setAccessible(true);
+//4.直接创建对象
+Student stu = (Student) con.newInstance(&quot;zhangsan&quot;, 23);
+System.out.println(stu);
+</code></pre>
+<h2 id="1-7-获取成员变量"><a href="#1-7-获取成员变量" class="headerlink" title="1.7 获取成员变量"></a>1.7 获取成员变量</h2><p>规则：</p>
+<p>​	get表示获取</p>
+<p>​	Declared表示私有</p>
+<p>​	最后的s表示所有，复数形式</p>
+<p>​	如果当前获取到的是私有的，必须要临时修改访问权限，否则无法使用</p>
+<p>方法名：</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Field[] getFields()</td>
+<td>返回所有成员变量对象的数组（只能拿public的）</td>
+</tr>
+<tr>
+<td>Field[] getDeclaredFields()</td>
+<td>返回所有成员变量对象的数组，存在就能拿到</td>
+</tr>
+<tr>
+<td>Field getField(String name)</td>
+<td>返回单个成员变量对象（只能拿public的）</td>
+</tr>
+<tr>
+<td>Field getDeclaredField(String name)</td>
+<td>返回单个成员变量对象，存在就能拿到</td>
+</tr>
+</tbody></table>
+<p>代码示例：</p>
+<pre><code class="java">public class ReflectDemo4 &#123;
+    public static void main(String[] args) throws ClassNotFoundException, NoSuchFieldException &#123;
+        //获取成员变量对象
+
+        //1.获取class对象
+        Class clazz = Class.forName(&quot;com.itheima.reflectdemo.Student&quot;);
+
+        //2.获取成员变量的对象（Field对象)只能获取public修饰的
+        Field[] fields1 = clazz.getFields();
+        for (Field field : fields1) &#123;
+            System.out.println(field);
+        &#125;
+
+        System.out.println(&quot;===============================&quot;);
+
+        //获取成员变量的对象（public + private）
+        Field[] fields2 = clazz.getDeclaredFields();
+        for (Field field : fields2) &#123;
+            System.out.println(field);
+        &#125;
+
+        System.out.println(&quot;===============================&quot;);
+        //获得单个成员变量对象
+        //如果获取的属性是不存在的，那么会报异常
+        //Field field3 = clazz.getField(&quot;aaa&quot;);
+        //System.out.println(field3);//NoSuchFieldException
+
+        Field field4 = clazz.getField(&quot;gender&quot;);
+        System.out.println(field4);
+
+        System.out.println(&quot;===============================&quot;);
+        //获取单个成员变量（私有）
+        Field field5 = clazz.getDeclaredField(&quot;name&quot;);
+        System.out.println(field5);
+
+    &#125;
+&#125;
+
+
+
+public class Student &#123;
+    private String name;
+
+    private int age;
+
+    public String gender;
+
+    public String address;
+
+
+    public Student() &#123;
+    &#125;
+
+    public Student(String name, int age, String address) &#123;
+        this.name = name;
+        this.age = age;
+        this.address = address;
+    &#125;
+
+
+    public Student(String name, int age, String gender, String address) &#123;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.address = address;
+    &#125;
+
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) &#123;
+        this.name = name;
+    &#125;
+
+    /**
+     * 获取
+     * @return age
+     */
+    public int getAge() &#123;
+        return age;
+    &#125;
+
+    /**
+     * 设置
+     * @param age
+     */
+    public void setAge(int age) &#123;
+        this.age = age;
+    &#125;
+
+    /**
+     * 获取
+     * @return gender
+     */
+    public String getGender() &#123;
+        return gender;
+    &#125;
+
+    /**
+     * 设置
+     * @param gender
+     */
+    public void setGender(String gender) &#123;
+        this.gender = gender;
+    &#125;
+
+    /**
+     * 获取
+     * @return address
+     */
+    public String getAddress() &#123;
+        return address;
+    &#125;
+
+    /**
+     * 设置
+     * @param address
+     */
+    public void setAddress(String address) &#123;
+        this.address = address;
+    &#125;
+
+    public String toString() &#123;
+        return &quot;Student&#123;name = &quot; + name + &quot;, age = &quot; + age + &quot;, gender = &quot; + gender + &quot;, address = &quot; + address + &quot;&#125;&quot;;
+    &#125;
+&#125;
+</code></pre>
+<h2 id="1-8-获取成员变量并获取值和修改值"><a href="#1-8-获取成员变量并获取值和修改值" class="headerlink" title="1.8 获取成员变量并获取值和修改值"></a>1.8 获取成员变量并获取值和修改值</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>void set(Object obj, Object value）</td>
+<td>赋值</td>
+</tr>
+<tr>
+<td>Object get(Object obj)</td>
+<td>获取值</td>
+</tr>
+</tbody></table>
+<p>代码示例：</p>
+<pre><code class="java">public class ReflectDemo5 &#123;
+    public static void main(String[] args) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException &#123;
+        Student s = new Student(&quot;zhangsan&quot;,23,&quot;广州&quot;);
+        Student ss = new Student(&quot;lisi&quot;,24,&quot;北京&quot;);
+
+        //需求：
+        //利用反射获取成员变量并获取值和修改值
+
+        //1.获取class对象
+        Class clazz = Class.forName(&quot;com.itheima.reflectdemo.Student&quot;);
+
+        //2.获取name成员变量
+        //field就表示name这个属性的对象
+        Field field = clazz.getDeclaredField(&quot;name&quot;);
+        //临时修饰他的访问权限
+        field.setAccessible(true);
+
+        //3.设置(修改)name的值
+        //参数一：表示要修改哪个对象的name？
+        //参数二：表示要修改为多少？
+        field.set(s,&quot;wangwu&quot;);
+
+        //3.获取name的值
+        //表示我要获取这个对象的name的值
+        String result = (String)field.get(s);
+
+        //4.打印结果
+        System.out.println(result);
+
+        System.out.println(s);
+        System.out.println(ss);
+
+    &#125;
+&#125;
+
+
+public class Student &#123;
+    private String name;
+    private int age;
+    public String gender;
+    public String address;
+
+
+    public Student() &#123;
+    &#125;
+
+    public Student(String name, int age, String address) &#123;
+        this.name = name;
+        this.age = age;
+        this.address = address;
+    &#125;
+
+
+    public Student(String name, int age, String gender, String address) &#123;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.address = address;
+    &#125;
+
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) &#123;
+        this.name = name;
+    &#125;
+
+    /**
+     * 获取
+     * @return age
+     */
+    public int getAge() &#123;
+        return age;
+    &#125;
+
+    /**
+     * 设置
+     * @param age
+     */
+    public void setAge(int age) &#123;
+        this.age = age;
+    &#125;
+
+    /**
+     * 获取
+     * @return gender
+     */
+    public String getGender() &#123;
+        return gender;
+    &#125;
+
+    /**
+     * 设置
+     * @param gender
+     */
+    public void setGender(String gender) &#123;
+        this.gender = gender;
+    &#125;
+
+    /**
+     * 获取
+     * @return address
+     */
+    public String getAddress() &#123;
+        return address;
+    &#125;
+
+    /**
+     * 设置
+     * @param address
+     */
+    public void setAddress(String address) &#123;
+        this.address = address;
+    &#125;
+
+    public String toString() &#123;
+        return &quot;Student&#123;name = &quot; + name + &quot;, age = &quot; + age + &quot;, gender = &quot; + gender + &quot;, address = &quot; + address + &quot;&#125;&quot;;
+    &#125;
+&#125;
+</code></pre>
+<h2 id="1-9-获取成员方法"><a href="#1-9-获取成员方法" class="headerlink" title="1.9 获取成员方法"></a>1.9 获取成员方法</h2><p>规则：</p>
+<p>​	get表示获取</p>
+<p>​	Declared表示私有</p>
+<p>​	最后的s表示所有，复数形式</p>
+<p>​	如果当前获取到的是私有的，必须要临时修改访问权限，否则无法使用</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Method[] getMethods()</td>
+<td>返回所有成员方法对象的数组（只能拿public的）</td>
+</tr>
+<tr>
+<td>Method[] getDeclaredMethods()</td>
+<td>返回所有成员方法对象的数组，存在就能拿到</td>
+</tr>
+<tr>
+<td>Method getMethod(String name, Class&lt;?&gt;… parameterTypes)</td>
+<td>返回单个成员方法对象（只能拿public的）</td>
+</tr>
+<tr>
+<td>Method getDeclaredMethod(String name, Class&lt;?&gt;… parameterTypes)</td>
+<td>返回单个成员方法对象，存在就能拿到</td>
+</tr>
+</tbody></table>
+<p>代码示例：</p>
+<pre><code class="java">public class ReflectDemo6 &#123;
+    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException &#123;
+        //1.获取class对象
+        Class&lt;?&gt; clazz = Class.forName(&quot;com.itheima.reflectdemo.Student&quot;);
+
+
+        //2.获取方法
+        //getMethods可以获取父类中public修饰的方法
+        Method[] methods1 = clazz.getMethods();
+        for (Method method : methods1) &#123;
+            System.out.println(method);
+        &#125;
+
+        System.out.println(&quot;===========================&quot;);
+        //获取所有的方法（包含私有）
+        //但是只能获取自己类中的方法
+        Method[] methods2 = clazz.getDeclaredMethods();
+        for (Method method : methods2) &#123;
+            System.out.println(method);
+        &#125;
+
+        System.out.println(&quot;===========================&quot;);
+        //获取指定的方法（空参）
+        Method method3 = clazz.getMethod(&quot;sleep&quot;);
+        System.out.println(method3);
+
+        Method method4 = clazz.getMethod(&quot;eat&quot;,String.class);
+        System.out.println(method4);
+
+        //获取指定的私有方法
+        Method method5 = clazz.getDeclaredMethod(&quot;playGame&quot;);
+        System.out.println(method5);
+    &#125;
+&#125;
+</code></pre>
+<h2 id="1-10-获取成员方法并运行"><a href="#1-10-获取成员方法并运行" class="headerlink" title="1.10 获取成员方法并运行"></a>1.10 获取成员方法并运行</h2><p>方法</p>
+<p> Object invoke(Object obj, Object… args) ：运行方法</p>
+<p>参数一：用obj对象调用该方法</p>
+<p>参数二：调用方法的传递的参数（如果没有就不写）</p>
+<p>返回值：方法的返回值（如果没有就不写）</p>
+<p>代码示例：</p>
+<pre><code class="java">package com.itheima.a02reflectdemo1;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+public class ReflectDemo6 &#123;
+    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException &#123;
+        //1.获取字节码文件对象
+        Class clazz = Class.forName(&quot;com.itheima.a02reflectdemo1.Student&quot;);
+        
+        //2.获取一个对象
+        //需要用这个对象去调用方法
+        Student s = new Student();
+        
+        //3.获取一个指定的方法
+        //参数一：方法名
+        //参数二：参数列表，如果没有可以不写
+        Method eatMethod = clazz.getMethod(&quot;eat&quot;,String.class);
+        
+        //运行
+        //参数一：表示方法的调用对象
+        //参数二：方法在运行时需要的实际参数
+        //注意点：如果方法有返回值，那么需要接收invoke的结果
+        //如果方法没有返回值，则不需要接收
+        String result = (String) eatMethod.invoke(s, &quot;重庆小面&quot;);
+        System.out.println(result);
+
+    &#125;
+&#125;
+
+
+
+public class Student &#123;
+    private String name;
+    private int age;
+    public String gender;
+    public String address;
+
+
+    public Student() &#123;
+
+    &#125;
+
+    public Student(String name) &#123;
+        this.name = name;
+    &#125;
+
+    private Student(String name, int age) &#123;
+        this.name = name;
+        this.age = age;
+    &#125;
+
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) &#123;
+        this.name = name;
+    &#125;
+
+    /**
+     * 获取
+     * @return age
+     */
+    public int getAge() &#123;
+        return age;
+    &#125;
+
+    /**
+     * 设置
+     * @param age
+     */
+    public void setAge(int age) &#123;
+        this.age = age;
+    &#125;
+
+    public String toString() &#123;
+        return &quot;Student&#123;name = &quot; + name + &quot;, age = &quot; + age + &quot;&#125;&quot;;
+    &#125;
+
+    private void study()&#123;
+        System.out.println(&quot;学生在学习&quot;);
+    &#125;
+
+    private void sleep()&#123;
+        System.out.println(&quot;学生在睡觉&quot;);
+    &#125;
+
+    public String eat(String something)&#123;
+        System.out.println(&quot;学生在吃&quot; + something);
+        return &quot;学生已经吃完了，非常happy&quot;;
+    &#125;
+&#125;
+</code></pre>
+<h2 id="面试题："><a href="#面试题：" class="headerlink" title="面试题："></a>面试题：</h2><p>​	你觉得反射好不好？好，有两个方向</p>
+<p>​	第一个方向：无视修饰符访问类中的内容。但是这种操作在开发中一般不用，都是框架底层来用的。</p>
+<p>​	第二个方向：反射可以跟配置文件结合起来使用，动态的创建对象，动态的调用方法。</p>
+<h2 id="1-11-练习泛型擦除（掌握概念，了解代码）"><a href="#1-11-练习泛型擦除（掌握概念，了解代码）" class="headerlink" title="1.11 练习泛型擦除（掌握概念，了解代码）"></a>1.11 练习泛型擦除（掌握概念，了解代码）</h2><p>理解：（掌握）</p>
+<p>​	集合中的泛型只在java文件中存在，当编译成class文件之后，就没有泛型了。</p>
+<p>代码示例：（了解）</p>
+<pre><code class="java">package com.itheima.reflectdemo;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+
+public class ReflectDemo8 &#123;
+    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException &#123;
+        //1.创建集合对象
+        ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();
+        list.add(123);
+//        list.add(&quot;aaa&quot;);
+
+        //2.利用反射运行add方法去添加字符串
+        //因为反射使用的是class字节码文件
+
+        //获取class对象
+        Class clazz = list.getClass();
+
+        //获取add方法对象
+        Method method = clazz.getMethod(&quot;add&quot;, Object.class);
+
+        //运行方法
+        method.invoke(list,&quot;aaa&quot;);
+
+        //打印集合
+        System.out.println(list);
+    &#125;
+&#125;
+</code></pre>
+<h2 id="1-12-练习：修改字符串的内容（掌握概念，了解代码）"><a href="#1-12-练习：修改字符串的内容（掌握概念，了解代码）" class="headerlink" title="1.12 练习：修改字符串的内容（掌握概念，了解代码）"></a>1.12 练习：修改字符串的内容（掌握概念，了解代码）</h2><p>在这个练习中，我需要你掌握的是字符串不能修改的真正原因。</p>
+<p>字符串，在底层是一个byte类型的字节数组，名字叫做value</p>
+<pre><code class="java">private final byte[] value;
+</code></pre>
+<p>真正不能被修改的原因：final和private</p>
+<p>final修饰value表示value记录的地址值不能修改。</p>
+<p>private修饰value而且没有对外提供getvalue和setvalue的方法。所以，在外界不能获取或修改value记录的地址值。</p>
+<p>如果要强行修改可以用反射：</p>
+<p>代码示例：（了解）</p>
+<pre><code class="java">String s = &quot;abc&quot;;
+String ss = &quot;abc&quot;;
+// private final byte[] value= &#123;97,98,99&#125;;
+// 没有对外提供getvalue和setvalue的方法，不能修改value记录的地址值
+// 如果我们利用反射获取了value的地址值。
+// 也是可以修改的，final修饰的value
+// 真正不可变的value数组的地址值，里面的内容利用反射还是可以修改的，比较危险
+
+//1.获取class对象
+Class clazz = s.getClass();
+
+//2.获取value成员变量（private）
+Field field = clazz.getDeclaredField(&quot;value&quot;);
+//但是这种操作非常危险
+//JDK高版本已经屏蔽了这种操作，低版本还是可以的
+//临时修改权限
+field.setAccessible(true);
+
+//3.获取value记录的地址值
+byte[] bytes = (byte[]) field.get(s);
+bytes[0] = 100;
+
+System.out.println(s);//dbc
+System.out.println(ss);//dbc
+</code></pre>
+<h2 id="1-13-练习，反射和配置文件结合动态获取的练习（重点）"><a href="#1-13-练习，反射和配置文件结合动态获取的练习（重点）" class="headerlink" title="1.13 练习，反射和配置文件结合动态获取的练习（重点）"></a>1.13 练习，反射和配置文件结合动态获取的练习（重点）</h2><p>需求: 利用反射根据文件中的不同类名和方法名，创建不同的对象并调用方法。</p>
+<p>分析:</p>
+<p>①通过Properties加载配置文件</p>
+<p>②得到类名和方法名</p>
+<p>③通过类名反射得到Class对象</p>
+<p>④通过Class对象创建一个对象</p>
+<p>⑤通过Class对象得到方法</p>
+<p>⑥调用方法</p>
+<p>代码示例：</p>
+<pre><code class="java">public class ReflectDemo9 &#123;
+    public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException &#123;
+        //1.读取配置文件的信息
+        Properties prop = new Properties();
+        FileInputStream fis = new FileInputStream(&quot;day14-code\\prop.properties&quot;);
+        prop.load(fis);
+        fis.close();
+        System.out.println(prop);
+
+        String classname = prop.get(&quot;classname&quot;) + &quot;&quot;;
+        String methodname = prop.get(&quot;methodname&quot;) + &quot;&quot;;
+
+        //2.获取字节码文件对象
+        Class clazz = Class.forName(classname);
+
+        //3.要先创建这个类的对象
+        Constructor con = clazz.getDeclaredConstructor();
+        con.setAccessible(true);
+        Object o = con.newInstance();
+        System.out.println(o);
+
+        //4.获取方法的对象
+        Method method = clazz.getDeclaredMethod(methodname);
+        method.setAccessible(true);
+
+        //5.运行方法
+        method.invoke(o);
+
+
+    &#125;
+&#125;
+
+配置文件中的信息：
+classname=com.itheima.a02reflectdemo1.Student
+methodname=sleep
+</code></pre>
+<h2 id="1-14-利用发射保存对象中的信息（重点）"><a href="#1-14-利用发射保存对象中的信息（重点）" class="headerlink" title="1.14 利用发射保存对象中的信息（重点）"></a>1.14 利用发射保存对象中的信息（重点）</h2><pre><code class="java">public class MyReflectDemo &#123;
+    public static void main(String[] args) throws IllegalAccessException, IOException &#123;
+    /*
+        对于任意一个对象，都可以把对象所有的字段名和值，保存到文件中去
+    */
+       Student s = new Student(&quot;小A&quot;,23,&#39;女&#39;,167.5,&quot;睡觉&quot;);
+       Teacher t = new Teacher(&quot;播妞&quot;,10000);
+       saveObject(s);
+    &#125;
+
+    //把对象里面所有的成员变量名和值保存到本地文件中
+    public static void saveObject(Object obj) throws IllegalAccessException, IOException &#123;
+        //1.获取字节码文件的对象
+        Class clazz = obj.getClass();
+        //2. 创建IO流
+        BufferedWriter bw = new BufferedWriter(new FileWriter(&quot;myreflect\\a.txt&quot;));
+        //3. 获取所有的成员变量
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) &#123;
+            field.setAccessible(true);
+            //获取成员变量的名字
+            String name = field.getName();
+            //获取成员变量的值
+            Object value = field.get(obj);
+            //写出数据
+            bw.write(name + &quot;=&quot; + value);
+            bw.newLine();
+        &#125;
+
+        bw.close();
+
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="java">public class Student &#123;
+    private String name;
+    private int age;
+    private char gender;
+    private double height;
+    private String hobby;
+
+    public Student() &#123;
+    &#125;
+
+    public Student(String name, int age, char gender, double height, String hobby) &#123;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.height = height;
+        this.hobby = hobby;
+    &#125;
+
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) &#123;
+        this.name = name;
+    &#125;
+
+    /**
+     * 获取
+     * @return age
+     */
+    public int getAge() &#123;
+        return age;
+    &#125;
+
+    /**
+     * 设置
+     * @param age
+     */
+    public void setAge(int age) &#123;
+        this.age = age;
+    &#125;
+
+    /**
+     * 获取
+     * @return gender
+     */
+    public char getGender() &#123;
+        return gender;
+    &#125;
+
+    /**
+     * 设置
+     * @param gender
+     */
+    public void setGender(char gender) &#123;
+        this.gender = gender;
+    &#125;
+
+    /**
+     * 获取
+     * @return height
+     */
+    public double getHeight() &#123;
+        return height;
+    &#125;
+
+    /**
+     * 设置
+     * @param height
+     */
+    public void setHeight(double height) &#123;
+        this.height = height;
+    &#125;
+
+    /**
+     * 获取
+     * @return hobby
+     */
+    public String getHobby() &#123;
+        return hobby;
+    &#125;
+
+    /**
+     * 设置
+     * @param hobby
+     */
+    public void setHobby(String hobby) &#123;
+        this.hobby = hobby;
+    &#125;
+
+    public String toString() &#123;
+        return &quot;Student&#123;name = &quot; + name + &quot;, age = &quot; + age + &quot;, gender = &quot; + gender + &quot;, height = &quot; + height + &quot;, hobby = &quot; + hobby + &quot;&#125;&quot;;
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="java">public class Teacher &#123;
+    private String name;
+    private double salary;
+
+    public Teacher() &#123;
+    &#125;
+
+    public Teacher(String name, double salary) &#123;
+        this.name = name;
+        this.salary = salary;
+    &#125;
+
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) &#123;
+        this.name = name;
+    &#125;
+
+    /**
+     * 获取
+     * @return salary
+     */
+    public double getSalary() &#123;
+        return salary;
+    &#125;
+
+    /**
+     * 设置
+     * @param salary
+     */
+    public void setSalary(double salary) &#123;
+        this.salary = salary;
+    &#125;
+
+    public String toString() &#123;
+        return &quot;Teacher&#123;name = &quot; + name + &quot;, salary = &quot; + salary + &quot;&#125;&quot;;
+    &#125;
+&#125;
+</code></pre>
+<h1 id="2-动态代理"><a href="#2-动态代理" class="headerlink" title="2. 动态代理"></a>2. 动态代理</h1><h2 id="2-1-好处："><a href="#2-1-好处：" class="headerlink" title="2.1 好处："></a>2.1 好处：</h2><p>​	无侵入式的给方法增强功能</p>
+<h2 id="2-2-动态代理三要素："><a href="#2-2-动态代理三要素：" class="headerlink" title="2.2 动态代理三要素："></a>2.2 动态代理三要素：</h2><p>1，真正干活的对象</p>
+<p>2，代理对象</p>
+<p>3，利用代理调用方法</p>
+<p>切记一点：代理可以增强或者拦截的方法都在接口中，接口需要写在newProxyInstance的第二个参数里。</p>
+<h2 id="2-3-代码实现："><a href="#2-3-代码实现：" class="headerlink" title="2.3 代码实现："></a>2.3 代码实现：</h2><pre><code class="java">public class Test &#123;
+    public static void main(String[] args) &#123;
+    /*
+        需求：
+            外面的人想要大明星唱一首歌
+             1. 获取代理的对象
+                代理对象 = ProxyUtil.createProxy(大明星的对象);
+             2. 再调用代理的唱歌方法
+                代理对象.唱歌的方法(&quot;只因你太美&quot;);
+     */
+        //1. 获取代理的对象
+        BigStar bigStar = new BigStar(&quot;鸡哥&quot;);
+        Star proxy = ProxyUtil.createProxy(bigStar);
+
+        //2. 调用唱歌的方法
+        String result = proxy.sing(&quot;只因你太美&quot;);
+        System.out.println(result);
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="java">/*
+*
+* 类的作用：
+*       创建一个代理
+*
+* */
+public class ProxyUtil &#123;
+    /*
+    *
+    * 方法的作用：
+    *       给一个明星的对象，创建一个代理
+    *
+    *  形参：
+    *       被代理的明星对象
+    *
+    *  返回值：
+    *       给明星创建的代理
+    *
+    *
+    *
+    * 需求：
+    *   外面的人想要大明星唱一首歌
+    *   1. 获取代理的对象
+    *      代理对象 = ProxyUtil.createProxy(大明星的对象);
+    *   2. 再调用代理的唱歌方法
+    *      代理对象.唱歌的方法(&quot;只因你太美&quot;);
+    * */
+    public static Star createProxy(BigStar bigStar)&#123;
+       /* java.lang.reflect.Proxy类：提供了为对象产生代理对象的方法：
+
+        public static Object newProxyInstance(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler h)
+        参数一：用于指定用哪个类加载器，去加载生成的代理类
+        参数二：指定接口，这些接口用于指定生成的代理长什么，也就是有哪些方法
+        参数三：用来指定生成的代理对象要干什么事情*/
+        Star star = (Star) Proxy.newProxyInstance(
+                ProxyUtil.class.getClassLoader(),//参数一：用于指定用哪个类加载器，去加载生成的代理类
+                new Class[]&#123;Star.class&#125;,//参数二：指定接口，这些接口用于指定生成的代理长什么，也就是有哪些方法
+                //参数三：用来指定生成的代理对象要干什么事情
+                new InvocationHandler() &#123;
+                    @Override
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable &#123;
+                        /*
+                        * 参数一：代理的对象
+                        * 参数二：要运行的方法 sing
+                        * 参数三：调用sing方法时，传递的实参
+                        * */
+                        if(&quot;sing&quot;.equals(method.getName()))&#123;
+                            System.out.println(&quot;准备话筒，收钱&quot;);
+                        &#125;else if(&quot;dance&quot;.equals(method.getName()))&#123;
+                            System.out.println(&quot;准备场地，收钱&quot;);
+                        &#125;
+                        //去找大明星开始唱歌或者跳舞
+                        //代码的表现形式：调用大明星里面唱歌或者跳舞的方法
+                        return method.invoke(bigStar,args);
+                    &#125;
+                &#125;
+        );
+        return star;
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="java">public interface Star &#123;
+    //我们可以把所有想要被代理的方法定义在接口当中
+    //唱歌
+    public abstract String sing(String name);
+    //跳舞
+    public abstract void dance();
+&#125;
+</code></pre>
+<pre><code class="java">public class BigStar implements Star &#123;
+    private String name;
+
+
+    public BigStar() &#123;
+    &#125;
+
+    public BigStar(String name) &#123;
+        this.name = name;
+    &#125;
+
+    //唱歌
+    @Override
+    public String sing(String name)&#123;
+        System.out.println(this.name + &quot;正在唱&quot; + name);
+        return &quot;谢谢&quot;;
+    &#125;
+
+    //跳舞
+    @Override
+    public void dance()&#123;
+        System.out.println(this.name + &quot;正在跳舞&quot;);
+    &#125;
+
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) &#123;
+        this.name = name;
+    &#125;
+
+    public String toString() &#123;
+        return &quot;BigStar&#123;name = &quot; + name + &quot;&#125;&quot;;
+    &#125;
+&#125;
+</code></pre>
+<h2 id="2-4-额外扩展"><a href="#2-4-额外扩展" class="headerlink" title="2.4 额外扩展"></a>2.4 额外扩展</h2><p>动态代理，还可以拦截方法</p>
+<p>比如：</p>
+<p>​	在这个故事中，经济人作为代理，如果别人让邀请大明星去唱歌，打篮球，经纪人就增强功能。</p>
+<p>​	但是如果别人让大明星去扫厕所，经纪人就要拦截，不会去调用大明星的方法。</p>
+<pre><code class="java">/*
+* 类的作用：
+*       创建一个代理
+* */
+public class ProxyUtil &#123;
+    public static Star createProxy(BigStar bigStar)&#123;
+        public static Object newProxyInstance(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler h)
+        Star star = (Star) Proxy.newProxyInstance(
+                ProxyUtil.class.getClassLoader(),
+                new Class[]&#123;Star.class&#125;,
+                new InvocationHandler() &#123;
+                    @Override
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable &#123;
+                        if(&quot;cleanWC&quot;.equals(method.getName()))&#123;
+                            System.out.println(&quot;拦截，不调用大明星的方法&quot;);
+                            return null;
+                        &#125;
+                        //如果是其他方法，正常执行
+                        return method.invoke(bigStar,args);
+                    &#125;
+                &#125;
+        );
+        return star;
+    &#125;
+&#125;
+</code></pre>
+<h2 id="2-5-动态代理的练习"><a href="#2-5-动态代理的练习" class="headerlink" title="2.5 动态代理的练习"></a>2.5 动态代理的练习</h2><p>​	 对add方法进行增强，对remove方法进行拦截，对其他方法不拦截也不增强</p>
+<pre><code class="java">public class MyProxyDemo1 &#123;
+    public static void main(String[] args) &#123;
+        //动态代码可以增强也可以拦截
+        //1.创建真正干活的人
+        ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;();
+
+        //2.创建代理对象
+        //参数一：类加载器。当前类名.class.getClassLoader()
+        //                 找到是谁，把当前的类，加载到内存中了，我再麻烦他帮我干一件事情，把后面的代理类，也加载到内存
+
+        //参数二：是一个数组，在数组里面写接口的字节码文件对象。
+        //                  如果写了List，那么表示代理，可以代理List接口里面所有的方法，对这些方法可以增强或者拦截
+        //                  但是，一定要写ArrayList真实实现的接口
+        //                  假设在第二个参数中，写了MyInter接口，那么是错误的。
+        //                  因为ArrayList并没有实现这个接口，那么就无法对这个接口里面的方法，进行增强或拦截
+        //参数三：用来创建代理对象的匿名内部类
+        List proxyList = (List) Proxy.newProxyInstance(
+                //参数一：类加载器
+                MyProxyDemo1.class.getClassLoader(),
+                //参数二：是一个数组，表示代理对象能代理的方法范围
+                new Class[]&#123;List.class&#125;,
+                //参数三：本质就是代理对象
+                new InvocationHandler() &#123;
+                    @Override
+                    //invoke方法参数的意义
+                    //参数一：表示代理对象，一般不用（了解）
+                    //参数二：就是方法名，我们可以对方法名进行判断，是增强还是拦截
+                    //参数三：就是下面第三步调用方法时，传递的参数。
+                    //举例1：
+                    //list.add(&quot;阿玮好帅&quot;);
+                    //此时参数二就是add这个方法名
+                    //此时参数三 args[0] 就是 阿玮好帅
+                    //举例2：
+                    //list.set(1, &quot;aaa&quot;);
+                    //此时参数二就是set这个方法名
+                    //此时参数三  args[0] 就是 1  args[1]&quot;aaa&quot;
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable &#123;
+                        //对add方法做一个增强，统计耗时时间
+                        if (method.getName().equals(&quot;add&quot;)) &#123;
+                            long start = System.currentTimeMillis();
+                            //调用集合的方法，真正的添加数据
+                            method.invoke(list, args);
+                            long end = System.currentTimeMillis();
+                            System.out.println(&quot;耗时时间：&quot; + (end - start));
+                            //需要进行返回，返回值要跟真正增强或者拦截的方法保持一致
+                            return true;
+                        &#125;else if(method.getName().equals(&quot;remove&quot;) &amp;&amp; args[0] instanceof Integer)&#123;
+                            System.out.println(&quot;拦截了按照索引删除的方法&quot;);
+                            return null;
+                        &#125;else if(method.getName().equals(&quot;remove&quot;))&#123;
+                            System.out.println(&quot;拦截了按照对象删除的方法&quot;);
+                            return false;
+                        &#125;else&#123;
+                            //如果当前调用的是其他方法,我们既不增强，也不拦截
+                            method.invoke(list,args);
+                            return null;
+                        &#125;
+                    &#125;
+                &#125;
+        );
+
+        //3.调用方法
+        //如果调用者是list，就好比绕过了第二步的代码，直接添加元素
+        //如果调用者是代理对象，此时代理才能帮我们增强或者拦截
+
+        //每次调用方法的时候，都不会直接操作集合
+        //而是先调用代理里面的invoke，在invoke方法中进行判断，可以增强或者拦截
+        proxyList.add(&quot;aaa&quot;);
+        proxyList.add(&quot;bbb&quot;);
+        proxyList.add(&quot;ccc&quot;);
+        proxyList.add(&quot;ddd&quot;);
+
+        proxyList.remove(0);
+        proxyList.remove(&quot;aaa&quot;);
+
+
+        //打印集合
+        System.out.println(list);
+    &#125;
+&#125;
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 陈小达的个人博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;chenjunda
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

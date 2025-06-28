@@ -1,0 +1,1208 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>stream流和方法引用 | 陈小达的个人博客</title>
+    <meta name="author" content="chenjunda" />
+    <meta name="description" content="学习笔记" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>陈小达的个人博客</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-主页 fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-关于我 fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-分类 fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-标签 fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;陈小达的个人博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-主页 fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-关于我 fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-分类 fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-标签 fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>stream流和方法引用</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/28
+        </span>
+        
+        <span class="category">
+            <a href="/categories/java/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                java
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/javaSE/" style="color: #ff7d73">
+                    javaSE
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h2 id="1-不可变集合"><a href="#1-不可变集合" class="headerlink" title="1.不可变集合"></a>1.不可变集合</h2><h3 id="1-1-什么是不可变集合"><a href="#1-1-什么是不可变集合" class="headerlink" title="1.1 什么是不可变集合"></a>1.1 什么是不可变集合</h3><p>​	是一个长度不可变，内容也无法修改的集合</p>
+<h3 id="1-2-使用场景"><a href="#1-2-使用场景" class="headerlink" title="1.2 使用场景"></a>1.2 使用场景</h3><p>​	如果某个数据不能被修改，把它防御性地拷贝到不可变集合中是个很好的实践。</p>
+<p>​	当集合对象被不可信的库调用时，不可变形式是安全的。</p>
+<p>简单理解：</p>
+<p>​	不想让别人修改集合中的内容</p>
+<span id="more"></span>
+
+<p>比如说：</p>
+<p>1，斗地主的54张牌，是不能添加，不能删除，不能修改的</p>
+<p>2，斗地主的打牌规则：单张，对子，三张，顺子等，也是不能修改的</p>
+<p>3，用代码获取的操作系统硬件信息，也是不能被修改的</p>
+<h3 id="1-3-不可变集合分类"><a href="#1-3-不可变集合分类" class="headerlink" title="1.3 不可变集合分类"></a>1.3 不可变集合分类</h3><ul>
+<li>不可变的list集合</li>
+<li>不可变的set集合</li>
+<li>不可变的map集合</li>
+</ul>
+<h3 id="1-4-不可变的list集合"><a href="#1-4-不可变的list集合" class="headerlink" title="1.4 不可变的list集合"></a>1.4 不可变的list集合</h3><pre><code class="java">public class ImmutableDemo1 &#123;
+    public static void main(String[] args) &#123;
+        /*
+            创建不可变的List集合
+            &quot;张三&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;
+        */
+
+        //一旦创建完毕之后，是无法进行修改的，在下面的代码中，只能进行查询操作
+        List&lt;String&gt; list = List.of(&quot;张三&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;);
+
+        System.out.println(list.get(0));
+        System.out.println(list.get(1));
+        System.out.println(list.get(2));
+        System.out.println(list.get(3));
+
+        System.out.println(&quot;---------------------------&quot;);
+
+        for (String s : list) &#123;
+            System.out.println(s);
+        &#125;
+
+        System.out.println(&quot;---------------------------&quot;);
+
+
+        Iterator&lt;String&gt; it = list.iterator();
+        while(it.hasNext())&#123;
+            String s = it.next();
+            System.out.println(s);
+        &#125;
+        System.out.println(&quot;---------------------------&quot;);
+
+        for (int i = 0; i &lt; list.size(); i++) &#123;
+            String s = list.get(i);
+            System.out.println(s);
+        &#125;
+        System.out.println(&quot;---------------------------&quot;);
+
+        //list.remove(&quot;李四&quot;);
+        //list.add(&quot;aaa&quot;);
+        list.set(0,&quot;aaa&quot;);
+    &#125;
+&#125;
+</code></pre>
+<h3 id="1-5-不可变的Set集合"><a href="#1-5-不可变的Set集合" class="headerlink" title="1.5 不可变的Set集合"></a>1.5 不可变的Set集合</h3><pre><code class="java">public class ImmutableDemo2 &#123;
+    public static void main(String[] args) &#123;
+        /*
+           创建不可变的Set集合
+           &quot;张三&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;
+
+
+           细节：
+                当我们要获取一个不可变的Set集合时，里面的参数一定要保证唯一性
+        */
+
+        //一旦创建完毕之后，是无法进行修改的，在下面的代码中，只能进行查询操作
+        Set&lt;String&gt; set = Set.of(&quot;张三&quot;, &quot;张三&quot;, &quot;李四&quot;, &quot;王五&quot;, &quot;赵六&quot;);
+
+        for (String s : set) &#123;
+            System.out.println(s);
+        &#125;
+
+        System.out.println(&quot;-----------------------&quot;);
+
+        Iterator&lt;String&gt; it = set.iterator();
+        while(it.hasNext())&#123;
+            String s = it.next();
+            System.out.println(s);
+        &#125;
+
+        System.out.println(&quot;-----------------------&quot;);
+        //set.remove(&quot;王五&quot;);
+    &#125;
+&#125;
+</code></pre>
+<h3 id="1-6-不可变的Map集合"><a href="#1-6-不可变的Map集合" class="headerlink" title="1.6 不可变的Map集合"></a>1.6 不可变的Map集合</h3><h4 id="1-6-1：键值对个数小于等于10"><a href="#1-6-1：键值对个数小于等于10" class="headerlink" title="1.6.1：键值对个数小于等于10"></a>1.6.1：键值对个数小于等于10</h4><pre><code class="java">public class ImmutableDemo3 &#123;
+    public static void main(String[] args) &#123;
+       /*
+        创建Map的不可变集合
+            细节1：
+                键是不能重复的
+            细节2：
+                Map里面的of方法，参数是有上限的，最多只能传递20个参数，10个键值对
+            细节3：
+                如果我们要传递多个键值对对象，数量大于10个，在Map接口中还有一个方法
+        */
+
+        //一旦创建完毕之后，是无法进行修改的，在下面的代码中，只能进行查询操作
+        Map&lt;String, String&gt; map = Map.of(&quot;张三&quot;, &quot;南京&quot;, &quot;张三&quot;, &quot;北京&quot;, &quot;王五&quot;, &quot;上海&quot;,
+                &quot;赵六&quot;, &quot;广州&quot;, &quot;孙七&quot;, &quot;深圳&quot;, &quot;周八&quot;, &quot;杭州&quot;,
+                &quot;吴九&quot;, &quot;宁波&quot;, &quot;郑十&quot;, &quot;苏州&quot;, &quot;刘一&quot;, &quot;无锡&quot;,
+                &quot;陈二&quot;, &quot;嘉兴&quot;);
+
+        Set&lt;String&gt; keys = map.keySet();
+        for (String key : keys) &#123;
+            String value = map.get(key);
+            System.out.println(key + &quot;=&quot; + value);
+        &#125;
+
+        System.out.println(&quot;--------------------------&quot;);
+
+        Set&lt;Map.Entry&lt;String, String&gt;&gt; entries = map.entrySet();
+        for (Map.Entry&lt;String, String&gt; entry : entries) &#123;
+            String key = entry.getKey();
+            String value = entry.getValue();
+            System.out.println(key + &quot;=&quot; + value);
+        &#125;
+        System.out.println(&quot;--------------------------&quot;);
+    &#125;
+&#125;
+</code></pre>
+<h4 id="1-6-2：键值对个数大于10"><a href="#1-6-2：键值对个数大于10" class="headerlink" title="1.6.2：键值对个数大于10"></a>1.6.2：键值对个数大于10</h4><pre><code class="java">public class ImmutableDemo4 &#123;
+    public static void main(String[] args) &#123;
+
+        /*
+            创建Map的不可变集合,键值对的数量超过10个
+        */
+
+        //1.创建一个普通的Map集合
+        HashMap&lt;String, String&gt; hm = new HashMap&lt;&gt;();
+        hm.put(&quot;张三&quot;, &quot;南京&quot;);
+        hm.put(&quot;李四&quot;, &quot;北京&quot;);
+        hm.put(&quot;王五&quot;, &quot;上海&quot;);
+        hm.put(&quot;赵六&quot;, &quot;北京&quot;);
+        hm.put(&quot;孙七&quot;, &quot;深圳&quot;);
+        hm.put(&quot;周八&quot;, &quot;杭州&quot;);
+        hm.put(&quot;吴九&quot;, &quot;宁波&quot;);
+        hm.put(&quot;郑十&quot;, &quot;苏州&quot;);
+        hm.put(&quot;刘一&quot;, &quot;无锡&quot;);
+        hm.put(&quot;陈二&quot;, &quot;嘉兴&quot;);
+        hm.put(&quot;aaa&quot;, &quot;111&quot;);
+
+        //2.利用上面的数据来获取一个不可变的集合
+/*
+        //获取到所有的键值对对象（Entry对象）
+        Set&lt;Map.Entry&lt;String, String&gt;&gt; entries = hm.entrySet();
+        //把entries变成一个数组
+        Map.Entry[] arr1 = new Map.Entry[0];
+        //toArray方法在底层会比较集合的长度跟数组的长度两者的大小
+        //如果集合的长度 &gt; 数组的长度 ：数据在数组中放不下，此时会根据实际数据的个数，重新创建数组
+        //如果集合的长度 &lt;= 数组的长度：数据在数组中放的下，此时不会创建新的数组，而是直接用
+        Map.Entry[] arr2 = entries.toArray(arr1);
+        //不可变的map集合
+        Map map = Map.ofEntries(arr2);
+        map.put(&quot;bbb&quot;,&quot;222&quot;);*/
+
+
+        //Map&lt;Object, Object&gt; map = Map.ofEntries(hm.entrySet().toArray(new Map.Entry[0]));
+
+        Map&lt;String, String&gt; map = Map.copyOf(hm);
+        map.put(&quot;bbb&quot;,&quot;222&quot;);
+    &#125;
+&#125;
+</code></pre>
+<h2 id="2-Stream流"><a href="#2-Stream流" class="headerlink" title="2.Stream流"></a>2.Stream流</h2><h3 id="2-1体验Stream流【理解】"><a href="#2-1体验Stream流【理解】" class="headerlink" title="2.1体验Stream流【理解】"></a>2.1体验Stream流【理解】</h3><ul>
+<li><p>案例需求</p>
+<p>按照下面的要求完成集合的创建和遍历</p>
+<ul>
+<li>创建一个集合，存储多个字符串元素</li>
+<li>把集合中所有以”张”开头的元素存储到一个新的集合</li>
+<li>把”张”开头的集合中的长度为3的元素存储到一个新的集合</li>
+<li>遍历上一步得到的集合</li>
+</ul>
+</li>
+<li><p>原始方式示例代码</p>
+<pre><code class="java">public class MyStream1 &#123;
+    public static void main(String[] args) &#123;
+        //集合的批量添加
+        ArrayList&lt;String&gt; list1 = new ArrayList&lt;&gt;(List.of(&quot;张三丰&quot;,&quot;张无忌&quot;,&quot;张翠山&quot;,&quot;王二麻子&quot;,&quot;张良&quot;,&quot;谢广坤&quot;));
+        //list.add()
+
+        //遍历list1把以张开头的元素添加到list2中。
+        ArrayList&lt;String&gt; list2 = new ArrayList&lt;&gt;();
+        for (String s : list1) &#123;
+            if(s.startsWith(&quot;张&quot;))&#123;
+                list2.add(s);
+            &#125;
+        &#125;
+        //遍历list2集合，把其中长度为3的元素，再添加到list3中。
+        ArrayList&lt;String&gt; list3 = new ArrayList&lt;&gt;();
+        for (String s : list2) &#123;
+            if(s.length() == 3)&#123;
+                list3.add(s);
+            &#125;
+        &#125;
+        for (String s : list3) &#123;
+            System.out.println(s);
+        &#125;      
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>使用Stream流示例代码</p>
+<pre><code class="java">public class StreamDemo &#123;
+    public static void main(String[] args) &#123;
+        //集合的批量添加
+        ArrayList&lt;String&gt; list1 = new ArrayList&lt;&gt;(List.of(&quot;张三丰&quot;,&quot;张无忌&quot;,&quot;张翠山&quot;,&quot;王二麻子&quot;,&quot;张良&quot;,&quot;谢广坤&quot;));
+
+        //Stream流
+        list1.stream().filter(s-&gt;s.startsWith(&quot;张&quot;))
+                .filter(s-&gt;s.length() == 3)
+                .forEach(s-&gt; System.out.println(s));
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>Stream流的好处</p>
+<ul>
+<li>直接阅读代码的字面意思即可完美展示无关逻辑方式的语义：获取流、过滤姓张、过滤长度为3、逐一打印</li>
+<li>Stream流把真正的函数式编程风格引入到Java中</li>
+<li>代码简洁</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-2Stream流的常见生成方式【应用】"><a href="#2-2Stream流的常见生成方式【应用】" class="headerlink" title="2.2Stream流的常见生成方式【应用】"></a>2.2Stream流的常见生成方式【应用】</h3><ul>
+<li><p>Stream流的思想</p>
+<p><img src="D:\HuaweiMoveData\Users\86147\Pictures\保存的图片\01_Stream流思想.png" alt="01_Stream流思想"></p>
+</li>
+<li><p>Stream流的三类方法</p>
+<ul>
+<li>获取Stream流<ul>
+<li>创建一条流水线,并把数据放到流水线上准备进行操作</li>
+</ul>
+</li>
+<li>中间方法<ul>
+<li>流水线上的操作</li>
+<li>一次操作完毕之后,还可以继续进行其他操作</li>
+</ul>
+</li>
+<li>终结方法<ul>
+<li>一个Stream流只能有一个终结方法</li>
+<li>是流水线上的最后一个操作</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>生成Stream流的方式</p>
+<ul>
+<li><p>Collection体系集合</p>
+<p>使用默认方法stream()生成流， default Stream<E> stream()</p>
+</li>
+<li><p>Map体系集合</p>
+<p>把Map转成Set集合，间接的生成流</p>
+</li>
+<li><p>数组</p>
+<p>通过Arrays中的静态方法stream生成流</p>
+</li>
+<li><p>同种数据类型的多个数据</p>
+<p>通过Stream接口的静态方法of(T… values)生成流</p>
+</li>
+</ul>
+</li>
+<li><p>代码演示</p>
+<pre><code class="java">public class StreamDemo &#123;
+    public static void main(String[] args) &#123;
+        //Collection体系的集合可以使用默认方法stream()生成流
+        List&lt;String&gt; list = new ArrayList&lt;String&gt;();
+        Stream&lt;String&gt; listStream = list.stream();
+
+        Set&lt;String&gt; set = new HashSet&lt;String&gt;();
+        Stream&lt;String&gt; setStream = set.stream();
+
+        //Map体系的集合间接的生成流
+        Map&lt;String,Integer&gt; map = new HashMap&lt;String, Integer&gt;();
+        Stream&lt;String&gt; keyStream = map.keySet().stream();
+        Stream&lt;Integer&gt; valueStream = map.values().stream();
+        Stream&lt;Map.Entry&lt;String, Integer&gt;&gt; entryStream = map.entrySet().stream();
+
+        //数组可以通过Arrays中的静态方法stream生成流
+        String[] strArray = &#123;&quot;hello&quot;,&quot;world&quot;,&quot;java&quot;&#125;;
+        Stream&lt;String&gt; strArrayStream = Arrays.stream(strArray);
+      
+          //同种数据类型的多个数据可以通过Stream接口的静态方法of(T... values)生成流
+        Stream&lt;String&gt; strArrayStream2 = Stream.of(&quot;hello&quot;, &quot;world&quot;, &quot;java&quot;);
+        Stream&lt;Integer&gt; intStream = Stream.of(10, 20, 30);
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h3 id="2-3Stream流中间操作方法【应用】"><a href="#2-3Stream流中间操作方法【应用】" class="headerlink" title="2.3Stream流中间操作方法【应用】"></a>2.3Stream流中间操作方法【应用】</h3><ul>
+<li><p>概念</p>
+<p>中间操作的意思是,执行完此方法之后,Stream流依然可以继续执行其他操作</p>
+</li>
+<li><p>常见方法</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Stream<T> filter(Predicate predicate)</td>
+<td>用于对流中的数据进行过滤</td>
+</tr>
+<tr>
+<td>Stream<T> limit(long maxSize)</td>
+<td>返回此流中的元素组成的流，截取前指定参数个数的数据</td>
+</tr>
+<tr>
+<td>Stream<T> skip(long n)</td>
+<td>跳过指定参数个数的数据，返回由该流的剩余元素组成的流</td>
+</tr>
+<tr>
+<td>static <T> Stream<T> concat(Stream a, Stream b)</td>
+<td>合并a和b两个流为一个流</td>
+</tr>
+<tr>
+<td>Stream<T> distinct()</td>
+<td>返回由该流的不同元素（根据Object.equals(Object) ）组成的流</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>filter代码演示</p>
+<pre><code class="java">public class MyStream3 &#123;
+    public static void main(String[] args) &#123;
+//        Stream&lt;T&gt; filter(Predicate predicate)：过滤
+//        Predicate接口中的方法	boolean test(T t)：对给定的参数进行判断，返回一个布尔值
+
+        ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;();
+        list.add(&quot;张三丰&quot;);
+        list.add(&quot;张无忌&quot;);
+        list.add(&quot;张翠山&quot;);
+        list.add(&quot;王二麻子&quot;);
+        list.add(&quot;张良&quot;);
+        list.add(&quot;谢广坤&quot;);
+
+        //filter方法获取流中的 每一个数据.
+        //而test方法中的s,就依次表示流中的每一个数据.
+        //我们只要在test方法中对s进行判断就可以了.
+        //如果判断的结果为true,则当前的数据留下
+        //如果判断的结果为false,则当前数据就不要.
+//        list.stream().filter(
+//                new Predicate&lt;String&gt;() &#123;
+//                    @Override
+//                    public boolean test(String s) &#123;
+//                        boolean result = s.startsWith(&quot;张&quot;);
+//                        return result;
+//                    &#125;
+//                &#125;
+//        ).forEach(s-&gt; System.out.println(s));
+
+        //因为Predicate接口中只有一个抽象方法test
+        //所以我们可以使用lambda表达式来简化
+//        list.stream().filter(
+//                (String s)-&gt;&#123;
+//                    boolean result = s.startsWith(&quot;张&quot;);
+//                        return result;
+//                &#125;
+//        ).forEach(s-&gt; System.out.println(s));
+
+        list.stream().filter(s -&gt;s.startsWith(&quot;张&quot;)).forEach(s-&gt; System.out.println(s));
+
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>limit&amp;skip代码演示</p>
+<pre><code class="java">public class StreamDemo02 &#123;
+    public static void main(String[] args) &#123;
+        //创建一个集合，存储多个字符串元素
+        ArrayList&lt;String&gt; list = new ArrayList&lt;String&gt;();
+
+        list.add(&quot;林青霞&quot;);
+        list.add(&quot;张曼玉&quot;);
+        list.add(&quot;王祖贤&quot;);
+        list.add(&quot;柳岩&quot;);
+        list.add(&quot;张敏&quot;);
+        list.add(&quot;张无忌&quot;);
+
+        //需求1：取前3个数据在控制台输出
+        list.stream().limit(3).forEach(s-&gt; System.out.println(s));
+        System.out.println(&quot;--------&quot;);
+
+        //需求2：跳过3个元素，把剩下的元素在控制台输出
+        list.stream().skip(3).forEach(s-&gt; System.out.println(s));
+        System.out.println(&quot;--------&quot;);
+
+        //需求3：跳过2个元素，把剩下的元素中前2个在控制台输出
+        list.stream().skip(2).limit(2).forEach(s-&gt; System.out.println(s));
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>concat&amp;distinct代码演示</p>
+<pre><code class="java">public class StreamDemo03 &#123;
+    public static void main(String[] args) &#123;
+        //创建一个集合，存储多个字符串元素
+        ArrayList&lt;String&gt; list = new ArrayList&lt;String&gt;();
+
+        list.add(&quot;林青霞&quot;);
+        list.add(&quot;张曼玉&quot;);
+        list.add(&quot;王祖贤&quot;);
+        list.add(&quot;柳岩&quot;);
+        list.add(&quot;张敏&quot;);
+        list.add(&quot;张无忌&quot;);
+
+        //需求1：取前4个数据组成一个流
+        Stream&lt;String&gt; s1 = list.stream().limit(4);
+
+        //需求2：跳过2个数据组成一个流
+        Stream&lt;String&gt; s2 = list.stream().skip(2);
+
+        //需求3：合并需求1和需求2得到的流，并把结果在控制台输出
+//        Stream.concat(s1,s2).forEach(s-&gt; System.out.println(s));
+
+        //需求4：合并需求1和需求2得到的流，并把结果在控制台输出，要求字符串元素不能重复
+        Stream.concat(s1,s2).distinct().forEach(s-&gt; System.out.println(s));
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h3 id="2-4Stream流终结操作方法【应用】"><a href="#2-4Stream流终结操作方法【应用】" class="headerlink" title="2.4Stream流终结操作方法【应用】"></a>2.4Stream流终结操作方法【应用】</h3><ul>
+<li><p>概念</p>
+<p>终结操作的意思是,执行完此方法之后,Stream流将不能再执行其他操作</p>
+</li>
+<li><p>常见方法</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>void forEach(Consumer action)</td>
+<td>对此流的每个元素执行操作</td>
+</tr>
+<tr>
+<td>long count()</td>
+<td>返回此流中的元素数</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>代码演示</p>
+<pre><code class="java">public class MyStream5 &#123;
+    public static void main(String[] args) &#123;
+        ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;();
+        list.add(&quot;张三丰&quot;);
+        list.add(&quot;张无忌&quot;);
+        list.add(&quot;张翠山&quot;);
+        list.add(&quot;王二麻子&quot;);
+        list.add(&quot;张良&quot;);
+        list.add(&quot;谢广坤&quot;);
+
+        //method1(list);
+        
+//        long count()：返回此流中的元素数
+        long count = list.stream().count();
+        System.out.println(count);
+    &#125;
+
+    private static void method1(ArrayList&lt;String&gt; list) &#123;
+        //  void forEach(Consumer action)：对此流的每个元素执行操作
+        //  Consumer接口中的方法void accept(T t)：对给定的参数执行此操作
+        //在forEach方法的底层,会循环获取到流中的每一个数据.
+        //并循环调用accept方法,并把每一个数据传递给accept方法
+        //s就依次表示了流中的每一个数据.
+        //所以,我们只要在accept方法中,写上处理的业务逻辑就可以了.
+        list.stream().forEach(
+                new Consumer&lt;String&gt;() &#123;
+                    @Override
+                    public void accept(String s) &#123;
+                        System.out.println(s);
+                    &#125;
+                &#125;
+        );
+      
+        System.out.println(&quot;====================&quot;);
+        //lambda表达式的简化格式
+        //是因为Consumer接口中,只有一个accept方法
+        list.stream().forEach(
+                (String s)-&gt;&#123;
+                    System.out.println(s);
+                &#125;
+        );
+        System.out.println(&quot;====================&quot;);
+        //lambda表达式还是可以进一步简化的.
+        list.stream().forEach(s-&gt;System.out.println(s));
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h3 id="2-5Stream流的收集操作【应用】"><a href="#2-5Stream流的收集操作【应用】" class="headerlink" title="2.5Stream流的收集操作【应用】"></a>2.5Stream流的收集操作【应用】</h3><ul>
+<li><p>概念</p>
+<p>对数据使用Stream流的方式操作完毕后,可以把流中的数据收集到集合中</p>
+</li>
+<li><p>常用方法</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R collect(Collector collector)</td>
+<td>把结果收集到集合中</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>工具类Collectors提供了具体的收集方式</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>public static <T> Collector toList()</td>
+<td>把元素收集到List集合中</td>
+</tr>
+<tr>
+<td>public static <T> Collector toSet()</td>
+<td>把元素收集到Set集合中</td>
+</tr>
+<tr>
+<td>public static  Collector toMap(Function keyMapper,Function valueMapper)</td>
+<td>把元素收集到Map集合中</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>代码演示</p>
+<pre><code class="java">// toList和toSet方法演示 
+public class MyStream7 &#123;
+    public static void main(String[] args) &#123;
+        ArrayList&lt;Integer&gt; list1 = new ArrayList&lt;&gt;();
+        for (int i = 1; i &lt;= 10; i++) &#123;
+            list1.add(i);
+        &#125;
+
+        list1.add(10);
+        list1.add(10);
+        list1.add(10);
+        list1.add(10);
+        list1.add(10);
+
+        //filter负责过滤数据的.
+        //collect负责收集数据.
+                //获取流中剩余的数据,但是他不负责创建容器,也不负责把数据添加到容器中.
+        //Collectors.toList() : 在底层会创建一个List集合.并把所有的数据添加到List集合中.
+        List&lt;Integer&gt; list = list1.stream().filter(number -&gt; number % 2 == 0)
+                .collect(Collectors.toList());
+
+        System.out.println(list);
+
+    Set&lt;Integer&gt; set = list1.stream().filter(number -&gt; number % 2 == 0)
+            .collect(Collectors.toSet());
+    System.out.println(set);
+&#125;
+&#125;
+/**
+Stream流的收集方法 toMap方法演示
+创建一个ArrayList集合，并添加以下字符串。字符串中前面是姓名，后面是年龄
+&quot;zhangsan,23&quot;
+&quot;lisi,24&quot;
+&quot;wangwu,25&quot;
+保留年龄大于等于24岁的人，并将结果收集到Map集合中，姓名为键，年龄为值
+*/
+public class MyStream8 &#123;
+    public static void main(String[] args) &#123;
+          ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;();
+        list.add(&quot;zhangsan,23&quot;);
+        list.add(&quot;lisi,24&quot;);
+        list.add(&quot;wangwu,25&quot;);
+
+        Map&lt;String, Integer&gt; map = list.stream().filter(
+                s -&gt; &#123;
+                    String[] split = s.split(&quot;,&quot;);
+                    int age = Integer.parseInt(split[1]);
+                    return age &gt;= 24;
+                &#125;
+
+         //   collect方法只能获取到流中剩余的每一个数据.
+         //在底层不能创建容器,也不能把数据添加到容器当中
+
+         //Collectors.toMap 创建一个map集合并将数据添加到集合当中
+
+          // s 依次表示流中的每一个数据
+
+          //第一个lambda表达式就是如何获取到Map中的键
+          //第二个lambda表达式就是如何获取Map中的值
+        ).collect(Collectors.toMap(
+                s -&gt; s.split(&quot;,&quot;)[0],
+                s -&gt; Integer.parseInt(s.split(&quot;,&quot;)[1]) ));
+
+        System.out.println(map);
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h3 id="2-6Stream流综合练习【应用】"><a href="#2-6Stream流综合练习【应用】" class="headerlink" title="2.6Stream流综合练习【应用】"></a>2.6Stream流综合练习【应用】</h3><ul>
+<li><p>案例需求</p>
+<p>现在有两个ArrayList集合，分别存储6名男演员名称和6名女演员名称，要求完成如下的操作</p>
+<ul>
+<li>男演员只要名字为3个字的前三人</li>
+<li>女演员只要姓林的，并且不要第一个</li>
+<li>把过滤后的男演员姓名和女演员姓名合并到一起</li>
+<li>把上一步操作后的元素作为构造方法的参数创建演员对象,遍历数据</li>
+</ul>
+<p>演员类Actor已经提供，里面有一个成员变量，一个带参构造方法，以及成员变量对应的get&#x2F;set方法</p>
+</li>
+<li><p>代码实现</p>
+<p>演员类</p>
+<pre><code class="java">public class Actor &#123;
+    private String name;
+
+    public Actor(String name) &#123;
+        this.name = name;
+    &#125;
+
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    public void setName(String name) &#123;
+        this.name = name;
+    &#125;
+&#125;
+</code></pre>
+<p>测试类</p>
+<pre><code class="java">public class StreamTest &#123;
+    public static void main(String[] args) &#123;
+        //创建集合
+        ArrayList&lt;String&gt; manList = new ArrayList&lt;String&gt;();
+        manList.add(&quot;周润发&quot;);
+        manList.add(&quot;成龙&quot;);
+        manList.add(&quot;刘德华&quot;);
+        manList.add(&quot;吴京&quot;);
+        manList.add(&quot;周星驰&quot;);
+        manList.add(&quot;李连杰&quot;);
+  
+        ArrayList&lt;String&gt; womanList = new ArrayList&lt;String&gt;();
+        womanList.add(&quot;林心如&quot;);
+        womanList.add(&quot;张曼玉&quot;);
+        womanList.add(&quot;林青霞&quot;);
+        womanList.add(&quot;柳岩&quot;);
+        womanList.add(&quot;林志玲&quot;);
+        womanList.add(&quot;王祖贤&quot;);
+  
+        //男演员只要名字为3个字的前三人
+        Stream&lt;String&gt; manStream = manList.stream().filter(s -&gt; s.length() == 3).limit(3);
+  
+        //女演员只要姓林的，并且不要第一个
+        Stream&lt;String&gt; womanStream = womanList.stream().filter(s -&gt; s.startsWith(&quot;林&quot;)).skip(1);
+  
+        //把过滤后的男演员姓名和女演员姓名合并到一起
+        Stream&lt;String&gt; stream = Stream.concat(manStream, womanStream);
+  
+          // 将流中的数据封装成Actor对象之后打印
+          stream.forEach(name -&gt; &#123;
+            Actor actor = new Actor(name);
+            System.out.println(actor);
+        &#125;); 
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h2 id="3-方法引用"><a href="#3-方法引用" class="headerlink" title="3.方法引用"></a>3.方法引用</h2><h3 id="3-1体验方法引用【理解】"><a href="#3-1体验方法引用【理解】" class="headerlink" title="3.1体验方法引用【理解】"></a>3.1体验方法引用【理解】</h3><ul>
+<li><p>方法引用的出现原因</p>
+<p>在使用Lambda表达式的时候，我们实际上传递进去的代码就是一种解决方案：拿参数做操作</p>
+<p>那么考虑一种情况：如果我们在Lambda中所指定的操作方案，已经有地方存在相同方案，那是否还有必要再写重复逻辑呢？答案肯定是没有必要</p>
+<p>那我们又是如何使用已经存在的方案的呢？</p>
+<p>这就是我们要讲解的方法引用，我们是通过方法引用来使用已经存在的方案</p>
+</li>
+<li><p>代码演示</p>
+<pre><code class="java">public interface Printable &#123;
+    void printString(String s);
+&#125;
+
+public class PrintableDemo &#123;
+    public static void main(String[] args) &#123;
+        //在主方法中调用usePrintable方法
+//        usePrintable((String s) -&gt; &#123;
+//            System.out.println(s);
+//        &#125;);
+        //Lambda简化写法
+        usePrintable(s -&gt; System.out.println(s));
+
+        //方法引用
+        usePrintable(System.out::println);
+
+    &#125;
+
+    private static void usePrintable(Printable p) &#123;
+        p.printString(&quot;爱生活爱Java&quot;);
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h3 id="3-2方法引用符【理解】"><a href="#3-2方法引用符【理解】" class="headerlink" title="3.2方法引用符【理解】"></a>3.2方法引用符【理解】</h3><ul>
+<li><p>方法引用符</p>
+<p>::  该符号为引用运算符，而它所在的表达式被称为方法引用</p>
+</li>
+<li><p>推导与省略</p>
+<ul>
+<li>如果使用Lambda，那么根据“可推导就是可省略”的原则，无需指定参数类型，也无需指定的重载形式，它们都将被自动推导</li>
+<li>如果使用方法引用，也是同样可以根据上下文进行推导</li>
+<li>方法引用是Lambda的孪生兄弟</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-3引用类方法【应用】"><a href="#3-3引用类方法【应用】" class="headerlink" title="3.3引用类方法【应用】"></a>3.3引用类方法【应用】</h3><p>​	引用类方法，其实就是引用类的静态方法</p>
+<ul>
+<li><p>格式</p>
+<p>类名::静态方法</p>
+</li>
+<li><p>范例</p>
+<p>Integer::parseInt</p>
+<p>Integer类的方法：public static int parseInt(String s) 将此String转换为int类型数据</p>
+</li>
+<li><p>练习描述</p>
+<ul>
+<li>定义一个接口(Converter)，里面定义一个抽象方法 int convert(String s);</li>
+<li>定义一个测试类(ConverterDemo)，在测试类中提供两个方法<ul>
+<li>一个方法是：useConverter(Converter c)</li>
+<li>一个方法是主方法，在主方法中调用useConverter方法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>代码演示</p>
+<pre><code class="java">public interface Converter &#123;
+    int convert(String s);
+&#125;
+
+public class ConverterDemo &#123;
+    public static void main(String[] args) &#123;
+
+        //Lambda写法
+        useConverter(s -&gt; Integer.parseInt(s));
+
+        //引用类方法
+        useConverter(Integer::parseInt);
+
+    &#125;
+
+    private static void useConverter(Converter c) &#123;
+        int number = c.convert(&quot;666&quot;);
+        System.out.println(number);
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>使用说明</p>
+<p>Lambda表达式被类方法替代的时候，它的形式参数全部传递给静态方法作为参数</p>
+</li>
+</ul>
+<h3 id="3-4引用对象的实例方法【应用】"><a href="#3-4引用对象的实例方法【应用】" class="headerlink" title="3.4引用对象的实例方法【应用】"></a>3.4引用对象的实例方法【应用】</h3><p>​	引用对象的实例方法，其实就引用类中的成员方法</p>
+<ul>
+<li><p>格式</p>
+<p>对象::成员方法</p>
+</li>
+<li><p>范例</p>
+<p>“HelloWorld”::toUpperCase</p>
+<p>  String类中的方法：public String toUpperCase() 将此String所有字符转换为大写</p>
+</li>
+<li><p>练习描述</p>
+<ul>
+<li><p>定义一个类(PrintString)，里面定义一个方法</p>
+<p>public void printUpper(String s)：把字符串参数变成大写的数据，然后在控制台输出</p>
+</li>
+<li><p>定义一个接口(Printer)，里面定义一个抽象方法</p>
+<p>void printUpperCase(String s)</p>
+</li>
+<li><p>定义一个测试类(PrinterDemo)，在测试类中提供两个方法</p>
+<ul>
+<li>一个方法是：usePrinter(Printer p)</li>
+<li>一个方法是主方法，在主方法中调用usePrinter方法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>代码演示</p>
+<pre><code class="java">public class PrintString &#123;
+    //把字符串参数变成大写的数据，然后在控制台输出
+    public void printUpper(String s) &#123;
+        String result = s.toUpperCase();
+        System.out.println(result);
+    &#125;
+&#125;
+
+public interface Printer &#123;
+    void printUpperCase(String s);
+&#125;
+
+public class PrinterDemo &#123;
+    public static void main(String[] args) &#123;
+
+        //Lambda简化写法
+        usePrinter(s -&gt; System.out.println(s.toUpperCase()));
+
+        //引用对象的实例方法
+        PrintString ps = new PrintString();
+        usePrinter(ps::printUpper);
+
+    &#125;
+
+    private static void usePrinter(Printer p) &#123;
+        p.printUpperCase(&quot;HelloWorld&quot;);
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>使用说明</p>
+<p>Lambda表达式被对象的实例方法替代的时候，它的形式参数全部传递给该方法作为参数</p>
+</li>
+</ul>
+<h3 id="3-5引用类的实例方法【应用】"><a href="#3-5引用类的实例方法【应用】" class="headerlink" title="3.5引用类的实例方法【应用】"></a>3.5引用类的实例方法【应用】</h3><p>​	引用类的实例方法，其实就是引用类中的成员方法</p>
+<ul>
+<li><p>格式</p>
+<p>类名::成员方法</p>
+</li>
+<li><p>范例</p>
+<p>String::substring</p>
+<p>public String substring(int beginIndex,int endIndex) </p>
+<p>从beginIndex开始到endIndex结束，截取字符串。返回一个子串，子串的长度为endIndex-beginIndex</p>
+</li>
+<li><p>练习描述</p>
+<ul>
+<li><p>定义一个接口(MyString)，里面定义一个抽象方法：</p>
+<p>String mySubString(String s,int x,int y);</p>
+</li>
+<li><p>定义一个测试类(MyStringDemo)，在测试类中提供两个方法</p>
+<ul>
+<li>一个方法是：useMyString(MyString my)</li>
+<li>一个方法是主方法，在主方法中调用useMyString方法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>代码演示</p>
+<pre><code class="java">public interface MyString &#123;
+    String mySubString(String s,int x,int y);
+&#125;
+
+public class MyStringDemo &#123;
+    public static void main(String[] args) &#123;
+        //Lambda简化写法
+        useMyString((s,x,y) -&gt; s.substring(x,y));
+
+        //引用类的实例方法
+        useMyString(String::substring);
+
+    &#125;
+
+    private static void useMyString(MyString my) &#123;
+        String s = my.mySubString(&quot;HelloWorld&quot;, 2, 5);
+        System.out.println(s);
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>使用说明</p>
+<p>​    Lambda表达式被类的实例方法替代的时候<br>​    第一个参数作为调用者<br>​    后面的参数全部传递给该方法作为参数</p>
+</li>
+</ul>
+<h3 id="3-6引用构造器【应用】"><a href="#3-6引用构造器【应用】" class="headerlink" title="3.6引用构造器【应用】"></a>3.6引用构造器【应用】</h3><p>​	引用构造器，其实就是引用构造方法</p>
+<ul>
+<li><p>l格式</p>
+<p>类名::new</p>
+</li>
+<li><p>范例</p>
+<p>Student::new</p>
+</li>
+<li><p>练习描述</p>
+<ul>
+<li><p>定义一个类(Student)，里面有两个成员变量(name,age)</p>
+<p>并提供无参构造方法和带参构造方法，以及成员变量对应的get和set方法</p>
+</li>
+<li><p>定义一个接口(StudentBuilder)，里面定义一个抽象方法</p>
+<p>Student build(String name,int age);</p>
+</li>
+<li><p>定义一个测试类(StudentDemo)，在测试类中提供两个方法</p>
+<ul>
+<li>一个方法是：useStudentBuilder(StudentBuilder s)</li>
+<li>一个方法是主方法，在主方法中调用useStudentBuilder方法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>代码演示</p>
+<pre><code class="java">public class Student &#123;
+    private String name;
+    private int age;
+
+    public Student() &#123;
+    &#125;
+
+    public Student(String name, int age) &#123;
+        this.name = name;
+        this.age = age;
+    &#125;
+
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    public void setName(String name) &#123;
+        this.name = name;
+    &#125;
+
+    public int getAge() &#123;
+        return age;
+    &#125;
+
+    public void setAge(int age) &#123;
+        this.age = age;
+    &#125;
+&#125;
+
+public interface StudentBuilder &#123;
+    Student build(String name,int age);
+&#125;
+
+public class StudentDemo &#123;
+    public static void main(String[] args) &#123;
+
+        //Lambda简化写法
+        useStudentBuilder((name,age) -&gt; new Student(name,age));
+
+        //引用构造器
+        useStudentBuilder(Student::new);
+
+    &#125;
+
+    private static void useStudentBuilder(StudentBuilder sb) &#123;
+        Student s = sb.build(&quot;林青霞&quot;, 30);
+        System.out.println(s.getName() + &quot;,&quot; + s.getAge());
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>使用说明</p>
+<p>Lambda表达式被构造器替代的时候，它的形式参数全部传递给构造器作为参数</p>
+</li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 陈小达的个人博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;chenjunda
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

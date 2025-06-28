@@ -186,8 +186,8 @@
         
 
 <div class="post">
-    <a href="/2025/06/28/API/">
-        <h2 class="post-title">API</h2>
+    <a href="/2025/06/28/%E5%8F%8D%E5%B0%84-%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">
+        <h2 class="post-title">反射&amp;动态代理</h2>
     </a>
     <div class="category-and-date">
         
@@ -212,1110 +212,10 @@
     <div class="description">
         <div class="content" v-pre>
             
-            <span id="more"></span>
-
-<h1 id="第一章-Date类"><a href="#第一章-Date类" class="headerlink" title="第一章 Date类"></a>第一章 Date类</h1><h2 id="1-1-Date概述"><a href="#1-1-Date概述" class="headerlink" title="1.1 Date概述"></a>1.1 Date概述</h2><p>java.util.Date&#96;类 表示特定的瞬间，精确到毫秒。</p>
-<p>继续查阅Date类的描述，发现Date拥有多个构造函数，只是部分已经过时，我们重点看以下两个构造函数</p>
-<ul>
-<li><code>public Date()</code>：从运行程序的此时此刻到时间原点经历的毫秒值,转换成Date对象，分配Date对象并初始化此对象，以表示分配它的时间（精确到毫秒）。</li>
-<li><code>public Date(long date)</code>：将指定参数的毫秒值date,转换成Date对象，分配Date对象并初始化此对象，以表示自从标准基准时间（称为“历元（epoch）”，即1970年1月1日00:00:00 GMT）以来的指定毫秒数。</li>
-</ul>
-<blockquote>
-<p>tips: 由于中国处于东八区（GMT+08:00）是比世界协调时间&#x2F;格林尼治时间（GMT）快8小时的时区，当格林尼治标准时间为0:00时，东八区的标准时间为08:00。</p>
-</blockquote>
-<p>简单来说：使用无参构造，可以自动设置当前系统时间的毫秒时刻；指定long类型的构造参数，可以自定义毫秒时刻。例如：</p>
-<pre><code class="java">import java.util.Date;
-
-public class Demo01Date &#123;
-    public static void main(String[] args) &#123;
-        // 创建日期对象，把当前的时间
-        System.out.println(new Date()); // Tue Jan 16 14:37:35 CST 2020
-        // 创建日期对象，把当前的毫秒值转成日期对象
-        System.out.println(new Date(0L)); // Thu Jan 01 08:00:00 CST 1970
-    &#125;
-&#125;
-</code></pre>
-<blockquote>
-<p>tips:在使用println方法时，会自动调用Date类中的toString方法。Date类对Object类中的toString方法进行了覆盖重写，所以结果为指定格式的字符串。</p>
-</blockquote>
-<h2 id="1-2-Date常用方法"><a href="#1-2-Date常用方法" class="headerlink" title="1.2 Date常用方法"></a>1.2 Date常用方法</h2><p>Date类中的多数方法已经过时，常用的方法有：</p>
-<ul>
-<li><code>public long getTime()</code> 把日期对象转换成对应的时间毫秒值。</li>
-<li><code>public void setTime(long time)</code> 把方法参数给定的毫秒值设置给日期对象</li>
-</ul>
-<p>示例代码</p>
-<pre><code class="java">public class DateDemo02 &#123;
-    public static void main(String[] args) &#123;
-        //创建日期对象
-        Date d = new Date();
-        
-        //public long getTime():获取的是日期对象从1970年1月1日 00:00:00到现在的毫秒值
-        //System.out.println(d.getTime());
-        //System.out.println(d.getTime() * 1.0 / 1000 / 60 / 60 / 24 / 365 + &quot;年&quot;);
-
-        //public void setTime(long time):设置时间，给的是毫秒值
-        //long time = 1000*60*60;
-        long time = System.currentTimeMillis();
-        d.setTime(time);
-
-        System.out.println(d);
-    &#125;
-&#125;
-</code></pre>
-<blockquote>
-<p>小结：Date表示特定的时间瞬间，我们可以使用Date对象对时间进行操作。</p>
-</blockquote>
-<h1 id="第二章-SimpleDateFormat类"><a href="#第二章-SimpleDateFormat类" class="headerlink" title="第二章 SimpleDateFormat类"></a>第二章 SimpleDateFormat类</h1><p><code>java.text.SimpleDateFormat</code> 是日期&#x2F;时间格式化类，我们通过这个类可以帮我们完成日期和文本之间的转换,也就是可以在Date对象与String对象之间进行来回转换。</p>
-<ul>
-<li><strong>格式化</strong>：按照指定的格式，把Date对象转换为String对象。</li>
-<li><strong>解析</strong>：按照指定的格式，把String对象转换为Date对象。</li>
-</ul>
-<h2 id="2-1-构造方法"><a href="#2-1-构造方法" class="headerlink" title="2.1 构造方法"></a>2.1 构造方法</h2><p>由于DateFormat为抽象类，不能直接使用，所以需要常用的子类<code>java.text.SimpleDateFormat</code>。这个类需要一个模式（格式）来指定格式化或解析的标准。构造方法为：</p>
-<ul>
-<li><code>public SimpleDateFormat(String pattern)</code>：用给定的模式和默认语言环境的日期格式符号构造SimpleDateFormat。参数pattern是一个字符串，代表日期时间的自定义格式。</li>
-</ul>
-<h2 id="2-2-格式规则"><a href="#2-2-格式规则" class="headerlink" title="2.2 格式规则"></a>2.2 格式规则</h2><p>常用的格式规则为：</p>
-<table>
-<thead>
-<tr>
-<th>标识字母（区分大小写）</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>y</td>
-<td>年</td>
-</tr>
-<tr>
-<td>M</td>
-<td>月</td>
-</tr>
-<tr>
-<td>d</td>
-<td>日</td>
-</tr>
-<tr>
-<td>H</td>
-<td>时</td>
-</tr>
-<tr>
-<td>m</td>
-<td>分</td>
-</tr>
-<tr>
-<td>s</td>
-<td>秒</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>备注：更详细的格式规则，可以参考SimpleDateFormat类的API文档。</p>
-</blockquote>
-<h2 id="2-3-常用方法"><a href="#2-3-常用方法" class="headerlink" title="2.3 常用方法"></a>2.3 常用方法</h2><p>DateFormat类的常用方法有：</p>
-<ul>
-<li><p><code>public String format(Date date)</code>：将Date对象格式化为字符串。</p>
-</li>
-<li><p><code>public Date parse(String source)</code>：将字符串解析为Date对象。</p>
-<pre><code class="java">package com.itheima.a01jdk7datedemo;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-public class A03_SimpleDateFormatDemo1 &#123;
-    public static void main(String[] args) throws ParseException &#123;
-        /*
-            public simpleDateFormat() 默认格式
-            public simpleDateFormat(String pattern) 指定格式
-            public final string format(Date date) 格式化(日期对象 -&gt;字符串)
-            public Date parse(string source) 解析(字符串 -&gt;日期对象)
-        */
-
-        //1.定义一个字符串表示时间
-        String str = &quot;2023-11-11 11:11:11&quot;;
-        //2.利用空参构造创建simpleDateFormat对象
-        // 细节:
-        //创建对象的格式要跟字符串的格式完全一致
-        SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);
-        Date date = sdf.parse(str);
-        //3.打印结果
-        System.out.println(date.getTime());//1699672271000
-
-
-    &#125;
-
-    private static void method1() &#123;
-        //1.利用空参构造创建simpleDateFormat对象，默认格式
-        SimpleDateFormat sdf1 = new SimpleDateFormat();
-        Date d1 = new Date(0L);
-        String str1 = sdf1.format(d1);
-        System.out.println(str1);//1970/1/1 上午8:00
-
-        //2.利用带参构造创建simpleDateFormat对象，指定格式
-        SimpleDateFormat sdf2 = new SimpleDateFormat(&quot;yyyy年MM月dd日HH:mm:ss&quot;);
-        String str2 = sdf2.format(d1);
-        System.out.println(str2);//1970年01月01日 08:00:00
-
-        //课堂练习:yyyy年MM月dd日 时:分:秒 星期
-    &#125;
-&#125;
-</code></pre>
-</li>
-</ul>
-<blockquote>
-<p>小结：DateFormat可以将Date对象和字符串相互转换。</p>
-</blockquote>
-<h2 id="2-4-练习1-初恋女友的出生日期"><a href="#2-4-练习1-初恋女友的出生日期" class="headerlink" title="2.4 练习1(初恋女友的出生日期)"></a>2.4 练习1(初恋女友的出生日期)</h2><pre><code class="java">/*
-     假设，你初恋的出生年月日为:2000-11-11
-     请用字符串表示这个数据，并将其转换为:2000年11月11日
-
-     创建一个Date对象表示2000年11月11日
-     创建一个SimpleDateFormat对象，并定义格式为年月日把时间变成:2000年11月11日
-*/
-
-//1.可以通过2000-11-11进行解析，解析成一个Date对象
-String str = &quot;2000-11-11&quot;;
-//2.解析
-SimpleDateFormat sdf1 = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
-Date date = sdf1.parse(str);
-//3.格式化
-SimpleDateFormat sdf2 = new SimpleDateFormat(&quot;yyyy年MM月dd日&quot;);
-String result = sdf2.format(date);
-System.out.println(result);
-</code></pre>
-<h2 id="2-5-练习2-秒杀活动"><a href="#2-5-练习2-秒杀活动" class="headerlink" title="2.5 练习2(秒杀活动)"></a>2.5 练习2(秒杀活动)</h2><pre><code class="java">/* 需求:
-            秒杀活动开始时间:2023年11月11日 0:0:0(毫秒值)
-            秒杀活动结束时间:2023年11月11日 0:10:0(毫秒值)
-
-            小贾下单并付款的时间为:2023年11月11日 0:01:0
-            小皮下单并付款的时间为:2023年11月11日 0:11:0
-            用代码说明这两位同学有没有参加上秒杀活动?
-         */
-
-//1.定义字符串表示三个时间
-String startstr = &quot;2023年11月11日 0:0:0&quot;;
-String endstr = &quot;2023年11月11日 0:10:0&quot;;
-String orderstr = &quot;2023年11月11日 0:01:00&quot;;
-//2.解析上面的三个时间，得到Date对象
-SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy年MM月dd日HH:mm:ss&quot;);
-Date startDate = sdf.parse(startstr);
-Date endDate = sdf.parse(endstr);
-Date orderDate = sdf.parse(orderstr);
-
-//3.得到三个时间的毫秒值
-long startTime = startDate.getTime();
-long endTime = endDate.getTime();
-long orderTime = orderDate.getTime();
-
-//4.判断
-if (orderTime &gt;= startTime &amp;&amp; orderTime &lt;= endTime) &#123;
-    System.out.println(&quot;参加秒杀活动成功&quot;);
-&#125; else &#123;
-    System.out.println(&quot;参加秒杀活动失败&quot;);
-&#125;
-</code></pre>
-<h1 id="第三章-Calendar类"><a href="#第三章-Calendar类" class="headerlink" title="第三章 Calendar类"></a>第三章 Calendar类</h1><h2 id="3-1-概述"><a href="#3-1-概述" class="headerlink" title="3.1 概述"></a>3.1 概述</h2><ul>
-<li>java.util.Calendar类表示一个“日历类”，可以进行日期运算。它是一个抽象类，不能创建对象，我们可以使用它的子类：java.util.GregorianCalendar类。</li>
-<li>有两种方式可以获取GregorianCalendar对象：<ul>
-<li>直接创建GregorianCalendar对象；</li>
-<li>通过Calendar的静态方法getInstance()方法获取GregorianCalendar对象【本次课使用】</li>
-</ul>
-</li>
-</ul>
-<h2 id="3-2-常用方法"><a href="#3-2-常用方法" class="headerlink" title="3.2 常用方法"></a>3.2 常用方法</h2><table>
-<thead>
-<tr>
-<th>方法名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>public static Calendar getInstance()</td>
-<td>获取一个它的子类GregorianCalendar对象。</td>
-</tr>
-<tr>
-<td>public int get(int field)</td>
-<td>获取某个字段的值。field参数表示获取哪个字段的值，<br />可以使用Calender中定义的常量来表示：<br />Calendar.YEAR : 年<br />Calendar.MONTH ：月<br />Calendar.DAY_OF_MONTH：月中的日期<br />Calendar.HOUR：小时<br />Calendar.MINUTE：分钟<br />Calendar.SECOND：秒<br />Calendar.DAY_OF_WEEK：星期</td>
-</tr>
-<tr>
-<td>public void set(int field,int value)</td>
-<td>设置某个字段的值</td>
-</tr>
-<tr>
-<td>public void add(int field,int amount)</td>
-<td>为某个字段增加&#x2F;减少指定的值</td>
-</tr>
-</tbody></table>
-<h2 id="3-3-get方法示例"><a href="#3-3-get方法示例" class="headerlink" title="3.3 get方法示例"></a>3.3 get方法示例</h2><pre><code class="java">public class Demo &#123;
-    public static void main(String[] args) &#123;
-        //1.获取一个GregorianCalendar对象
-        Calendar instance = Calendar.getInstance();//获取子类对象
-
-        //2.打印子类对象
-        System.out.println(instance);
-
-        //3.获取属性
-        int year = instance.get(Calendar.YEAR);
-        int month = instance.get(Calendar.MONTH) + 1;//Calendar的月份值是0-11
-        int day = instance.get(Calendar.DAY_OF_MONTH);
-
-        int hour = instance.get(Calendar.HOUR);
-        int minute = instance.get(Calendar.MINUTE);
-        int second = instance.get(Calendar.SECOND);
-
-        int week = instance.get(Calendar.DAY_OF_WEEK);//返回值范围：1--7，分别表示：&quot;星期日&quot;,&quot;星期一&quot;,&quot;星期二&quot;,...,&quot;星期六&quot;
-
-        System.out.println(year + &quot;年&quot; + month + &quot;月&quot; + day + &quot;日&quot; + 
-                               hour + &quot;:&quot; + minute + &quot;:&quot; + second);
-        System.out.println(getWeek(week));
-
-    &#125;
-
-    //查表法，查询星期几
-    public static String getWeek(int w) &#123;//w = 1 --- 7
-        //做一个表(数组)
-        String[] weekArray = &#123;&quot;星期日&quot;, &quot;星期一&quot;, &quot;星期二&quot;, &quot;星期三&quot;, &quot;星期四&quot;, &quot;星期五&quot;, &quot;星期六&quot;&#125;;
-        //            索引      [0]      [1]       [2]      [3]       [4]      [5]      [6]
-        //查表
-        return weekArray[w - 1];
-    &#125;
-&#125;
-</code></pre>
-<h2 id="3-4-set方法示例："><a href="#3-4-set方法示例：" class="headerlink" title="3.4 set方法示例："></a>3.4 set方法示例：</h2><pre><code class="java">public class Demo &#123;
-    public static void main(String[] args) &#123;
-        //设置属性——set(int field,int value):
-        Calendar c1 = Calendar.getInstance();//获取当前日期
-
-        //计算班长出生那天是星期几(假如班长出生日期为：1998年3月18日)
-        c1.set(Calendar.YEAR, 1998);
-        c1.set(Calendar.MONTH, 3 - 1);//转换为Calendar内部的月份值
-        c1.set(Calendar.DAY_OF_MONTH, 18);
-
-        int w = c1.get(Calendar.DAY_OF_WEEK);
-        System.out.println(&quot;班长出生那天是：&quot; + getWeek(w));
-
-        
-    &#125;
-    //查表法，查询星期几
-    public static String getWeek(int w) &#123;//w = 1 --- 7
-        //做一个表(数组)
-        String[] weekArray = &#123;&quot;星期日&quot;, &quot;星期一&quot;, &quot;星期二&quot;, &quot;星期三&quot;, &quot;星期四&quot;, &quot;星期五&quot;, &quot;星期六&quot;&#125;;
-        //            索引      [0]      [1]       [2]      [3]       [4]      [5]      [6]
-        //查表
-        return weekArray[w - 1];
-    &#125;
-&#125;
-</code></pre>
-<h2 id="3-5-add方法示例："><a href="#3-5-add方法示例：" class="headerlink" title="3.5 add方法示例："></a>3.5 add方法示例：</h2><pre><code class="java">public class Demo &#123;
-    public static void main(String[] args) &#123;
-        //计算200天以后是哪年哪月哪日，星期几？
-        Calendar c2 = Calendar.getInstance();//获取当前日期
-        c2.add(Calendar.DAY_OF_MONTH, 200);//日期加200
-
-        int y = c2.get(Calendar.YEAR);
-        int m = c2.get(Calendar.MONTH) + 1;//转换为实际的月份
-        int d = c2.get(Calendar.DAY_OF_MONTH);
-
-        int wk = c2.get(Calendar.DAY_OF_WEEK);
-        System.out.println(&quot;200天后是：&quot; + y + &quot;年&quot; + m + &quot;月&quot; + d + &quot;日&quot; + getWeek(wk));
-
-    &#125;
-    //查表法，查询星期几
-    public static String getWeek(int w) &#123;//w = 1 --- 7
-        //做一个表(数组)
-        String[] weekArray = &#123;&quot;星期日&quot;, &quot;星期一&quot;, &quot;星期二&quot;, &quot;星期三&quot;, &quot;星期四&quot;, &quot;星期五&quot;, &quot;星期六&quot;&#125;;
-        //            索引      [0]      [1]       [2]      [3]       [4]      [5]      [6]
-        //查表
-        return weekArray[w - 1];
-    &#125;
-&#125;
-</code></pre>
-<h1 id="第四章-JDK8时间相关类"><a href="#第四章-JDK8时间相关类" class="headerlink" title="第四章 JDK8时间相关类"></a>第四章 JDK8时间相关类</h1><table>
-<thead>
-<tr>
-<th>JDK8时间类类名</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>ZoneId</td>
-<td>时区</td>
-</tr>
-<tr>
-<td>Instant</td>
-<td>时间戳</td>
-</tr>
-<tr>
-<td>ZoneDateTime</td>
-<td>带时区的时间</td>
-</tr>
-<tr>
-<td>DateTimeFormatter</td>
-<td>用于时间的格式化和解析</td>
-</tr>
-<tr>
-<td>LocalDate</td>
-<td>年、月、日</td>
-</tr>
-<tr>
-<td>LocalTime</td>
-<td>时、分、秒</td>
-</tr>
-<tr>
-<td>LocalDateTime</td>
-<td>年、月、日、时、分、秒</td>
-</tr>
-<tr>
-<td>Duration</td>
-<td>时间间隔（秒，纳，秒）</td>
-</tr>
-<tr>
-<td>Period</td>
-<td>时间间隔（年，月，日）</td>
-</tr>
-<tr>
-<td>ChronoUnit</td>
-<td>时间间隔（所有单位）</td>
-</tr>
-</tbody></table>
-<h2 id="4-1-ZoneId-时区"><a href="#4-1-ZoneId-时区" class="headerlink" title="4.1  ZoneId 时区"></a>4.1  ZoneId 时区</h2><pre><code class="java">/*
-        static Set&lt;string&gt; getAvailableZoneIds() 获取Java中支持的所有时区
-        static ZoneId systemDefault() 获取系统默认时区
-        static Zoneld of(string zoneld) 获取一个指定时区
-        */
-
-//1.获取所有的时区名称
-Set&lt;String&gt; zoneIds = ZoneId.getAvailableZoneIds();
-System.out.println(zoneIds.size());//600
-System.out.println(zoneIds);// Asia/Shanghai
-
-//2.获取当前系统的默认时区
-ZoneId zoneId = ZoneId.systemDefault();
-System.out.println(zoneId);//Asia/Shanghai
-
-//3.获取指定的时区
-ZoneId zoneId1 = ZoneId.of(&quot;Asia/Pontianak&quot;);
-System.out.println(zoneId1);//Asia/Pontianak
-</code></pre>
-<h2 id="4-2-Instant-时间戳"><a href="#4-2-Instant-时间戳" class="headerlink" title="4.2  Instant 时间戳"></a>4.2  Instant 时间戳</h2><pre><code class="java">/*
-            static Instant now() 获取当前时间的Instant对象(标准时间)
-            static Instant ofXxxx(long epochMilli) 根据(秒/毫秒/纳秒)获取Instant对象
-            ZonedDateTime atZone(ZoneIdzone) 指定时区
-            boolean isxxx(Instant otherInstant) 判断系列的方法
-            Instant minusXxx(long millisToSubtract) 减少时间系列的方法
-            Instant plusXxx(long millisToSubtract) 增加时间系列的方法
-        */
-//1.获取当前时间的Instant对象(标准时间)
-Instant now = Instant.now();
-System.out.println(now);
-
-//2.根据(秒/毫秒/纳秒)获取Instant对象
-Instant instant1 = Instant.ofEpochMilli(0L);
-System.out.println(instant1);//1970-01-01T00:00:00z
-
-Instant instant2 = Instant.ofEpochSecond(1L);
-System.out.println(instant2);//1970-01-01T00:00:01Z
-
-Instant instant3 = Instant.ofEpochSecond(1L, 1000000000L);
-System.out.println(instant3);//1970-01-01T00:00:027
-
-//3. 指定时区
-ZonedDateTime time = Instant.now().atZone(ZoneId.of(&quot;Asia/Shanghai&quot;));
-System.out.println(time);
-
-
-//4.isXxx 判断
-Instant instant4=Instant.ofEpochMilli(0L);
-Instant instant5 =Instant.ofEpochMilli(1000L);
-
-//5.用于时间的判断
-//isBefore:判断调用者代表的时间是否在参数表示时间的前面
-boolean result1=instant4.isBefore(instant5);
-System.out.println(result1);//true
-
-//isAfter:判断调用者代表的时间是否在参数表示时间的后面
-boolean result2 = instant4.isAfter(instant5);
-System.out.println(result2);//false
-
-//6.Instant minusXxx(long millisToSubtract) 减少时间系列的方法
-Instant instant6 =Instant.ofEpochMilli(3000L);
-System.out.println(instant6);//1970-01-01T00:00:03Z
-
-Instant instant7 =instant6.minusSeconds(1);
-System.out.println(instant7);//1970-01-01T00:00:02Z
-</code></pre>
-<h2 id="4-3-ZoneDateTime-带时区的时间"><a href="#4-3-ZoneDateTime-带时区的时间" class="headerlink" title="4.3 ZoneDateTime  带时区的时间"></a>4.3 ZoneDateTime  带时区的时间</h2><pre><code class="java">/*
-            static ZonedDateTime now() 获取当前时间的ZonedDateTime对象
-            static ZonedDateTime ofXxxx(。。。) 获取指定时间的ZonedDateTime对象
-            ZonedDateTime withXxx(时间) 修改时间系列的方法
-            ZonedDateTime minusXxx(时间) 减少时间系列的方法
-            ZonedDateTime plusXxx(时间) 增加时间系列的方法
-         */
-//1.获取当前时间对象(带时区)
-ZonedDateTime now = ZonedDateTime.now();
-System.out.println(now);
-
-//2.获取指定的时间对象(带时区)1/年月日时分秒纳秒方式指定
-ZonedDateTime time1 = ZonedDateTime.of(2023, 10, 1,
-                                       11, 12, 12, 0, ZoneId.of(&quot;Asia/Shanghai&quot;));
-System.out.println(time1);
-
-//通过Instant + 时区的方式指定获取时间对象
-Instant instant = Instant.ofEpochMilli(0L);
-ZoneId zoneId = ZoneId.of(&quot;Asia/Shanghai&quot;);
-ZonedDateTime time2 = ZonedDateTime.ofInstant(instant, zoneId);
-System.out.println(time2);
-
-
-//3.withXxx 修改时间系列的方法
-ZonedDateTime time3 = time2.withYear(2000);
-System.out.println(time3);
-
-//4. 减少时间
-ZonedDateTime time4 = time3.minusYears(1);
-System.out.println(time4);
-
-//5.增加时间
-ZonedDateTime time5 = time4.plusYears(1);
-System.out.println(time5);
-</code></pre>
-<h2 id="4-4DateTimeFormatter-用于时间的格式化和解析"><a href="#4-4DateTimeFormatter-用于时间的格式化和解析" class="headerlink" title="4.4DateTimeFormatter   用于时间的格式化和解析"></a>4.4DateTimeFormatter   用于时间的格式化和解析</h2><pre><code class="java">/*
-            static DateTimeFormatter ofPattern(格式) 获取格式对象
-            String format(时间对象) 按照指定方式格式化
-        */
-//获取时间对象
-ZonedDateTime time = Instant.now().atZone(ZoneId.of(&quot;Asia/Shanghai&quot;));
-
-// 解析/格式化器
-DateTimeFormatter dtf1=DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm;ss EE a&quot;);
-// 格式化
-System.out.println(dtf1.format(time));
-</code></pre>
-<h2 id="4-5LocalDate-年、月、日"><a href="#4-5LocalDate-年、月、日" class="headerlink" title="4.5LocalDate  年、月、日"></a>4.5LocalDate  年、月、日</h2><pre><code class="java">//1.获取当前时间的日历对象(包含 年月日)
-LocalDate nowDate = LocalDate.now();
-//System.out.println(&quot;今天的日期:&quot; + nowDate);
-//2.获取指定的时间的日历对象
-LocalDate ldDate = LocalDate.of(2023, 1, 1);
-System.out.println(&quot;指定日期:&quot; + ldDate);
-
-System.out.println(&quot;=============================&quot;);
-
-//3.get系列方法获取日历中的每一个属性值//获取年
-int year = ldDate.getYear();
-System.out.println(&quot;year: &quot; + year);
-//获取月//方式一:
-Month m = ldDate.getMonth();
-System.out.println(m);
-System.out.println(m.getValue());
-
-//方式二:
-int month = ldDate.getMonthValue();
-System.out.println(&quot;month: &quot; + month);
-
-
-//获取日
-int day = ldDate.getDayOfMonth();
-System.out.println(&quot;day:&quot; + day);
-
-//获取一年的第几天
-int dayofYear = ldDate.getDayOfYear();
-System.out.println(&quot;dayOfYear:&quot; + dayofYear);
-
-//获取星期
-DayOfWeek dayOfWeek = ldDate.getDayOfWeek();
-System.out.println(dayOfWeek);
-System.out.println(dayOfWeek.getValue());
-
-//is开头的方法表示判断
-System.out.println(ldDate.isBefore(ldDate));
-System.out.println(ldDate.isAfter(ldDate));
-
-//with开头的方法表示修改，只能修改年月日
-LocalDate withLocalDate = ldDate.withYear(2000);
-System.out.println(withLocalDate);
-
-//minus开头的方法表示减少，只能减少年月日
-LocalDate minusLocalDate = ldDate.minusYears(1);
-System.out.println(minusLocalDate);
-
-
-//plus开头的方法表示增加，只能增加年月日
-LocalDate plusLocalDate = ldDate.plusDays(1);
-System.out.println(plusLocalDate);
-
-//-------------
-// 判断今天是否是你的生日
-LocalDate birDate = LocalDate.of(2000, 1, 1);
-LocalDate nowDate1 = LocalDate.now();
-
-MonthDay birMd = MonthDay.of(birDate.getMonthValue(), birDate.getDayOfMonth());
-MonthDay nowMd = MonthDay.from(nowDate1);
-
-System.out.println(&quot;今天是你的生日吗? &quot; + birMd.equals(nowMd));//今天是你的生日吗?
-</code></pre>
-<h2 id="4-6-LocalTime-时、分、秒"><a href="#4-6-LocalTime-时、分、秒" class="headerlink" title="4.6 LocalTime  时、分、秒"></a>4.6 LocalTime  时、分、秒</h2><pre><code class="java">// 获取本地时间的日历对象。(包含 时分秒)
-LocalTime nowTime = LocalTime.now();
-System.out.println(&quot;今天的时间:&quot; + nowTime);
-
-int hour = nowTime.getHour();//时
-System.out.println(&quot;hour: &quot; + hour);
-
-int minute = nowTime.getMinute();//分
-System.out.println(&quot;minute: &quot; + minute);
-
-int second = nowTime.getSecond();//秒
-System.out.println(&quot;second:&quot; + second);
-
-int nano = nowTime.getNano();//纳秒
-System.out.println(&quot;nano:&quot; + nano);
-System.out.println(&quot;------------------------------------&quot;);
-System.out.println(LocalTime.of(8, 20));//时分
-System.out.println(LocalTime.of(8, 20, 30));//时分秒
-System.out.println(LocalTime.of(8, 20, 30, 150));//时分秒纳秒
-LocalTime mTime = LocalTime.of(8, 20, 30, 150);
-
-//is系列的方法
-System.out.println(nowTime.isBefore(mTime));
-System.out.println(nowTime.isAfter(mTime));
-
-//with系列的方法，只能修改时、分、秒
-System.out.println(nowTime.withHour(10));
-
-//plus系列的方法，只能修改时、分、秒
-System.out.println(nowTime.plusHours(10));
-</code></pre>
-<h2 id="4-7-LocalDateTime-年、月、日、时、分、秒"><a href="#4-7-LocalDateTime-年、月、日、时、分、秒" class="headerlink" title="4.7 LocalDateTime  年、月、日、时、分、秒"></a>4.7 LocalDateTime  年、月、日、时、分、秒</h2><pre><code class="java">// 当前时间的的日历对象(包含年月日时分秒)
-LocalDateTime nowDateTime = LocalDateTime.now();
-
-System.out.println(&quot;今天是:&quot; + nowDateTime);//今天是：
-System.out.println(nowDateTime.getYear());//年
-System.out.println(nowDateTime.getMonthValue());//月
-System.out.println(nowDateTime.getDayOfMonth());//日
-System.out.println(nowDateTime.getHour());//时
-System.out.println(nowDateTime.getMinute());//分
-System.out.println(nowDateTime.getSecond());//秒
-System.out.println(nowDateTime.getNano());//纳秒
-// 日:当年的第几天
-System.out.println(&quot;dayofYear:&quot; + nowDateTime.getDayOfYear());
-//星期
-System.out.println(nowDateTime.getDayOfWeek());
-System.out.println(nowDateTime.getDayOfWeek().getValue());
-//月份
-System.out.println(nowDateTime.getMonth());
-System.out.println(nowDateTime.getMonth().getValue());
-
-LocalDate ld = nowDateTime.toLocalDate();
-System.out.println(ld);
-
-LocalTime lt = nowDateTime.toLocalTime();
-System.out.println(lt.getHour());
-System.out.println(lt.getMinute());
-System.out.println(lt.getSecond());
-</code></pre>
-<h2 id="4-8-Duration-时间间隔（秒，纳，秒）"><a href="#4-8-Duration-时间间隔（秒，纳，秒）" class="headerlink" title="4.8 Duration  时间间隔（秒，纳，秒）"></a>4.8 Duration  时间间隔（秒，纳，秒）</h2><pre><code class="java">// 本地日期时间对象。
-LocalDateTime today = LocalDateTime.now();
-System.out.println(today);
-
-// 出生的日期时间对象
-LocalDateTime birthDate = LocalDateTime.of(2000, 1, 1, 0, 0, 0);
-System.out.println(birthDate);
-
-Duration duration = Duration.between(birthDate, today);//第二个参数减第一个参数
-System.out.println(&quot;相差的时间间隔对象:&quot; + duration);
-
-System.out.println(&quot;============================================&quot;);
-System.out.println(duration.toDays());//两个时间差的天数
-System.out.println(duration.toHours());//两个时间差的小时数
-System.out.println(duration.toMinutes());//两个时间差的分钟数
-System.out.println(duration.toMillis());//两个时间差的毫秒数
-System.out.println(duration.toNanos());//两个时间差的纳秒数
-</code></pre>
-<h2 id="4-9-Period-时间间隔（年，月，日）"><a href="#4-9-Period-时间间隔（年，月，日）" class="headerlink" title="4.9 Period  时间间隔（年，月，日）"></a>4.9 Period  时间间隔（年，月，日）</h2><pre><code class="java">// 当前本地 年月日
-LocalDate today = LocalDate.now();
-System.out.println(today);
-
-// 生日的 年月日
-LocalDate birthDate = LocalDate.of(2000, 1, 1);
-System.out.println(birthDate);
-
-Period period = Period.between(birthDate, today);//第二个参数减第一个参数
-
-System.out.println(&quot;相差的时间间隔对象:&quot; + period);
-System.out.println(period.getYears());
-System.out.println(period.getMonths());
-System.out.println(period.getDays());
-
-System.out.println(period.toTotalMonths());
-</code></pre>
-<h2 id="4-10-ChronoUnit-时间间隔（所有单位）"><a href="#4-10-ChronoUnit-时间间隔（所有单位）" class="headerlink" title="4.10 ChronoUnit  时间间隔（所有单位）"></a>4.10 ChronoUnit  时间间隔（所有单位）</h2><pre><code class="java">// 当前时间
-LocalDateTime today = LocalDateTime.now();
-System.out.println(today);
-// 生日时间
-LocalDateTime birthDate = LocalDateTime.of(2000, 1, 1,0, 0, 0);
-System.out.println(birthDate);
-
-System.out.println(&quot;相差的年数:&quot; + ChronoUnit.YEARS.between(birthDate, today));
-System.out.println(&quot;相差的月数:&quot; + ChronoUnit.MONTHS.between(birthDate, today));
-System.out.println(&quot;相差的周数:&quot; + ChronoUnit.WEEKS.between(birthDate, today));
-System.out.println(&quot;相差的天数:&quot; + ChronoUnit.DAYS.between(birthDate, today));
-System.out.println(&quot;相差的时数:&quot; + ChronoUnit.HOURS.between(birthDate, today));
-System.out.println(&quot;相差的分数:&quot; + ChronoUnit.MINUTES.between(birthDate, today));
-System.out.println(&quot;相差的秒数:&quot; + ChronoUnit.SECONDS.between(birthDate, today));
-System.out.println(&quot;相差的毫秒数:&quot; + ChronoUnit.MILLIS.between(birthDate, today));
-System.out.println(&quot;相差的微秒数:&quot; + ChronoUnit.MICROS.between(birthDate, today));
-System.out.println(&quot;相差的纳秒数:&quot; + ChronoUnit.NANOS.between(birthDate, today));
-System.out.println(&quot;相差的半天数:&quot; + ChronoUnit.HALF_DAYS.between(birthDate, today));
-System.out.println(&quot;相差的十年数:&quot; + ChronoUnit.DECADES.between(birthDate, today));
-System.out.println(&quot;相差的世纪(百年)数:&quot; + ChronoUnit.CENTURIES.between(birthDate, today));
-System.out.println(&quot;相差的千年数:&quot; + ChronoUnit.MILLENNIA.between(birthDate, today));
-System.out.println(&quot;相差的纪元数:&quot; + ChronoUnit.ERAS.between(birthDate, today));
-</code></pre>
-<h1 id="第五章-包装类"><a href="#第五章-包装类" class="headerlink" title="第五章  包装类"></a>第五章  包装类</h1><h2 id="5-1-概述"><a href="#5-1-概述" class="headerlink" title="5.1 概述"></a>5.1 概述</h2><p>Java提供了两个类型系统，基本类型与引用类型，使用基本类型在于效率，然而很多情况，会创建对象使用，因为对象可以做更多的功能，如果想要我们的基本类型像对象一样操作，就可以使用基本类型对应的包装类，如下：</p>
-<table>
-<thead>
-<tr>
-<th>基本类型</th>
-<th>对应的包装类（位于java.lang包中）</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>byte</td>
-<td>Byte</td>
-</tr>
-<tr>
-<td>short</td>
-<td>Short</td>
-</tr>
-<tr>
-<td>int</td>
-<td><strong>Integer</strong></td>
-</tr>
-<tr>
-<td>long</td>
-<td>Long</td>
-</tr>
-<tr>
-<td>float</td>
-<td>Float</td>
-</tr>
-<tr>
-<td>double</td>
-<td>Double</td>
-</tr>
-<tr>
-<td>char</td>
-<td><strong>Character</strong></td>
-</tr>
-<tr>
-<td>boolean</td>
-<td>Boolean</td>
-</tr>
-</tbody></table>
-<h2 id="5-2-Integer类"><a href="#5-2-Integer类" class="headerlink" title="5.2 Integer类"></a>5.2 Integer类</h2><ul>
-<li><p>Integer类概述</p>
-<p>包装一个对象中的原始类型 int 的值</p>
-</li>
-<li><p>Integer类构造方法及静态方法</p>
-</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>方法名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>public Integer(int   value)</td>
-<td>根据 int 值创建 Integer 对象(过时)</td>
-</tr>
-<tr>
-<td>public Integer(String s)</td>
-<td>根据 String 值创建 Integer 对象(过时)</td>
-</tr>
-<tr>
-<td>public static Integer valueOf(int i)</td>
-<td>返回表示指定的 int 值的 Integer   实例</td>
-</tr>
-<tr>
-<td>public static Integer valueOf(String s)</td>
-<td>返回保存指定String值的 Integer 对象</td>
-</tr>
-<tr>
-<td>static string tobinarystring(int i)</td>
-<td>得到二进制</td>
-</tr>
-<tr>
-<td>static string tooctalstring(int i)</td>
-<td>得到八进制</td>
-</tr>
-<tr>
-<td>static string toHexstring(int i)</td>
-<td>得到十六进制</td>
-</tr>
-<tr>
-<td>static int parseInt(string s)</td>
-<td>将字符串类型的整数转成int类型的整数</td>
-</tr>
-</tbody></table>
-<ul>
-<li>示例代码</li>
-</ul>
-<pre><code class="java">//public Integer(int value)：根据 int 值创建 Integer 对象(过时)
-Integer i1 = new Integer(100);
-System.out.println(i1);
-
-//public Integer(String s)：根据 String 值创建 Integer 对象(过时)
-Integer i2 = new Integer(&quot;100&quot;);
-//Integer i2 = new Integer(&quot;abc&quot;); //NumberFormatException
-System.out.println(i2);
-System.out.println(&quot;--------&quot;);
-
-//public static Integer valueOf(int i)：返回表示指定的 int 值的 Integer 实例
-Integer i3 = Integer.valueOf(100);
-System.out.println(i3);
-
-//public static Integer valueOf(String s)：返回保存指定String值的Integer对象 
-Integer i4 = Integer.valueOf(&quot;100&quot;);
-System.out.println(i4);
-</code></pre>
-<pre><code class="java">/*
-            public static string tobinarystring(int i) 得到二进制
-            public static string tooctalstring(int i) 得到八进制
-            public static string toHexstring(int i) 得到十六进制
-            public static int parseInt(string s) 将字符串类型的整数转成int类型的整数
- */
-
-//1.把整数转成二进制，十六进制
-String str1 = Integer.toBinaryString(100);
-System.out.println(str1);//1100100
-
-//2.把整数转成八进制
-String str2 = Integer.toOctalString(100);
-System.out.println(str2);//144
-
-//3.把整数转成十六进制
-String str3 = Integer.toHexString(100);
-System.out.println(str3);//64
-
-//4.将字符串类型的整数转成int类型的整数
-//强类型语言:每种数据在java中都有各自的数据类型
-//在计算的时候，如果不是同一种数据类型，是无法直接计算的。
-int i = Integer.parseInt(&quot;123&quot;);
-System.out.println(i);
-System.out.println(i + 1);//124
-//细节1:
-//在类型转换的时候，括号中的参数只能是数字不能是其他，否则代码会报错
-//细节2:
-//8种包装类当中，除了Character都有对应的parseXxx的方法，进行类型转换
-String str = &quot;true&quot;;
-boolean b = Boolean.parseBoolean(str);
-System.out.println(b);
-</code></pre>
-<h2 id="5-3-装箱与拆箱"><a href="#5-3-装箱与拆箱" class="headerlink" title="5.3 装箱与拆箱"></a>5.3 装箱与拆箱</h2><p>基本类型与对应的包装类对象之间，来回转换的过程称为”装箱“与”拆箱“：</p>
-<ul>
-<li><strong>装箱</strong>：从基本类型转换为对应的包装类对象。</li>
-<li><strong>拆箱</strong>：从包装类对象转换为对应的基本类型。</li>
-</ul>
-<p>用Integer与 int为例：（看懂代码即可）</p>
-<p>基本数值—-&gt;包装对象</p>
-<pre><code class="java">Integer i = new Integer(4);//使用构造函数函数
-Integer iii = Integer.valueOf(4);//使用包装类中的valueOf方法
-</code></pre>
-<p>包装对象—-&gt;基本数值</p>
-<pre><code class="java">int num = i.intValue();
-</code></pre>
-<h2 id="5-4-自动装箱与自动拆箱"><a href="#5-4-自动装箱与自动拆箱" class="headerlink" title="5.4 自动装箱与自动拆箱"></a>5.4 自动装箱与自动拆箱</h2><p>由于我们经常要做基本类型与包装类之间的转换，从Java 5（JDK 1.5）开始，基本类型与包装类的装箱、拆箱动作可以自动完成。例如：</p>
-<pre><code class="java">Integer i = 4;//自动装箱。相当于Integer i = Integer.valueOf(4);
-i = i + 5;//等号右边：将i对象转成基本数值(自动拆箱) i.intValue() + 5;
-//加法运算完成后，再次装箱，把基本数值转成对象。
-</code></pre>
-<h2 id="5-5-基本类型与字符串之间的转换"><a href="#5-5-基本类型与字符串之间的转换" class="headerlink" title="5.5 基本类型与字符串之间的转换"></a>5.5 基本类型与字符串之间的转换</h2><h3 id="基本类型转换为String"><a href="#基本类型转换为String" class="headerlink" title="基本类型转换为String"></a>基本类型转换为String</h3><ul>
-<li>转换方式</li>
-<li>方式一：直接在数字后加一个空字符串</li>
-<li>方式二：通过String类静态方法valueOf()</li>
-<li>示例代码</li>
-</ul>
-<pre><code class="java">public class IntegerDemo &#123;
-    public static void main(String[] args) &#123;
-        //int --- String
-        int number = 100;
-        //方式1
-        String s1 = number + &quot;&quot;;
-        System.out.println(s1);
-        //方式2
-        //public static String valueOf(int i)
-        String s2 = String.valueOf(number);
-        System.out.println(s2);
-        System.out.println(&quot;--------&quot;);
-    &#125;
-&#125;
-</code></pre>
-<h3 id="String转换成基本类型"><a href="#String转换成基本类型" class="headerlink" title="String转换成基本类型"></a>String转换成基本类型</h3><p>除了Character类之外，其他所有包装类都具有parseXxx静态方法可以将字符串参数转换为对应的基本类型：</p>
-<ul>
-<li><code>public static byte parseByte(String s)</code>：将字符串参数转换为对应的byte基本类型。</li>
-<li><code>public static short parseShort(String s)</code>：将字符串参数转换为对应的short基本类型。</li>
-<li><strong><code>public static int parseInt(String s)</code>：将字符串参数转换为对应的int基本类型。</strong></li>
-<li><strong><code>public static long parseLong(String s)</code>：将字符串参数转换为对应的long基本类型。</strong></li>
-<li><code>public static float parseFloat(String s)</code>：将字符串参数转换为对应的float基本类型。</li>
-<li><code>public static double parseDouble(String s)</code>：将字符串参数转换为对应的double基本类型。</li>
-<li><code>public static boolean parseBoolean(String s)</code>：将字符串参数转换为对应的boolean基本类型。</li>
-</ul>
-<p>代码使用（仅以Integer类的静态方法parseXxx为例）如：</p>
-<ul>
-<li>转换方式<ul>
-<li>方式一：先将字符串数字转成Integer，再调用valueOf()方法</li>
-<li>方式二：通过Integer静态方法parseInt()进行转换</li>
-</ul>
-</li>
-<li>示例代码</li>
-</ul>
-<pre><code class="java">public class IntegerDemo &#123;
-    public static void main(String[] args) &#123;
-        //String --- int
-        String s = &quot;100&quot;;
-        //方式1：String --- Integer --- int
-        Integer i = Integer.valueOf(s);
-        //public int intValue()
-        int x = i.intValue();
-        System.out.println(x);
-        //方式2
-        //public static int parseInt(String s)
-        int y = Integer.parseInt(s);
-        System.out.println(y);
-    &#125;
-&#125;
-</code></pre>
-<blockquote>
-<p>注意:如果字符串参数的内容无法正确转换为对应的基本类型，则会抛出<code>java.lang.NumberFormatException</code>异常。</p>
-</blockquote>
-<h2 id="5-6-底层原理"><a href="#5-6-底层原理" class="headerlink" title="5.6 底层原理"></a>5.6 底层原理</h2><p>建议：获取Integer对象的时候不要自己new，而是采取直接赋值或者静态方法valueOf的方式</p>
-<p>因为在实际开发中，-128~127之间的数据，用的比较多。如果每次使用都是new对象，那么太浪费内存了。</p>
-<p>所以，提前把这个范围之内的每一个数据都创建好对象，如果要用到了不会创建新的，而是返回已经创建好的对象。</p>
-<pre><code class="java">//1.利用构造方法获取Integer的对象(JDK5以前的方式)
-/*Integer i1 = new Integer(1);
-        Integer i2 = new Integer(&quot;1&quot;);
-        System.out.println(i1);
-        System.out.println(i2);*/
-
-//2.利用静态方法获取Integer的对象(JDK5以前的方式)
-Integer i3 = Integer.valueOf(123);
-Integer i4 = Integer.valueOf(&quot;123&quot;);
-Integer i5 = Integer.valueOf(&quot;123&quot;, 8);
-
-System.out.println(i3);
-System.out.println(i4);
-System.out.println(i5);
-
-//3.这两种方式获取对象的区别(掌握)
-//底层原理：
-//因为在实际开发中，-128~127之间的数据，用的比较多。
-//如果每次使用都是new对象，那么太浪费内存了
-//所以，提前把这个范围之内的每一个数据都创建好对象
-//如果要用到了不会创建新的，而是返回已经创建好的对象。
-Integer i6 = Integer.valueOf(127);
-Integer i7 = Integer.valueOf(127);
-System.out.println(i6 == i7);//true
-
-Integer i8 = Integer.valueOf(128);
-Integer i9 = Integer.valueOf(128);
-System.out.println(i8 == i9);//false
-
-//因为看到了new关键字，在Java中，每一次new都是创建了一个新的对象
-//所以下面的两个对象都是new出来，地址值不一样。
-/*Integer i10 = new Integer(127);
-        Integer i11 = new Integer(127);
-        System.out.println(i10 == i11);
-
-        Integer i12 = new Integer(128);
-        Integer i13 = new Integer(128);
-        System.out.println(i12 == i13);*/
-</code></pre>
-<h1 id="第六章：算法小题"><a href="#第六章：算法小题" class="headerlink" title="第六章：算法小题"></a>第六章：算法小题</h1><h2 id="练习一："><a href="#练习一：" class="headerlink" title="练习一："></a>练习一：</h2><p>需求：</p>
-<p>​	键盘录入一些1~10日之间的整数，并添加到集合中。直到集合中所有数据和超过200为止。</p>
-<p>代码示例：</p>
-<pre><code class="java">public class Test1 &#123;
-    public static void main(String[] args) &#123;
-        /*
-            键盘录入一些1~10日之间的整数，并添加到集合中。直到集合中所有数据和超过200为止。
-        */
-        //1.创建一个集合用来添加整数
-        ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();
-        //2.键盘录入数据添加到集合中
-        Scanner sc = new Scanner(System.in);
-        while (true) &#123;
-            System.out.println(&quot;请输入一个整数&quot;);
-            String numStr = sc.nextLine();
-            int num = Integer.parseInt(numStr);//先把异常数据先进行过滤
-            if (num &lt; 1 || num &gt; 100)&#123;
-                System.out.println(&quot;当前数字不在1~100的范围当中，请重新输入&quot;);
-                continue;
-            &#125;
-            //添加到集合中//细节:
-            //num:基本数据类型
-            //集合里面的数据是Integer
-            //在添加数据的时候触发了自动装箱
-            list.add(num);
-            //统计集合中所有的数据和
-            int sum = getSum(list);
-            //对sum进行判断
-            if(sum &gt; 200)&#123;
-            System.out.println(&quot;集合中所有的数据和已经满足要求&quot;);
-            break;
-        &#125;
-    &#125;
-
-&#125;
-
-
-    private static int getSum(ArrayList&lt;Integer&gt; list) &#123;
-        int sum = 0;
-        for (int i = 0; i &lt; list.size(); i++) &#123;
-            //i :索引
-            //list.get(i);
-            int num = list.get(i);
-            sum = sum + num;//+=
-        &#125;
-        return sum;
-    &#125;
-&#125;
-</code></pre>
-<h2 id="练习二："><a href="#练习二：" class="headerlink" title="练习二："></a>练习二：</h2><p>需求：</p>
-<p>​	自己实现parseInt方法的效果，将字符串形式的数据转成整数。要求:字符串中只能是数字不能有其他字符最少一位，最多10位日不能开头</p>
-<p>代码示例：</p>
-<pre><code class="java">public class Test2 &#123;
-    public static void main(String[] args) &#123;
-        /*
-            自己实现parseInt方法的效果，将字符串形式的数据转成整数。要求:
-            字符串中只能是数字不能有其他字符最少一位，最多10位日不能开头
-        */
-
-        //1.定义一个字符串
-        String str = &quot;123&quot;;
-        //2.校验字符串
-        //习惯:会先把异常数据进行过滤，剩下来就是正常的数据。
-        if (!str.matches(&quot;[1-9]\\d&#123;0,9&#125;&quot;)) &#123;
-            //错误的数据
-            System.out.println(&quot;数据格式有误&quot;);
-        &#125; else &#123;
-            //正确的数据
-            System.out.println(&quot;数据格式正确&quot;);
-            //3.定义一个变量表示最终的结果
-            int number = 0;
-            //4.遍历字符串得到里面的每一个字符
-            for (int i = 0; i &lt; str.length(); i++) &#123;
-                int c = str.charAt(i) - &#39;0&#39;;//把每一位数字放到number当中
-                number = number * 10 + c;
-            &#125;
-            System.out.println(number);
-            System.out.println(number + 1);
-        &#125;
-    &#125;
-&#125;
-</code></pre>
-<h2 id="练习三："><a href="#练习三：" class="headerlink" title="练习三："></a>练习三：</h2><p>需求：</p>
-<p>​	定义一个方法自己实现toBinaryString方法的效果，将一个十进制整数转成字符串表示的二进制</p>
-<p>代码示例：</p>
-<pre><code class="java">package com.itheima.a04test;
-
-public class Test3 &#123;
-    public static void main(String[] args) &#123;
-        /*
-
-            定义一个方法自己实现toBinaryString方法的效果，将一个十进制整数转成字符串表示的二进制
-
-         */
-    &#125;
-
-
-    public static String tobinarystring(int number) &#123;//6
-        //核心逻辑:
-        //不断的去除以2，得到余数，一直到商为日就结束。
-        //还需要把余数倒着拼接起来
-
-        //定义一个StringBuilder用来拼接余数
-        StringBuilder sb = new StringBuilder();
-        //利用循环不断的除以2获取余数
-        while (true) &#123;
-            if (number == 0) &#123;
-                break;
-            &#125;
-            //获取余数 %
-            int remaindar = number % 2;//倒着拼接
-            sb.insert(0, remaindar);
-            //除以2 /
-            number = number / 2;
-        &#125;
-        return sb.toString();
-    &#125;
-&#125;
-</code></pre>
-<h2 id="练习四："><a href="#练习四：" class="headerlink" title="练习四："></a>练习四：</h2><p>需求：</p>
-<p>​	请使用代码实现计算你活了多少天，用JDK7和JDK8两种方式完成</p>
-<p>代码示例：</p>
-<pre><code class="java">public class Test4 &#123;
-    public static void main(String[] args) throws ParseException &#123;
-        //请使用代码实现计算你活了多少天，用JDK7和JDK8两种方式完成
-        //JDK7
-        //规则:只要对时间进行计算或者判断，都需要先获取当前时间的毫秒值
-        //1.计算出生年月日的毫秒值
-        String birthday = &quot;2000年1月1日&quot;;
-        SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy年MM月dd日&quot;);
-        Date date = sdf.parse(birthday);
-        long birthdayTime = date.getTime();
-        //2.获取当前时间的毫秒值
-        long todayTime = System.currentTimeMillis();
-        //3.计算间隔多少天
-        long time = todayTime - birthdayTime;
-        System.out.println(time / 1000 / 60 / 60 / 24);
-
-
-        //JDK8
-        LocalDate ld1 = LocalDate.of(2000, 1, 1);
-        LocalDate ld2 = LocalDate.now();
-        long days = ChronoUnit.DAYS.between(ld1, ld2);
-        System.out.println(days);
-    &#125;
-&#125;
-</code></pre>
-<h2 id="练习五："><a href="#练习五：" class="headerlink" title="练习五："></a>练习五：</h2><p>需求：</p>
-<p>​	判断任意的一个年份是闰年还是平年要求:用JDK7和JDK8两种方式判断提示:二月有29天是闰年一年有366天是闰年</p>
-<p>代码示例：</p>
-<pre><code class="java">public class Test5 &#123;
-    public static void main(String[] args) &#123;
-        /*
-            判断任意的一个年份是闰年还是平年要求:用JDK7和JDK8两种方式判断提示:
-            二月有29天是闰年一年有366天是闰年
-        */
-
-        //jdk7
-        //我们可以把时间设置为2000年3月1日
-        Calendar c = Calendar.getInstance();
-        c.set(2000, 2, 1);
-        //月份的范围:0~11
-        //再把日历往前减一天
-        c.add(Calendar.DAY_OF_MONTH, -1);
-        //看当前的时间是28号还是29号?
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        System.out.println(day);
-
-
-        //jdk8
-        //月份的范围:1~12
-        //设定时间为2000年的3月1日
-        LocalDate ld = LocalDate.of(2001, 3, 1);
-        //把时间往前减一天
-        LocalDate ld2 = ld.minusDays(1);
-        //获取这一天是一个月中的几号
-        int day2 = ld2.getDayOfMonth();
-        System.out.println(day2);
-
-        //true:闰年
-        //false:平年
-        System.out.println(ld.isLeapYear());
-    &#125;
-&#125;
-</code></pre>
-
+            <h1 id="1-反射"><a href="#1-反射" class="headerlink" title="1. 反射"></a>1. 反射</h1><h2 id="1-1-反射的概述："><a href="#1-1-反射的概述：" class="headerlink" title="1.1 反射的概述："></a>1.1 反射的概述：</h2><p>​	<strong>专业的解释（了解一下）：</strong></p>
+<p>​       是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；</p>
+<p>​       对于任意一个对象，都能够调用它的任意属性和方法；</p>
+<p>​       这种动态获取信息以及动态调用对象方法的功能称为Java语言的反射机制。</p>
             
         </div>
     </div>
@@ -1333,21 +233,21 @@ public class Test3 &#123;
         </span>
         
     </div>
-    <a href="/2025/06/28/API/" class="go-post">阅读全文</a>
+    <a href="/2025/06/28/%E5%8F%8D%E5%B0%84-%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/" class="go-post">阅读全文</a>
 </div>
 
 <div class="post">
-    <a href="/2025/06/28/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">
-        <h2 class="post-title">第一篇博客</h2>
+    <a href="/2025/06/28/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
+        <h2 class="post-title">网络编程</h2>
     </a>
     <div class="category-and-date">
         
         <span class="category">
-            <a href="/categories/%E5%AD%A6%E4%B9%A0/">
+            <a href="/categories/java/">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
-                学习
+                java
             </a>
         </span>
         
@@ -1363,20 +263,12 @@ public class Test3 &#123;
     <div class="description">
         <div class="content" v-pre>
             
-            <p>欢迎来到我的博客！这是一篇测试文章。</p>
-<h2 id="🧩-分类与标签"><a href="#🧩-分类与标签" class="headerlink" title="🧩 分类与标签"></a>🧩 分类与标签</h2><p>你可以通过这篇文章了解：</p>
-<ul>
-<li>如何为文章添加分类 <code>categories</code></li>
-<li>如何添加多个标签 <code>tags</code></li>
-<li>如何让文章出现在分类&#x2F;标签页面</li>
-</ul>
-<h2 id="📝-示例代码"><a href="#📝-示例代码" class="headerlink" title="📝 示例代码"></a>📝 示例代码</h2><pre><code class="java">public class HelloWorld &#123;
-    public static void main(String[] args) &#123;
-        System.out.println(&quot;Hello Hexo!&quot;);
-    &#125;
-&#125;
-</code></pre>
-
+            <h2 id="1-网络编程入门"><a href="#1-网络编程入门" class="headerlink" title="1. 网络编程入门"></a>1. 网络编程入门</h2><h3 id="1-1-网络编程概述"><a href="#1-1-网络编程概述" class="headerlink" title="1.1 网络编程概述"></a>1.1 网络编程概述</h3><ul>
+<li><p>计算机网络</p>
+<p>是指将地理位置不同的具有独立功能的多台计算机及其外部设备，通过通信线路连接起来，在网络操作系统，网络管理软件及网络通信协议的管理和协调下，实现资源共享和信息传递的计算机系统</p>
+</li>
+<li><p>网络编程</p>
+<p>在网络通信协议下，不同计算机上运行的程序，可以进行数据传输</p>
             
         </div>
     </div>
@@ -1390,16 +282,415 @@ public class Test3 &#123;
         
         <span class="tag">
             
-            <a href="/tags/Hexo/" style="color: #00a596">Hexo</a>
-        </span>
-        
-        <span class="tag">
-            
-            <a href="/tags/TEST/" style="color: #ff7d73">TEST</a>
+            <a href="/tags/javaSE/" style="color: #00a596">javaSE</a>
         </span>
         
     </div>
-    <a href="/2025/06/28/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" class="go-post">阅读全文</a>
+    <a href="/2025/06/28/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/06/28/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+        <h2 class="post-title">正则表达式</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/java/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                java
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/28
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h2 id=""><a href="#" class="headerlink" title=""></a></h2><h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><h2 id="1-1-正则表达式的概念及演示"><a href="#1-1-正则表达式的概念及演示" class="headerlink" title="1.1 正则表达式的概念及演示"></a>1.1 正则表达式的概念及演示</h2><ul>
+<li><p>在Java中，我们经常需要验证一些字符串，例如：年龄必须是2位的数字、用户名必须是8位长度而且只能包含大小写字母、数字等。正则表达式就是用来验证各种字符串的规则。它内部描述了一些规则，我们可以验证用户输入的字符串是否匹配这个规则。</p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/javaSE/" style="color: #ff7d73">javaSE</a>
+        </span>
+        
+    </div>
+    <a href="/2025/06/28/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/06/28/%E9%9B%86%E5%90%8802/">
+        <h2 class="post-title">集合02</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/java/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                java
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/28
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h2 id="1-Map集合"><a href="#1-Map集合" class="headerlink" title="1.Map集合"></a>1.Map集合</h2><h3 id="1-1Map集合概述和特点【理解】"><a href="#1-1Map集合概述和特点【理解】" class="headerlink" title="1.1Map集合概述和特点【理解】"></a>1.1Map集合概述和特点【理解】</h3><ul>
+<li><p>Map集合概述</p>
+<pre><code class="java">interface Map&lt;K,V&gt;  K：键的类型；V：值的类型
+</code></pre>
+</li>
+<li><p>Map集合的特点</p>
+<ul>
+<li><p>双列集合,一个键对应一个值</p>
+</li>
+<li><p>键不可以重复,值可以重复</p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/javaSE/" style="color: #00a596">javaSE</a>
+        </span>
+        
+    </div>
+    <a href="/2025/06/28/%E9%9B%86%E5%90%8802/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/06/28/%E9%9B%86%E5%90%8801/">
+        <h2 class="post-title">集合01</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/java/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                java
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/28
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h2 id="1-泛型"><a href="#1-泛型" class="headerlink" title="1.泛型"></a>1.泛型</h2><h3 id="1-1泛型概述"><a href="#1-1泛型概述" class="headerlink" title="1.1泛型概述"></a>1.1泛型概述</h3><ul>
+<li><p>泛型的介绍</p>
+<p>​	泛型是JDK5中引入的特性，它提供了编译时类型安全检测机制</p>
+</li>
+<li><p>泛型的好处</p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/javaSE/" style="color: #ffa2c4">javaSE</a>
+        </span>
+        
+    </div>
+    <a href="/2025/06/28/%E9%9B%86%E5%90%8801/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/06/28/%E5%A4%9A%E7%BA%BF%E7%A8%8B02/">
+        <h2 class="post-title">多线程02</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/java/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                java
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/28
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h2 id="1-线程池"><a href="#1-线程池" class="headerlink" title="1. 线程池"></a>1. 线程池</h2><h3 id="1-1-线程状态介绍"><a href="#1-1-线程状态介绍" class="headerlink" title="1.1 线程状态介绍"></a>1.1 线程状态介绍</h3><p>当线程被创建并启动以后，它既不是一启动就进入了执行状态，也不是一直处于执行状态。线程对象在不同的时期有不同的状态。那么Java中的线程存在哪几种状态呢？Java中的线程</p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/javaSE/" style="color: #ff7d73">javaSE</a>
+        </span>
+        
+    </div>
+    <a href="/2025/06/28/%E5%A4%9A%E7%BA%BF%E7%A8%8B02/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/06/28/%E5%A4%9A%E7%BA%BF%E7%A8%8B01/">
+        <h2 class="post-title">多线程01</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/java/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                java
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/28
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h2 id="1-实现多线程"><a href="#1-实现多线程" class="headerlink" title="1.实现多线程"></a>1.实现多线程</h2><h3 id="1-1简单了解多线程【理解】"><a href="#1-1简单了解多线程【理解】" class="headerlink" title="1.1简单了解多线程【理解】"></a>1.1简单了解多线程【理解】</h3><p>是指从软件或者硬件上实现多个线程并发执行的技术。<br>具有多线程能力的计算机因有硬件支持而能够在同一时间执行多个线程，提升性能。</p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/javaSE/" style="color: #ffa2c4">javaSE</a>
+        </span>
+        
+    </div>
+    <a href="/2025/06/28/%E5%A4%9A%E7%BA%BF%E7%A8%8B01/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/06/28/stream%E6%B5%81%E5%92%8C%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/">
+        <h2 class="post-title">stream流和方法引用</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/java/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                java
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/28
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h2 id="1-不可变集合"><a href="#1-不可变集合" class="headerlink" title="1.不可变集合"></a>1.不可变集合</h2><h3 id="1-1-什么是不可变集合"><a href="#1-1-什么是不可变集合" class="headerlink" title="1.1 什么是不可变集合"></a>1.1 什么是不可变集合</h3><p>​	是一个长度不可变，内容也无法修改的集合</p>
+<h3 id="1-2-使用场景"><a href="#1-2-使用场景" class="headerlink" title="1.2 使用场景"></a>1.2 使用场景</h3><p>​	如果某个数据不能被修改，把它防御性地拷贝到不可变集合中是个很好的实践。</p>
+<p>​	当集合对象被不可信的库调用时，不可变形式是安全的。</p>
+<p>简单理解：</p>
+<p>​	不想让别人修改集合中的内容</p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/javaSE/" style="color: #ffa2c4">javaSE</a>
+        </span>
+        
+    </div>
+    <a href="/2025/06/28/stream%E6%B5%81%E5%92%8C%E6%96%B9%E6%B3%95%E5%BC%95%E7%94%A8/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/06/28/IO%E6%B5%81-%E5%AD%97%E8%8A%82%E6%B5%81-%E5%AD%97%E7%AC%A6%E6%B5%81/">
+        <h2 class="post-title">IO流(字节流&amp;字符流)</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/java/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                java
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/28
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="1-IO概述"><a href="#1-IO概述" class="headerlink" title="1. IO概述"></a>1. IO概述</h1><h2 id="1-1-什么是IO"><a href="#1-1-什么是IO" class="headerlink" title="1.1 什么是IO"></a>1.1 什么是IO</h2><p>生活中，你肯定经历过这样的场景。当你编辑一个文本文件，忘记了<code>ctrl+s</code> ，可能文件就白白编辑了。当你电脑上插入一个U盘，可以把一个视频，拷贝到你的电脑硬盘里。那么数据都是在哪些设备上的呢？键盘、内存、硬盘、外接设备等等。</p>
+<p>我们把这种数据的传输，可以看做是一种数据的流动，按照流动的方向，以内存为基准，分为<code>输入input</code> 和<code>输出output</code> ，即流向内存是输入流，流出内存的输出流。</p>
+<p>Java中I&#x2F;O操作主要是指使用<code>java.io</code>包下的内容，进行输入、输出操作。<strong>输入</strong>也叫做<strong>读取</strong>数据，<strong>输出</strong>也叫做作<strong>写出</strong>数据。</p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/javaSE/" style="color: #ffa2c4">javaSE</a>
+        </span>
+        
+    </div>
+    <a href="/2025/06/28/IO%E6%B5%81-%E5%AD%97%E8%8A%82%E6%B5%81-%E5%AD%97%E7%AC%A6%E6%B5%81/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/06/28/IO%E6%B5%81-%E5%85%B6%E4%BB%96%E6%B5%81/">
+        <h2 class="post-title">IO流(其他流)</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="category">
+            <a href="/categories/java/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                java
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/28
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h1 id="1-缓冲流"><a href="#1-缓冲流" class="headerlink" title="1. 缓冲流"></a>1. 缓冲流</h1><p>昨天学习了基本的一些流，作为IO流的入门，今天我们要见识一些更强大的流。比如能够高效读写的缓冲流，能够转换编码的转换流，能够持久化存储对象的序列化流等等。这些功能更为强大的流，都是在基本的流对象基础之上创建而来的，就像穿上铠甲的武士一样，相当于是对基本流对象的一种增强。</p>
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/javaSE/" style="color: #00bcd4">javaSE</a>
+        </span>
+        
+    </div>
+    <a href="/2025/06/28/IO%E6%B5%81-%E5%85%B6%E4%BB%96%E6%B5%81/" class="go-post">阅读全文</a>
 </div>
 
 
@@ -1407,8 +698,16 @@ public class Test3 &#123;
     
     <span class="current">1</span>
     
+    <a class="page-num" href="/page/2">
+        2
+    </a>
     
     
+    
+    
+    <a class="page-num" href="/page/2/">
+        <i class="fa-solid fa-caret-right fa-fw"></i>
+    </a>
     
 </div>
 

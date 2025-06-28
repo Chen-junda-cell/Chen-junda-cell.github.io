@@ -1,0 +1,1904 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>多线程02 | 陈小达的个人博客</title>
+    <meta name="author" content="chenjunda" />
+    <meta name="description" content="学习笔记" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>陈小达的个人博客</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-主页 fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-关于我 fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-分类 fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-标签 fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;陈小达的个人博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-主页 fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-关于我 fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-分类 fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-标签 fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>多线程02</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/28
+        </span>
+        
+        <span class="category">
+            <a href="/categories/java/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                java
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/javaSE/" style="color: #03a9f4">
+                    javaSE
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h2 id="1-线程池"><a href="#1-线程池" class="headerlink" title="1. 线程池"></a>1. 线程池</h2><h3 id="1-1-线程状态介绍"><a href="#1-1-线程状态介绍" class="headerlink" title="1.1 线程状态介绍"></a>1.1 线程状态介绍</h3><p>当线程被创建并启动以后，它既不是一启动就进入了执行状态，也不是一直处于执行状态。线程对象在不同的时期有不同的状态。那么Java中的线程存在哪几种状态呢？Java中的线程</p>
+<span id="more"></span>
+
+<p>状态被定义在了java.lang.Thread.State枚举类中，State枚举类的源码如下：</p>
+<pre><code class="java">public class Thread &#123;
+    
+    public enum State &#123;
+    
+        /* 新建 */
+        NEW , 
+
+        /* 可运行状态 */
+        RUNNABLE , 
+
+        /* 阻塞状态 */
+        BLOCKED , 
+
+        /* 无限等待状态 */
+        WAITING , 
+
+        /* 计时等待 */
+        TIMED_WAITING , 
+
+        /* 终止 */
+        TERMINATED;
+    
+    &#125;
+    
+    // 获取当前线程的状态
+    public State getState() &#123;
+        return jdk.internal.misc.VM.toThreadState(threadStatus);
+    &#125;
+    
+&#125;
+</code></pre>
+<p>通过源码我们可以看到Java中的线程存在6种状态，每种线程状态的含义如下</p>
+<table>
+<thead>
+<tr>
+<th>线程状态</th>
+<th>具体含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NEW</td>
+<td>一个尚未启动的线程的状态。也称之为初始状态、开始状态。线程刚被创建，但是并未启动。还没调用start方法。MyThread t &#x3D; new MyThread()只有线程象，没有线程特征。</td>
+</tr>
+<tr>
+<td>RUNNABLE</td>
+<td>当我们调用线程对象的start方法，那么此时线程对象进入了RUNNABLE状态。那么此时才是真正的在JVM进程中创建了一个线程，线程一经启动并不是立即得到执行，线程的运行与否要听令与CPU的调度，那么我们把这个中间状态称之为可执行状态(RUNNABLE)也就是说它具备执行的资格，但是并没有真正的执行起来而是在等待CPU的度。</td>
+</tr>
+<tr>
+<td>BLOCKED</td>
+<td>当一个线程试图获取一个对象锁，而该对象锁被其他的线程持有，则该线程进入Blocked状态；当该线程持有锁时，该线程将变成Runnable状态。</td>
+</tr>
+<tr>
+<td>WAITING</td>
+<td>一个正在等待的线程的状态。也称之为等待状态。造成线程等待的原因有两种，分别是调用Object.wait()、join()方法。处于等待状态的线程，正在等待其他线程去执行一个特定的操作。例如：因为wait()而等待的线程正在等待另一个线程去调用notify()或notifyAll()；一个因为join()而等待的线程正在等待另一个线程结束。</td>
+</tr>
+<tr>
+<td>TIMED_WAITING</td>
+<td>一个在限定时间内等待的线程的状态。也称之为限时等待状态。造成线程限时等待状态的原因有三种，分别是：Thread.sleep(long)，Object.wait(long)、join(long)。</td>
+</tr>
+<tr>
+<td>TERMINATED</td>
+<td>一个完全运行完成的线程的状态。也称之为终止状态、结束状态</td>
+</tr>
+</tbody></table>
+<p>各个状态的转换，如下图所示：</p>
+<p><img src="D:\HuaweiMoveData\Users\86147\Desktop\黑马java资料\新建文件夹\img\1591163781941.png" alt="1591163781941"></p>
+<h3 id="1-2-线程池-基本原理"><a href="#1-2-线程池-基本原理" class="headerlink" title="1.2 线程池-基本原理"></a>1.2 线程池-基本原理</h3><p><strong>概述 :</strong> </p>
+<p>​	提到池，大家应该能想到的就是水池。水池就是一个容器，在该容器中存储了很多的水。那么什么是线程池呢？线程池也是可以看做成一个池子，在该池子中存储很多个线程。</p>
+<p>线程池存在的意义：</p>
+<p>​	系统创建一个线程的成本是比较高的，因为它涉及到与操作系统交互，当程序中需要创建大量生存期很短暂的线程时，频繁的创建和销毁线程对系统的资源消耗有可能大于业务处理是对系</p>
+<p>​	统资源的消耗，这样就有点”舍本逐末”了。针对这一种情况，为了提高性能，我们就可以采用线程池。线程池在启动的时，会创建大量空闲线程，当我们向线程池提交任务的时，线程池就</p>
+<p>​	会启动一个线程来执行该任务。等待任务执行完毕以后，线程并不会死亡，而是再次返回到线程池中称为空闲状态。等待下一次任务的执行。</p>
+<p><strong>线程池的设计思路 :</strong></p>
+<ol>
+<li>准备一个任务容器</li>
+<li>一次性启动多个(2个)消费者线程</li>
+<li>刚开始任务容器是空的，所以线程都在wait</li>
+<li>直到一个外部线程向这个任务容器中扔了一个”任务”，就会有一个消费者线程被唤醒</li>
+<li>这个消费者线程取出”任务”，并且执行这个任务，执行完毕后，继续等待下一次任务的到来</li>
+</ol>
+<h3 id="1-3-线程池-Executors默认线程池"><a href="#1-3-线程池-Executors默认线程池" class="headerlink" title="1.3 线程池-Executors默认线程池"></a>1.3 线程池-Executors默认线程池</h3><p>概述 : JDK对线程池也进行了相关的实现，在真实企业开发中我们也很少去自定义线程池，而是使用JDK中自带的线程池。</p>
+<p>我们可以使用Executors中所提供的<strong>静态</strong>方法来创建线程池</p>
+<p>​	static ExecutorService newCachedThreadPool()   创建一个默认的线程池<br>​	static newFixedThreadPool(int nThreads)	    创建一个指定最多线程数量的线程池</p>
+<p><strong>代码实现 :</strong> </p>
+<pre><code class="java">package com.itheima.mythreadpool;
+
+
+//static ExecutorService newCachedThreadPool()   创建一个默认的线程池
+//static newFixedThreadPool(int nThreads)	    创建一个指定最多线程数量的线程池
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class MyThreadPoolDemo &#123;
+    public static void main(String[] args) throws InterruptedException &#123;
+
+        //1,创建一个默认的线程池对象.池子中默认是空的.默认最多可以容纳int类型的最大值.
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        //Executors --- 可以帮助我们创建线程池对象
+        //ExecutorService --- 可以帮助我们控制线程池
+
+        executorService.submit(()-&gt;&#123;
+            System.out.println(Thread.currentThread().getName() + &quot;在执行了&quot;);
+        &#125;);
+
+        //Thread.sleep(2000);
+
+        executorService.submit(()-&gt;&#123;
+            System.out.println(Thread.currentThread().getName() + &quot;在执行了&quot;);
+        &#125;);
+
+        executorService.shutdown();
+    &#125;
+&#125;
+</code></pre>
+<h3 id="1-4-线程池-Executors创建指定上限的线程池"><a href="#1-4-线程池-Executors创建指定上限的线程池" class="headerlink" title="1.4 线程池-Executors创建指定上限的线程池"></a>1.4 线程池-Executors创建指定上限的线程池</h3><p><strong>使用Executors中所提供的静态方法来创建线程池</strong></p>
+<p>​	static ExecutorService newFixedThreadPool(int nThreads) : 创建一个指定最多线程数量的线程池</p>
+<p><strong>代码实现 :</strong> </p>
+<pre><code class="java">package com.itheima.mythreadpool;
+
+//static ExecutorService newFixedThreadPool(int nThreads)
+//创建一个指定最多线程数量的线程池
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+
+public class MyThreadPoolDemo2 &#123;
+    public static void main(String[] args) &#123;
+        //参数不是初始值而是最大值
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+
+        ThreadPoolExecutor pool = (ThreadPoolExecutor) executorService;
+        System.out.println(pool.getPoolSize());//0
+
+        executorService.submit(()-&gt;&#123;
+            System.out.println(Thread.currentThread().getName() + &quot;在执行了&quot;);
+        &#125;);
+
+        executorService.submit(()-&gt;&#123;
+            System.out.println(Thread.currentThread().getName() + &quot;在执行了&quot;);
+        &#125;);
+
+        System.out.println(pool.getPoolSize());//2
+//        executorService.shutdown();
+    &#125;
+&#125;
+</code></pre>
+<h3 id="1-5-线程池-ThreadPoolExecutor"><a href="#1-5-线程池-ThreadPoolExecutor" class="headerlink" title="1.5 线程池-ThreadPoolExecutor"></a>1.5 线程池-ThreadPoolExecutor</h3><p><strong>创建线程池对象 :</strong> </p>
+<p>ThreadPoolExecutor threadPoolExecutor &#x3D; new ThreadPoolExecutor(核心线程数量,最大线程数量,空闲线程最大存活时间,任务队列,创建线程工厂,任务的拒绝策略);</p>
+<p><strong>代码实现 :</strong> </p>
+<pre><code class="java">package com.itheima.mythreadpool;
+
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+public class MyThreadPoolDemo3 &#123;
+//    参数一：核心线程数量
+//    参数二：最大线程数
+//    参数三：空闲线程最大存活时间
+//    参数四：时间单位
+//    参数五：任务队列
+//    参数六：创建线程工厂
+//    参数七：任务的拒绝策略
+    public static void main(String[] args) &#123;
+        ThreadPoolExecutor pool = new ThreadPoolExecutor(2,5,2,TimeUnit.SECONDS,new ArrayBlockingQueue&lt;&gt;(10), Executors.defaultThreadFactory(),new ThreadPoolExecutor.AbortPolicy());
+        pool.submit(new MyRunnable());
+        pool.submit(new MyRunnable());
+
+        pool.shutdown();
+    &#125;
+&#125;
+</code></pre>
+<h3 id="1-6-线程池-参数详解"><a href="#1-6-线程池-参数详解" class="headerlink" title="1.6 线程池-参数详解"></a>1.6 线程池-参数详解</h3><p><img src="D:\HuaweiMoveData\Users\86147\Desktop\黑马java资料\新建文件夹\img\1591165506516.png" alt="1591165506516"></p>
+<pre><code class="java">public ThreadPoolExecutor(int corePoolSize,
+                              int maximumPoolSize,
+                              long keepAliveTime,
+                              TimeUnit unit,
+                              BlockingQueue&lt;Runnable&gt; workQueue,
+                              ThreadFactory threadFactory,
+                              RejectedExecutionHandler handler)
+    
+corePoolSize：   核心线程的最大值，不能小于0
+maximumPoolSize：最大线程数，不能小于等于0，maximumPoolSize &gt;= corePoolSize
+keepAliveTime：  空闲线程最大存活时间,不能小于0
+unit：           时间单位
+workQueue：      任务队列，不能为null
+threadFactory：  创建线程工厂,不能为null      
+handler：        任务的拒绝策略,不能为null  
+</code></pre>
+<h3 id="1-7-线程池-非默认任务拒绝策略"><a href="#1-7-线程池-非默认任务拒绝策略" class="headerlink" title="1.7 线程池-非默认任务拒绝策略"></a>1.7 线程池-非默认任务拒绝策略</h3><p>RejectedExecutionHandler是jdk提供的一个任务拒绝策略接口，它下面存在4个子类。</p>
+<pre><code class="java">ThreadPoolExecutor.AbortPolicy: 		    丢弃任务并抛出RejectedExecutionException异常。是默认的策略。
+ThreadPoolExecutor.DiscardPolicy： 		   丢弃任务，但是不抛出异常 这是不推荐的做法。
+ThreadPoolExecutor.DiscardOldestPolicy：    抛弃队列中等待最久的任务 然后把当前任务加入队列中。
+ThreadPoolExecutor.CallerRunsPolicy:        调用任务的run()方法绕过线程池直接执行。
+</code></pre>
+<p>注：明确线程池对多可执行的任务数 &#x3D; 队列容量 + 最大线程数</p>
+<p><strong>案例演示1</strong>：演示ThreadPoolExecutor.AbortPolicy任务处理策略</p>
+<pre><code class="java">public class ThreadPoolExecutorDemo01 &#123;
+
+    public static void main(String[] args) &#123;
+
+        /**
+         * 核心线程数量为1 ， 最大线程池数量为3, 任务容器的容量为1 ,空闲线程的最大存在时间为20s
+         */
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(1 , 3 , 20 , TimeUnit.SECONDS ,
+                new ArrayBlockingQueue&lt;&gt;(1) , Executors.defaultThreadFactory() , new ThreadPoolExecutor.AbortPolicy()) ;
+
+        // 提交5个任务，而该线程池最多可以处理4个任务，当我们使用AbortPolicy这个任务处理策略的时候，就会抛出异常
+        for(int x = 0 ; x &lt; 5 ; x++) &#123;
+            threadPoolExecutor.submit(() -&gt; &#123;
+                System.out.println(Thread.currentThread().getName() + &quot;----&gt;&gt; 执行了任务&quot;);
+            &#125;);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>控制台输出结果</strong></p>
+<pre><code class="java">pool-1-thread-1----&gt;&gt; 执行了任务
+pool-1-thread-3----&gt;&gt; 执行了任务
+pool-1-thread-2----&gt;&gt; 执行了任务
+pool-1-thread-3----&gt;&gt; 执行了任务
+</code></pre>
+<p>控制台报错，仅仅执行了4个任务，有一个任务被丢弃了</p>
+<p><strong>案例演示2</strong>：演示ThreadPoolExecutor.DiscardPolicy任务处理策略</p>
+<pre><code class="java">public class ThreadPoolExecutorDemo02 &#123;
+    public static void main(String[] args) &#123;
+        /**
+         * 核心线程数量为1 ， 最大线程池数量为3, 任务容器的容量为1 ,空闲线程的最大存在时间为20s
+         */
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(1 , 3 , 20 , TimeUnit.SECONDS ,
+                new ArrayBlockingQueue&lt;&gt;(1) , Executors.defaultThreadFactory() , new ThreadPoolExecutor.DiscardPolicy()) ;
+
+        // 提交5个任务，而该线程池最多可以处理4个任务，当我们使用DiscardPolicy这个任务处理策略的时候，控制台不会报错
+        for(int x = 0 ; x &lt; 5 ; x++) &#123;
+            threadPoolExecutor.submit(() -&gt; &#123;
+                System.out.println(Thread.currentThread().getName() + &quot;----&gt;&gt; 执行了任务&quot;);
+            &#125;);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>控制台输出结果</strong></p>
+<pre><code class="java">pool-1-thread-1----&gt;&gt; 执行了任务
+pool-1-thread-1----&gt;&gt; 执行了任务
+pool-1-thread-3----&gt;&gt; 执行了任务
+pool-1-thread-2----&gt;&gt; 执行了任务
+</code></pre>
+<p>控制台没有报错，仅仅执行了4个任务，有一个任务被丢弃了</p>
+<p><strong>案例演示3</strong>：演示ThreadPoolExecutor.DiscardOldestPolicy任务处理策略</p>
+<pre><code class="java">public class ThreadPoolExecutorDemo02 &#123;
+    public static void main(String[] args) &#123;
+        /**
+         * 核心线程数量为1 ， 最大线程池数量为3, 任务容器的容量为1 ,空闲线程的最大存在时间为20s
+         */
+        ThreadPoolExecutor threadPoolExecutor;
+        threadPoolExecutor = new ThreadPoolExecutor(1 , 3 , 20 , TimeUnit.SECONDS ,
+                new ArrayBlockingQueue&lt;&gt;(1) , Executors.defaultThreadFactory() , new ThreadPoolExecutor.DiscardOldestPolicy());
+        // 提交5个任务
+        for(int x = 0 ; x &lt; 5 ; x++) &#123;
+            // 定义一个变量，来指定指定当前执行的任务;这个变量需要被final修饰
+            final int y = x ;
+            threadPoolExecutor.submit(() -&gt; &#123;
+                System.out.println(Thread.currentThread().getName() + &quot;----&gt;&gt; 执行了任务&quot; + y);
+            &#125;);     
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>控制台输出结果</strong></p>
+<pre><code class="java">pool-1-thread-2----&gt;&gt; 执行了任务2
+pool-1-thread-1----&gt;&gt; 执行了任务0
+pool-1-thread-3----&gt;&gt; 执行了任务3
+pool-1-thread-1----&gt;&gt; 执行了任务4
+</code></pre>
+<p>由于任务1在线程池中等待时间最长，因此任务1被丢弃。</p>
+<p><strong>案例演示4</strong>：演示ThreadPoolExecutor.CallerRunsPolicy任务处理策略</p>
+<pre><code class="java">public class ThreadPoolExecutorDemo04 &#123;
+    public static void main(String[] args) &#123;
+
+        /**
+         * 核心线程数量为1 ， 最大线程池数量为3, 任务容器的容量为1 ,空闲线程的最大存在时间为20s
+         */
+        ThreadPoolExecutor threadPoolExecutor;
+        threadPoolExecutor = new ThreadPoolExecutor(1 , 3 , 20 , TimeUnit.SECONDS ,
+                new ArrayBlockingQueue&lt;&gt;(1) , Executors.defaultThreadFactory() , new ThreadPoolExecutor.CallerRunsPolicy());
+
+        // 提交5个任务
+        for(int x = 0 ; x &lt; 5 ; x++) &#123;
+            threadPoolExecutor.submit(() -&gt; &#123;
+                System.out.println(Thread.currentThread().getName() + &quot;----&gt;&gt; 执行了任务&quot;);
+            &#125;);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>控制台输出结果</strong></p>
+<pre><code class="java">pool-1-thread-1----&gt;&gt; 执行了任务
+pool-1-thread-3----&gt;&gt; 执行了任务
+pool-1-thread-2----&gt;&gt; 执行了任务
+pool-1-thread-1----&gt;&gt; 执行了任务
+main----&gt;&gt; 执行了任务
+</code></pre>
+<p>通过控制台的输出，我们可以看到次策略没有通过线程池中的线程执行任务，而是直接调用任务的run()方法绕过线程池直接执行。</p>
+<h2 id="2-多线程综合练习"><a href="#2-多线程综合练习" class="headerlink" title="2. 多线程综合练习"></a>2. 多线程综合练习</h2><h3 id="练习一：售票"><a href="#练习一：售票" class="headerlink" title="练习一：售票"></a>练习一：售票</h3><p>需求：</p>
+<p>​	一共有1000张电影票,可以在两个窗口领取,假设每次领取的时间为3000毫秒,</p>
+<p>​	请用多线程模拟卖票过程并打印剩余电影票的数量</p>
+<p>代码示例：</p>
+<pre><code class="java">public class MyThread extends Thread &#123;
+
+    //第一种方式实现多线程，测试类中MyThread会创建多次，所以需要加static
+    static int ticket = 1000;
+
+    @Override
+    public void run() &#123;
+        //1.循环
+        while (true) &#123;
+            //2.同步代码块
+            synchronized (MyThread.class) &#123;
+                //3.判断共享数据（已经到末尾）
+                if (ticket == 0) &#123;
+                    break;
+                &#125; else &#123;
+                    //4.判断共享数据（没有到末尾）
+                    try &#123;
+                        Thread.sleep(3000);
+                    &#125; catch (InterruptedException e) &#123;
+                        e.printStackTrace();
+                    &#125;
+                    ticket--;
+                    System.out.println(getName() + &quot;在卖票，还剩下&quot; + ticket + &quot;张票!!!&quot;);
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+public class Test &#123;
+    public static void main(String[] args) &#123;
+       /*
+            一共有1000张电影票,可以在两个窗口领取,假设每次领取的时间为3000毫秒,
+            要求:请用多线程模拟卖票过程并打印剩余电影票的数量
+        */
+
+        //创建线程对象
+        MyThread t1 = new MyThread();
+        MyThread t2 = new MyThread();
+
+        //给线程设置名字
+        t1.setName(&quot;窗口1&quot;);
+        t2.setName(&quot;窗口2&quot;);
+
+        //开启线程
+        t1.start();
+        t2.start();
+
+    &#125;
+&#125;
+</code></pre>
+<h3 id="练习二：赠送礼物"><a href="#练习二：赠送礼物" class="headerlink" title="练习二：赠送礼物"></a>练习二：赠送礼物</h3><p>需求：</p>
+<p>​	有100份礼品,两人同时发送，当剩下的礼品小于10份的时候则不再送出。</p>
+<p>​	利用多线程模拟该过程并将线程的名字和礼物的剩余数量打印出来.</p>
+<pre><code class="java">public class MyRunable implements Runnable &#123;
+
+    //第二种方式实现多线程，测试类中MyRunable只创建一次，所以不需要加static
+    int count = 100;
+
+    @Override
+    public void run() &#123;
+        //1.循环
+        while (true) &#123;
+            //2.同步代码块
+            synchronized (MyThread.class) &#123;
+                //3.判断共享数据（已经到末尾）
+                if (count &lt; 10) &#123;
+                    System.out.println(&quot;礼物还剩下&quot; + count + &quot;不再赠送&quot;);
+                    break;
+                &#125; else &#123;
+                    //4.判断共享数据（没有到末尾）
+                    count--;
+                    System.out.println(Thread.currentThread().getName() + &quot;在赠送礼物，还剩下&quot; + count + &quot;个礼物!!!&quot;);
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+
+public class Test &#123;
+    public static void main(String[] args) &#123;
+        /*
+            有100份礼品,两人同时发送，当剩下的礼品小于10份的时候则不再送出，
+            利用多线程模拟该过程并将线程的名字和礼物的剩余数量打印出来.
+        */
+
+        //创建参数对象
+        MyRunable mr = new MyRunable();
+
+        //创建线程对象
+        Thread t1 = new Thread(mr,&quot;窗口1&quot;);
+        Thread t2 = new Thread(mr,&quot;窗口2&quot;);
+
+        //启动线程
+        t1.start();
+        t2.start();
+    &#125;
+&#125;
+</code></pre>
+<h3 id="练习三：打印数字"><a href="#练习三：打印数字" class="headerlink" title="练习三：打印数字"></a>练习三：打印数字</h3><p>需求：</p>
+<p>​	同时开启两个线程，共同获取1-100之间的所有数字。</p>
+<p>​	将输出所有的奇数。</p>
+<pre><code class="java">public class MyRunable implements Runnable &#123;
+
+    //第二种方式实现多线程，测试类中MyRunable只创建一次，所以不需要加static
+    int number = 1;
+
+    @Override
+    public void run() &#123;
+        //1.循环
+        while (true) &#123;
+            //2.同步代码块
+            synchronized (MyThread.class) &#123;
+                //3.判断共享数据（已经到末尾）
+                if (number &gt; 100) &#123;
+                    break;
+                &#125; else &#123;
+                    //4.判断共享数据（没有到末尾）
+                    if(number % 2 == 1)&#123;
+                        System.out.println(Thread.currentThread().getName() + &quot;打印数字&quot; + number);
+                    &#125;
+                    number++;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+
+public class Test &#123;
+    public static void main(String[] args) &#123;
+        /*
+           同时开启两个线程，共同获取1-100之间的所有数字。
+           要求：将输出所有的奇数。
+        */
+
+
+        //创建参数对象
+        MyRunable mr = new MyRunable();
+
+        //创建线程对象
+        Thread t1 = new Thread(mr,&quot;线程A&quot;);
+        Thread t2 = new Thread(mr,&quot;线程B&quot;);
+
+        //启动线程
+        t1.start();
+        t2.start();
+    &#125;
+&#125;
+</code></pre>
+<h3 id="练习四：抢红包"><a href="#练习四：抢红包" class="headerlink" title="练习四：抢红包"></a>练习四：抢红包</h3><p>需求：</p>
+<p>​	抢红包也用到了多线程。</p>
+<p>​	假设：100块，分成了3个包，现在有5个人去抢。</p>
+<p>​	其中，红包是共享数据。</p>
+<p>​	5个人是5条线程。</p>
+<p>​	打印结果如下：</p>
+<p>​		  XXX抢到了XXX元</p>
+<p>​		  XXX抢到了XXX元</p>
+<pre><code>      XXX抢到了XXX元
+ 
+     XXX没抢到
+ 
+     XXX没抢到
+</code></pre>
+<p>解决方案一：</p>
+<pre><code class="java">public class MyThread extends Thread&#123;
+
+    //共享数据
+    //100块，分成了3个包
+    static double money = 100;
+    static int count = 3;
+
+    //最小的中奖金额
+    static final double MIN = 0.01;
+
+    @Override
+    public void run() &#123;
+        //同步代码块
+        synchronized (MyThread.class)&#123;
+            if(count == 0)&#123;
+                //判断，共享数据是否到了末尾（已经到末尾）
+                System.out.println(getName() + &quot;没有抢到红包！&quot;);
+            &#125;else&#123;
+                //判断，共享数据是否到了末尾（没有到末尾）
+                //定义一个变量，表示中奖的金额
+                double prize = 0;
+                if(count == 1)&#123;
+                    //表示此时是最后一个红包
+                    //就无需随机，剩余所有的钱都是中奖金额
+                    prize = money;
+                &#125;else&#123;
+                    //表示第一次，第二次（随机）
+                    Random r = new Random();
+                    //100 元   3个包
+                    //第一个红包：99.98
+                    //100 - (3-1) * 0.01
+                    double bounds = money - (count - 1) * MIN;
+                    prize = r.nextDouble(bounds);
+                    if(prize &lt; MIN)&#123;
+                        prize = MIN;
+                    &#125;
+                &#125;
+                //从money当中，去掉当前中奖的金额
+                money = money - prize;
+                //红包的个数-1
+                count--;
+                //本次红包的信息进行打印
+                System.out.println(getName() + &quot;抢到了&quot; + prize + &quot;元&quot;);
+            &#125;
+        &#125;
+    &#125;
+&#125;
+public class Test &#123;
+    public static void main(String[] args) &#123;
+        /*
+            微信中的抢红包也用到了多线程。
+            假设：100块，分成了3个包，现在有5个人去抢。
+            其中，红包是共享数据。
+            5个人是5条线程。
+            打印结果如下：
+                XXX抢到了XXX元
+                XXX抢到了XXX元
+                XXX抢到了XXX元
+                XXX没抢到
+                XXX没抢到
+        */
+
+        //创建线程的对象
+        MyThread t1 = new MyThread();
+        MyThread t2 = new MyThread();
+        MyThread t3 = new MyThread();
+        MyThread t4 = new MyThread();
+        MyThread t5 = new MyThread();
+
+        //给线程设置名字
+        t1.setName(&quot;小A&quot;);
+        t2.setName(&quot;小QQ&quot;);
+        t3.setName(&quot;小哈哈&quot;);
+        t4.setName(&quot;小诗诗&quot;);
+        t5.setName(&quot;小丹丹&quot;);
+
+        //启动线程
+        t1.start();
+        t2.start();
+        t3.start();
+        t4.start();
+        t5.start();
+    &#125;
+&#125;
+</code></pre>
+<p>解决方案二：</p>
+<pre><code class="java">public class MyThread extends Thread&#123;
+
+    //总金额
+    static BigDecimal money = BigDecimal.valueOf(100.0);
+    //个数
+    static int count = 3;
+    //最小抽奖金额
+    static final BigDecimal MIN = BigDecimal.valueOf(0.01);
+
+    @Override
+    public void run() &#123;
+        synchronized (MyThread.class)&#123;
+            if(count == 0)&#123;
+                System.out.println(getName() + &quot;没有抢到红包！&quot;);
+            &#125;else&#123;
+                //中奖金额
+                BigDecimal prize;
+                if(count == 1)&#123;
+                    prize = money;
+                &#125;else&#123;
+                    //获取抽奖范围
+                    double bounds = money.subtract(BigDecimal.valueOf(count-1).multiply(MIN)).doubleValue();
+                    Random r = new Random();
+                    //抽奖金额
+                    prize = BigDecimal.valueOf(r.nextDouble(bounds));
+                &#125;
+                //设置抽中红包，小数点保留两位，四舍五入
+                prize = prize.setScale(2,RoundingMode.HALF_UP);
+                //在总金额中去掉对应的钱
+                money = money.subtract(prize);
+                //红包少了一个
+                count--;
+                //输出红包信息
+                System.out.println(getName() + &quot;抽中了&quot; + prize + &quot;元&quot;);
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+public class Test &#123;
+    public static void main(String[] args) &#123;
+        /*
+            微信中的抢红包也用到了多线程。
+            假设：100块，分成了3个包，现在有5个人去抢。
+            其中，红包是共享数据。
+            5个人是5条线程。
+            打印结果如下：
+                XXX抢到了XXX元
+                XXX抢到了XXX元
+                XXX抢到了XXX元
+                XXX没抢到
+                XXX没抢到
+        */
+
+
+        MyThread t1 = new MyThread();
+        MyThread t2 = new MyThread();
+        MyThread t3 = new MyThread();
+        MyThread t4 = new MyThread();
+        MyThread t5 = new MyThread();
+
+        t1.setName(&quot;小A&quot;);
+        t2.setName(&quot;小QQ&quot;);
+        t3.setName(&quot;小哈哈&quot;);
+        t4.setName(&quot;小诗诗&quot;);
+        t5.setName(&quot;小丹丹&quot;);
+
+        t1.start();
+        t2.start();
+        t3.start();
+        t4.start();
+        t5.start();
+    &#125;
+&#125;
+</code></pre>
+<h3 id="练习五：抽奖箱"><a href="#练习五：抽奖箱" class="headerlink" title="练习五：抽奖箱"></a>练习五：抽奖箱</h3><p>需求：</p>
+<p>​	有一个抽奖池,该抽奖池中存放了奖励的金额,该抽奖池中的奖项为 {10,5,20,50,100,200,500,800,2,80,300,700}; </p>
+<p>创建两个抽奖箱(线程)设置线程名称分别为“抽奖箱1”，“抽奖箱2” </p>
+<p>随机从抽奖池中获取奖项元素并打印在控制台上,格式如下:</p>
+<p>​               每次抽出一个奖项就打印一个(随机)</p>
+<p>​		抽奖箱1 又产生了一个 10 元大奖</p>
+<pre><code>      抽奖箱1 又产生了一个 100 元大奖
+  
+      抽奖箱1 又产生了一个 200 元大奖
+  
+      抽奖箱1 又产生了一个 800 元大奖  
+</code></pre>
+<p>​		抽奖箱2 又产生了一个 700 元大奖  </p>
+<pre><code>      .....
+</code></pre>
+<pre><code class="java">public class MyThread extends Thread &#123;
+
+    ArrayList&lt;Integer&gt; list;
+
+    public MyThread(ArrayList&lt;Integer&gt; list) &#123;
+        this.list = list;
+    &#125;
+
+    @Override
+    public void run() &#123;
+        //1.循环
+        //2.同步代码块
+        //3.判断
+        //4.判断
+
+        while (true) &#123;
+            synchronized (MyThread.class) &#123;
+                if (list.size() == 0) &#123;
+                    break;
+                &#125; else &#123;
+                    //继续抽奖
+                    Collections.shuffle(list);
+                    int prize = list.remove(0);
+                    System.out.println(getName() + &quot;又产生了一个&quot; + prize + &quot;元大奖&quot;);
+                &#125;
+            &#125;
+            try &#123;
+                Thread.sleep(10);
+            &#125; catch (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+
+        &#125;
+    &#125;
+&#125;
+
+
+
+public class Test &#123;
+    public static void main(String[] args) &#123;
+        /*
+            有一个抽奖池,该抽奖池中存放了奖励的金额,该抽奖池中的奖项为 &#123;10,5,20,50,100,200,500,800,2,80,300,700&#125;;
+            创建两个抽奖箱(线程)设置线程名称分别为“抽奖箱1”，“抽奖箱2”
+            随机从抽奖池中获取奖项元素并打印在控制台上,格式如下:
+                             每次抽出一个奖项就打印一个(随机)
+                抽奖箱1 又产生了一个 10 元大奖
+                抽奖箱1 又产生了一个 100 元大奖
+                抽奖箱1 又产生了一个 200 元大奖
+                抽奖箱1 又产生了一个 800 元大奖
+                抽奖箱2 又产生了一个 700 元大奖
+                .....
+        */
+
+        //创建奖池
+        ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();
+        Collections.addAll(list,10,5,20,50,100,200,500,800,2,80,300,700);
+
+        //创建线程
+        MyThread t1 = new MyThread(list);
+        MyThread t2 = new MyThread(list);
+
+        //设置名字
+        t1.setName(&quot;抽奖箱1&quot;);
+        t2.setName(&quot;抽奖箱2&quot;);
+
+        //启动线程
+        t1.start();
+        t2.start();
+    &#125;
+&#125;
+</code></pre>
+<h3 id="练习六：多线程统计并求最大值"><a href="#练习六：多线程统计并求最大值" class="headerlink" title="练习六：多线程统计并求最大值"></a>练习六：多线程统计并求最大值</h3><p>需求：</p>
+<p>​	在上一题基础上继续完成如下需求：</p>
+<p>​     每次抽的过程中，不打印，抽完时一次性打印(随机)</p>
+<p>​     在此次抽奖过程中，抽奖箱1总共产生了6个奖项。</p>
+<p>​              分别为：10,20,100,500,2,300最高奖项为300元，总计额为932元</p>
+<p>​     在此次抽奖过程中，抽奖箱2总共产生了6个奖项。</p>
+<p>​              分别为：5,50,200,800,80,700最高奖项为800元，总计额为1835元</p>
+<p>解决方案一：</p>
+<pre><code class="java">public class MyThread extends Thread &#123;
+
+    ArrayList&lt;Integer&gt; list;
+
+    public MyThread(ArrayList&lt;Integer&gt; list) &#123;
+        this.list = list;
+    &#125;
+
+    //线程一
+    static ArrayList&lt;Integer&gt; list1 = new ArrayList&lt;&gt;();
+    //线程二
+    static ArrayList&lt;Integer&gt; list2 = new ArrayList&lt;&gt;();
+
+    @Override
+    public void run() &#123;
+        while (true) &#123;
+            synchronized (MyThread.class) &#123;
+                if (list.size() == 0) &#123;
+                    if(&quot;抽奖箱1&quot;.equals(getName()))&#123;
+                        System.out.println(&quot;抽奖箱1&quot; + list1);
+                    &#125;else &#123;
+                        System.out.println(&quot;抽奖箱2&quot; + list2);
+                    &#125;
+                    break;
+                &#125; else &#123;
+                    //继续抽奖
+                    Collections.shuffle(list);
+                    int prize = list.remove(0);
+                    if(&quot;抽奖箱1&quot;.equals(getName()))&#123;
+                        list1.add(prize);
+                    &#125;else &#123;
+                        list2.add(prize);
+                    &#125;
+                &#125;
+            &#125;
+            try &#123;
+                Thread.sleep(10);
+            &#125; catch (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+
+        &#125;
+    &#125;
+&#125;
+
+public class Test &#123;
+    public static void main(String[] args) &#123;
+        /*
+            有一个抽奖池,该抽奖池中存放了奖励的金额,该抽奖池中的奖项为 &#123;10,5,20,50,100,200,500,800,2,80,300,700&#125;;
+            创建两个抽奖箱(线程)设置线程名称分别为“抽奖箱1”，“抽奖箱2”
+            随机从抽奖池中获取奖项元素并打印在控制台上,格式如下:
+            每次抽的过程中，不打印，抽完时一次性打印(随机)    在此次抽奖过程中，抽奖箱1总共产生了6个奖项。
+                分别为：10,20,100,500,2,300最高奖项为300元，总计额为932元
+            在此次抽奖过程中，抽奖箱2总共产生了6个奖项。
+                分别为：5,50,200,800,80,700最高奖项为800元，总计额为1835元
+        */
+
+        //创建奖池
+        ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();
+        Collections.addAll(list,10,5,20,50,100,200,500,800,2,80,300,700);
+
+        //创建线程
+        MyThread t1 = new MyThread(list);
+        MyThread t2 = new MyThread(list);
+
+        //设置名字
+        t1.setName(&quot;抽奖箱1&quot;);
+        t2.setName(&quot;抽奖箱2&quot;);
+
+        //启动线程
+        t1.start();
+        t2.start();
+    &#125;
+&#125;
+</code></pre>
+<p>解决方案二：</p>
+<pre><code class="java">public class MyThread extends Thread &#123;
+
+    ArrayList&lt;Integer&gt; list;
+
+    public MyThread(ArrayList&lt;Integer&gt; list) &#123;
+        this.list = list;
+    &#125;
+
+    @Override
+    public void run() &#123;
+        ArrayList&lt;Integer&gt; boxList = new ArrayList&lt;&gt;();//1 //2
+        while (true) &#123;
+            synchronized (MyThread.class) &#123;
+                if (list.size() == 0) &#123;
+                    System.out.println(getName() + boxList);
+                    break;
+                &#125; else &#123;
+                    //继续抽奖
+                    Collections.shuffle(list);
+                    int prize = list.remove(0);
+                    boxList.add(prize);
+                &#125;
+            &#125;
+            try &#123;
+                Thread.sleep(10);
+            &#125; catch (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+
+        &#125;
+    &#125;
+&#125;
+
+public class Test &#123;
+    public static void main(String[] args) &#123;
+        /*
+            有一个抽奖池,该抽奖池中存放了奖励的金额,该抽奖池中的奖项为 &#123;10,5,20,50,100,200,500,800,2,80,300,700&#125;;
+            创建两个抽奖箱(线程)设置线程名称分别为“抽奖箱1”，“抽奖箱2”
+            随机从抽奖池中获取奖项元素并打印在控制台上,格式如下:
+            每次抽的过程中，不打印，抽完时一次性打印(随机)    在此次抽奖过程中，抽奖箱1总共产生了6个奖项。
+                分别为：10,20,100,500,2,300最高奖项为300元，总计额为932元
+            在此次抽奖过程中，抽奖箱2总共产生了6个奖项。
+                分别为：5,50,200,800,80,700最高奖项为800元，总计额为1835元
+        */
+
+        //创建奖池
+        ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();
+        Collections.addAll(list,10,5,20,50,100,200,500,800,2,80,300,700);
+
+        //创建线程
+        MyThread t1 = new MyThread(list);
+        MyThread t2 = new MyThread(list);
+
+
+        //设置名字
+        t1.setName(&quot;抽奖箱1&quot;);
+        t2.setName(&quot;抽奖箱2&quot;);
+
+
+        //启动线程
+        t1.start();
+        t2.start();
+
+    &#125;
+&#125;
+</code></pre>
+<h3 id="练习七：多线程之间的比较"><a href="#练习七：多线程之间的比较" class="headerlink" title="练习七：多线程之间的比较"></a>练习七：多线程之间的比较</h3><p>需求：</p>
+<p>​	在上一题基础上继续完成如下需求：</p>
+<p>​	在此次抽奖过程中，抽奖箱1总共产生了6个奖项，分别为：10,20,100,500,2,300</p>
+<pre><code>  最高奖项为300元，总计额为932元
+</code></pre>
+<p>​	在此次抽奖过程中，抽奖箱2总共产生了6个奖项，分别为：5,50,200,800,80,700</p>
+<pre><code>  最高奖项为800元，总计额为1835元
+</code></pre>
+<p>​	在此次抽奖过程中,抽奖箱2中产生了最大奖项,该奖项金额为800元</p>
+<p>​	以上打印效果只是数据模拟,实际代码运行的效果会有差异</p>
+<pre><code class="java">public class MyCallable implements Callable&lt;Integer&gt; &#123;
+
+    ArrayList&lt;Integer&gt; list;
+
+    public MyCallable(ArrayList&lt;Integer&gt; list) &#123;
+        this.list = list;
+    &#125;
+
+    @Override
+    public Integer call() throws Exception &#123;
+        ArrayList&lt;Integer&gt; boxList = new ArrayList&lt;&gt;();//1 //2
+        while (true) &#123;
+            synchronized (MyCallable.class) &#123;
+                if (list.size() == 0) &#123;
+                    System.out.println(Thread.currentThread().getName() + boxList);
+                    break;
+                &#125; else &#123;
+                    //继续抽奖
+                    Collections.shuffle(list);
+                    int prize = list.remove(0);
+                    boxList.add(prize);
+                &#125;
+            &#125;
+            Thread.sleep(10);
+        &#125;
+        //把集合中的最大值返回
+        if(boxList.size() == 0)&#123;
+            return null;
+        &#125;else&#123;
+            return Collections.max(boxList);
+        &#125;
+    &#125;
+&#125;
+
+package com.itheima.test7;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
+
+public class Test &#123;
+    public static void main(String[] args) throws ExecutionException, InterruptedException &#123;
+        /*
+            有一个抽奖池,该抽奖池中存放了奖励的金额,该抽奖池中的奖项为 &#123;10,5,20,50,100,200,500,800,2,80,300,700&#125;;
+            创建两个抽奖箱(线程)设置线程名称分别为    &quot;抽奖箱1&quot;, &quot;抽奖箱2&quot;
+            随机从抽奖池中获取奖项元素并打印在控制台上,格式如下:
+
+            在此次抽奖过程中，抽奖箱1总共产生了6个奖项，分别为：10,20,100,500,2,300
+                最高奖项为300元，总计额为932元
+
+            在此次抽奖过程中，抽奖箱2总共产生了6个奖项，分别为：5,50,200,800,80,700
+                最高奖项为800元，总计额为1835元
+
+            在此次抽奖过程中,抽奖箱2中产生了最大奖项,该奖项金额为800元
+            核心逻辑：获取线程抽奖的最大值（看成是线程运行的结果）
+
+
+            以上打印效果只是数据模拟,实际代码运行的效果会有差异
+        */
+
+        //创建奖池
+        ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();
+        Collections.addAll(list,10,5,20,50,100,200,500,800,2,80,300,700);
+
+        //创建多线程要运行的参数对象
+        MyCallable mc = new MyCallable(list);
+
+        //创建多线程运行结果的管理者对象
+        //线程一
+        FutureTask&lt;Integer&gt; ft1 = new FutureTask&lt;&gt;(mc);
+        //线程二
+        FutureTask&lt;Integer&gt; ft2 = new FutureTask&lt;&gt;(mc);
+
+        //创建线程对象
+        Thread t1 = new Thread(ft1);
+        Thread t2 = new Thread(ft2);
+
+        //设置名字
+        t1.setName(&quot;抽奖箱1&quot;);
+        t2.setName(&quot;抽奖箱2&quot;);
+
+        //开启线程
+        t1.start();
+        t2.start();
+
+
+        Integer max1 = ft1.get();
+        Integer max2 = ft2.get();
+
+        System.out.println(max1);
+        System.out.println(max2);
+
+        //在此次抽奖过程中,抽奖箱2中产生了最大奖项,该奖项金额为800元
+        if(max1 == null)&#123;
+            System.out.println(&quot;在此次抽奖过程中,抽奖箱2中产生了最大奖项,该奖项金额为&quot;+max2+&quot;元&quot;);
+        &#125;else if(max2 == null)&#123;
+            System.out.println(&quot;在此次抽奖过程中,抽奖箱1中产生了最大奖项,该奖项金额为&quot;+max1+&quot;元&quot;);
+        &#125;else if(max1 &gt; max2)&#123;
+            System.out.println(&quot;在此次抽奖过程中,抽奖箱1中产生了最大奖项,该奖项金额为&quot;+max1+&quot;元&quot;);
+        &#125;else if(max1 &lt; max2)&#123;
+            System.out.println(&quot;在此次抽奖过程中,抽奖箱2中产生了最大奖项,该奖项金额为&quot;+max2+&quot;元&quot;);
+        &#125;else&#123;
+            System.out.println(&quot;两者的最大奖项是一样的&quot;);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h2 id="2-原子性"><a href="#2-原子性" class="headerlink" title="2. 原子性"></a>2. 原子性</h2><h3 id="2-1-volatile-问题"><a href="#2-1-volatile-问题" class="headerlink" title="2.1 volatile-问题"></a>2.1 volatile-问题</h3><p><strong>代码分析 :</strong> </p>
+<pre><code class="java">package com.itheima.myvolatile;
+
+public class Demo &#123;
+    public static void main(String[] args) &#123;
+        MyThread1 t1 = new MyThread1();
+        t1.setName(&quot;小路同学&quot;);
+        t1.start();
+
+        MyThread2 t2 = new MyThread2();
+        t2.setName(&quot;小皮同学&quot;);
+        t2.start();
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="java">package com.itheima.myvolatile;
+
+public class Money &#123;
+    public static int money = 100000;
+&#125;
+</code></pre>
+<pre><code class="java">package com.itheima.myvolatile;
+
+public class MyThread1 extends  Thread &#123;
+    @Override
+    public void run() &#123;
+        while(Money.money == 100000)&#123;
+
+        &#125;
+
+        System.out.println(&quot;结婚基金已经不是十万了&quot;);
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="java">package com.itheima.myvolatile;
+
+public class MyThread2 extends Thread &#123;
+    @Override
+    public void run() &#123;
+        try &#123;
+            Thread.sleep(10);
+        &#125; catch (InterruptedException e) &#123;
+            e.printStackTrace();
+        &#125;
+
+        Money.money = 90000;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>程序问题 :</strong>  女孩虽然知道结婚基金是十万，但是当基金的余额发生变化的时候，女孩无法知道最新的余额。</p>
+<h3 id="2-2-volatile解决"><a href="#2-2-volatile解决" class="headerlink" title="2.2 volatile解决"></a>2.2 volatile解决</h3><p><strong>以上案例出现的问题 :</strong></p>
+<p>​	当A线程修改了共享数据时，B线程没有及时获取到最新的值，如果还在使用原先的值，就会出现问题 </p>
+<p>​	1，堆内存是唯一的，每一个线程都有自己的线程栈。</p>
+<p>​	2 ，每一个线程在使用堆里面变量的时候，都会先拷贝一份到变量的副本中。</p>
+<p>​	3 ，在线程中，每一次使用是从变量的副本中获取的。</p>
+<p><strong>Volatile关键字 :</strong> 强制线程每次在使用的时候，都会看一下共享区域最新的值</p>
+<p><strong>代码实现 :</strong> <strong>使用volatile关键字解决</strong></p>
+<pre><code class="java">package com.itheima.myvolatile;
+
+public class Demo &#123;
+    public static void main(String[] args) &#123;
+        MyThread1 t1 = new MyThread1();
+        t1.setName(&quot;小路同学&quot;);
+        t1.start();
+
+        MyThread2 t2 = new MyThread2();
+        t2.setName(&quot;小皮同学&quot;);
+        t2.start();
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="java">package com.itheima.myvolatile;
+
+public class Money &#123;
+    public static volatile int money = 100000;
+&#125;
+</code></pre>
+<pre><code class="java">package com.itheima.myvolatile;
+
+public class MyThread1 extends  Thread &#123;
+    @Override
+    public void run() &#123;
+        while(Money.money == 100000)&#123;
+
+        &#125;
+
+        System.out.println(&quot;结婚基金已经不是十万了&quot;);
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="java">package com.itheima.myvolatile;
+
+public class MyThread2 extends Thread &#123;
+    @Override
+    public void run() &#123;
+        try &#123;
+            Thread.sleep(10);
+        &#125; catch (InterruptedException e) &#123;
+            e.printStackTrace();
+        &#125;
+
+        Money.money = 90000;
+    &#125;
+&#125;
+</code></pre>
+<h3 id="2-3-synchronized解决"><a href="#2-3-synchronized解决" class="headerlink" title="2.3 synchronized解决"></a>2.3 synchronized解决</h3><p><strong>synchronized解决 :</strong> </p>
+<p>​	1 ，线程获得锁</p>
+<p>​	2 ，清空变量副本</p>
+<p>​	3 ，拷贝共享变量最新的值到变量副本中</p>
+<p>​	4 ，执行代码</p>
+<p>​	5 ，将修改后变量副本中的值赋值给共享数据</p>
+<p>​	6 ，释放锁</p>
+<p><strong>代码实现 :</strong> </p>
+<pre><code class="java">package com.itheima.myvolatile2;
+
+public class Demo &#123;
+    public static void main(String[] args) &#123;
+        MyThread1 t1 = new MyThread1();
+        t1.setName(&quot;小路同学&quot;);
+        t1.start();
+
+        MyThread2 t2 = new MyThread2();
+        t2.setName(&quot;小皮同学&quot;);
+        t2.start();
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="java">package com.itheima.myvolatile2;
+
+public class Money &#123;
+    public static Object lock = new Object();
+    public static volatile int money = 100000;
+&#125;
+</code></pre>
+<pre><code class="java">package com.itheima.myvolatile2;
+
+public class MyThread1 extends  Thread &#123;
+    @Override
+    public void run() &#123;
+        while(true)&#123;
+            synchronized (Money.lock)&#123;
+                if(Money.money != 100000)&#123;
+                    System.out.println(&quot;结婚基金已经不是十万了&quot;);
+                    break;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="java">package com.itheima.myvolatile2;
+
+public class MyThread2 extends Thread &#123;
+    @Override
+    public void run() &#123;
+        synchronized (Money.lock) &#123;
+            try &#123;
+                Thread.sleep(10);
+            &#125; catch (InterruptedException e) &#123;
+                e.printStackTrace();
+            &#125;
+
+            Money.money = 90000;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h3 id="2-4-原子性"><a href="#2-4-原子性" class="headerlink" title="2.4 原子性"></a>2.4 原子性</h3><p><strong>概述 :</strong> 所谓的原子性是指在一次操作或者多次操作中，要么所有的操作全部都得到了执行并且不会受到任何因素的干扰而中断，要么所有的操作都不执行，多个操作是一个不可以分割的整体。</p>
+<p><strong>代码实现 :</strong> </p>
+<pre><code class="java">package com.itheima.threadatom;
+
+public class AtomDemo &#123;
+    public static void main(String[] args) &#123;
+        MyAtomThread atom = new MyAtomThread();
+
+        for (int i = 0; i &lt; 100; i++) &#123;
+            new Thread(atom).start();
+        &#125;
+    &#125;
+&#125;
+class MyAtomThread implements Runnable &#123;
+    private volatile int count = 0; //送冰淇淋的数量
+
+    @Override
+    public void run() &#123;
+        for (int i = 0; i &lt; 100; i++) &#123;
+            //1,从共享数据中读取数据到本线程栈中.
+            //2,修改本线程栈中变量副本的值
+            //3,会把本线程栈中变量副本的值赋值给共享数据.
+            count++;
+            System.out.println(&quot;已经送了&quot; + count + &quot;个冰淇淋&quot;);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>代码总结 :</strong> count++ 不是一个原子性操作, 他在执行的过程中,有可能被其他线程打断</p>
+<h3 id="2-5-volatile关键字不能保证原子性"><a href="#2-5-volatile关键字不能保证原子性" class="headerlink" title="2.5 volatile关键字不能保证原子性"></a>2.5 volatile关键字不能保证原子性</h3><p>解决方案 : 我们可以给count++操作添加锁，那么count++操作就是临界区中的代码，临界区中的代码一次只能被一个线程去执行，所以count++就变成了原子操作。</p>
+<pre><code class="java">package com.itheima.threadatom2;
+
+public class AtomDemo &#123;
+    public static void main(String[] args) &#123;
+        MyAtomThread atom = new MyAtomThread();
+
+        for (int i = 0; i &lt; 100; i++) &#123;
+            new Thread(atom).start();
+        &#125;
+    &#125;
+&#125;
+class MyAtomThread implements Runnable &#123;
+    private volatile int count = 0; //送冰淇淋的数量
+    private Object lock = new Object();
+
+    @Override
+    public void run() &#123;
+        for (int i = 0; i &lt; 100; i++) &#123;
+            //1,从共享数据中读取数据到本线程栈中.
+            //2,修改本线程栈中变量副本的值
+            //3,会把本线程栈中变量副本的值赋值给共享数据.
+            synchronized (lock) &#123;
+                count++;
+                System.out.println(&quot;已经送了&quot; + count + &quot;个冰淇淋&quot;);
+            &#125;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h3 id="2-6-原子性-AtomicInteger"><a href="#2-6-原子性-AtomicInteger" class="headerlink" title="2.6 原子性_AtomicInteger"></a>2.6 原子性_AtomicInteger</h3><p>概述：java从JDK1.5开始提供了java.util.concurrent.atomic包(简称Atomic包)，这个包中的原子操作类提供了一种用法简单，性能高效，线程安全地更新一个变量的方式。因为变</p>
+<p>量的类型有很多种，所以在Atomic包里一共提供了13个类，属于4种类型的原子更新方式，分别是原子更新基本类型、原子更新数组、原子更新引用和原子更新属性(字段)。本次我们只讲解</p>
+<p>使用原子的方式更新基本类型，使用原子的方式更新基本类型Atomic包提供了以下3个类：</p>
+<p>AtomicBoolean： 原子更新布尔类型</p>
+<p>AtomicInteger：   原子更新整型</p>
+<p>AtomicLong：	原子更新长整型</p>
+<p>以上3个类提供的方法几乎一模一样，所以本节仅以AtomicInteger为例进行讲解，AtomicInteger的常用方法如下：</p>
+<pre><code class="java">public AtomicInteger()：	   			    初始化一个默认值为0的原子型Integer
+public AtomicInteger(int initialValue)：  初始化一个指定值的原子型Integer
+
+int get():   			 				获取值
+int getAndIncrement():      			 以原子方式将当前值加1，注意，这里返回的是自增前的值。
+int incrementAndGet():     				 以原子方式将当前值加1，注意，这里返回的是自增后的值。
+int addAndGet(int data):				 以原子方式将输入的数值与实例中的值（AtomicInteger里的value）相加，并返回结果。
+int getAndSet(int value):   			 以原子方式设置为newValue的值，并返回旧值。
+</code></pre>
+<p><strong>代码实现 :</strong></p>
+<pre><code class="java">package com.itheima.threadatom3;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class MyAtomIntergerDemo1 &#123;
+//    public AtomicInteger()：	               初始化一个默认值为0的原子型Integer
+//    public AtomicInteger(int initialValue)： 初始化一个指定值的原子型Integer
+    public static void main(String[] args) &#123;
+        AtomicInteger ac = new AtomicInteger();
+        System.out.println(ac);
+
+        AtomicInteger ac2 = new AtomicInteger(10);
+        System.out.println(ac2);
+    &#125;
+
+&#125;
+</code></pre>
+<pre><code class="java">package com.itheima.threadatom3;
+
+import java.lang.reflect.Field;
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class MyAtomIntergerDemo2 &#123;
+//    int get():   		 		获取值
+//    int getAndIncrement():     以原子方式将当前值加1，注意，这里返回的是自增前的值。
+//    int incrementAndGet():     以原子方式将当前值加1，注意，这里返回的是自增后的值。
+//    int addAndGet(int data):	 以原子方式将参数与对象中的值相加，并返回结果。
+//    int getAndSet(int value):  以原子方式设置为newValue的值，并返回旧值。
+    public static void main(String[] args) &#123;
+//        AtomicInteger ac1 = new AtomicInteger(10);
+//        System.out.println(ac1.get());
+
+//        AtomicInteger ac2 = new AtomicInteger(10);
+//        int andIncrement = ac2.getAndIncrement();
+//        System.out.println(andIncrement);
+//        System.out.println(ac2.get());
+
+//        AtomicInteger ac3 = new AtomicInteger(10);
+//        int i = ac3.incrementAndGet();
+//        System.out.println(i);//自增后的值
+//        System.out.println(ac3.get());
+
+//        AtomicInteger ac4 = new AtomicInteger(10);
+//        int i = ac4.addAndGet(20);
+//        System.out.println(i);
+//        System.out.println(ac4.get());
+
+        AtomicInteger ac5 = new AtomicInteger(100);
+        int andSet = ac5.getAndSet(20);
+        System.out.println(andSet);
+        System.out.println(ac5.get());
+    &#125;
+&#125;
+</code></pre>
+<h3 id="2-7-AtomicInteger-内存解析"><a href="#2-7-AtomicInteger-内存解析" class="headerlink" title="2.7 AtomicInteger-内存解析"></a>2.7 AtomicInteger-内存解析</h3><p><strong>AtomicInteger原理 :</strong> 自旋锁  + CAS 算法</p>
+<p><strong>CAS算法：</strong></p>
+<p>​	有3个操作数（内存值V， 旧的预期值A，要修改的值B）</p>
+<p>​	当旧的预期值A &#x3D;&#x3D; 内存值   此时修改成功，将V改为B                 </p>
+<p>​	当旧的预期值A！&#x3D;内存值   此时修改失败，不做任何操作                 </p>
+<p>​	并重新获取现在的最新值（这个重新获取的动作就是自旋）</p>
+<h3 id="2-8-AtomicInteger-源码解析"><a href="#2-8-AtomicInteger-源码解析" class="headerlink" title="2.8 AtomicInteger-源码解析"></a>2.8 AtomicInteger-源码解析</h3><p><strong>代码实现 :</strong></p>
+<pre><code class="java">package com.itheima.threadatom4;
+
+public class AtomDemo &#123;
+    public static void main(String[] args) &#123;
+        MyAtomThread atom = new MyAtomThread();
+
+        for (int i = 0; i &lt; 100; i++) &#123;
+            new Thread(atom).start();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="java">package com.itheima.threadatom4;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class MyAtomThread implements Runnable &#123;
+    //private volatile int count = 0; //送冰淇淋的数量
+    //private Object lock = new Object();
+    AtomicInteger ac = new AtomicInteger(0);
+
+    @Override
+    public void run() &#123;
+        for (int i = 0; i &lt; 100; i++) &#123;
+            //1,从共享数据中读取数据到本线程栈中.
+            //2,修改本线程栈中变量副本的值
+            //3,会把本线程栈中变量副本的值赋值给共享数据.
+            //synchronized (lock) &#123;
+//                count++;
+//                ac++;
+            int count = ac.incrementAndGet();
+            System.out.println(&quot;已经送了&quot; + count + &quot;个冰淇淋&quot;);
+           // &#125;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>源码解析 :</strong> </p>
+<pre><code class="java">//先自增，然后获取自增后的结果
+public final int incrementAndGet() &#123;
+        //+ 1 自增后的结果
+        //this 就表示当前的atomicInteger（值）
+        //1    自增一次
+        return U.getAndAddInt(this, VALUE, 1) + 1;
+&#125;
+
+public final int getAndAddInt(Object o, long offset, int delta) &#123;
+        //v 旧值
+        int v;
+        //自旋的过程
+        do &#123;
+            //不断的获取旧值
+            v = getIntVolatile(o, offset);
+            //如果这个方法的返回值为false，那么继续自旋
+            //如果这个方法的返回值为true，那么自旋结束
+            //o 表示的就是内存值
+            //v 旧值
+            //v + delta 修改后的值
+        &#125; while (!weakCompareAndSetInt(o, offset, v, v + delta));
+            //作用：比较内存中的值，旧值是否相等，如果相等就把修改后的值写到内存中，返回true。表示修改成功。
+            //                                 如果不相等，无法把修改后的值写到内存中，返回false。表示修改失败。
+            //如果修改失败，那么继续自旋。
+        return v;
+&#125;
+</code></pre>
+<h3 id="2-9-悲观锁和乐观锁"><a href="#2-9-悲观锁和乐观锁" class="headerlink" title="2.9 悲观锁和乐观锁"></a>2.9 悲观锁和乐观锁</h3><p><strong>synchronized和CAS的区别 :</strong> </p>
+<p><strong>相同点：</strong>在多线程情况下，都可以保证共享数据的安全性。</p>
+<p><strong>不同点：</strong>synchronized总是从最坏的角度出发，认为每次获取数据的时候，别人都有可能修改。所以在每                       次操作共享数据之前，都会上锁。（悲观锁）</p>
+<p>​	cas是从乐观的角度出发，假设每次获取数据别人都不会修改，所以不会上锁。只不过在修改共享数据的时候，会检查一下，别人有没有修改过这个数据。</p>
+<p>​	如果别人修改过，那么我再次获取现在最新的值。            </p>
+<p>​	 如果别人没有修改过，那么我现在直接修改共享数据的值.(乐观锁）</p>
+<h2 id="3-并发工具类"><a href="#3-并发工具类" class="headerlink" title="3. 并发工具类"></a>3. 并发工具类</h2><h3 id="3-1-并发工具类-Hashtable"><a href="#3-1-并发工具类-Hashtable" class="headerlink" title="3.1 并发工具类-Hashtable"></a>3.1 并发工具类-Hashtable</h3><p>​	<strong>Hashtable出现的原因 :</strong> 在集合类中HashMap是比较常用的集合对象，但是HashMap是线程不安全的(多线程环境下可能会存在问题)。为了保证数据的安全性我们可以使用Hashtable，但是Hashtable的效率低下。</p>
+<p><strong>代码实现 :</strong> </p>
+<pre><code class="java">package com.itheima.mymap;
+
+import java.util.HashMap;
+import java.util.Hashtable;
+
+public class MyHashtableDemo &#123;
+    public static void main(String[] args) throws InterruptedException &#123;
+        Hashtable&lt;String, String&gt; hm = new Hashtable&lt;&gt;();
+
+        Thread t1 = new Thread(() -&gt; &#123;
+            for (int i = 0; i &lt; 25; i++) &#123;
+                hm.put(i + &quot;&quot;, i + &quot;&quot;);
+            &#125;
+        &#125;);
+
+
+        Thread t2 = new Thread(() -&gt; &#123;
+            for (int i = 25; i &lt; 51; i++) &#123;
+                hm.put(i + &quot;&quot;, i + &quot;&quot;);
+            &#125;
+        &#125;);
+
+        t1.start();
+        t2.start();
+
+        System.out.println(&quot;----------------------------&quot;);
+        //为了t1和t2能把数据全部添加完毕
+        Thread.sleep(1000);
+
+        //0-0 1-1 ..... 50- 50
+
+        for (int i = 0; i &lt; 51; i++) &#123;
+            System.out.println(hm.get(i + &quot;&quot;));
+        &#125;//0 1 2 3 .... 50
+
+
+    &#125;
+&#125;
+</code></pre>
+<h3 id="3-2-并发工具类-ConcurrentHashMap基本使用"><a href="#3-2-并发工具类-ConcurrentHashMap基本使用" class="headerlink" title="3.2 并发工具类-ConcurrentHashMap基本使用"></a>3.2 并发工具类-ConcurrentHashMap基本使用</h3><p>​	<strong>ConcurrentHashMap出现的原因 :</strong> 在集合类中HashMap是比较常用的集合对象，但是HashMap是线程不安全的(多线程环境下可能会存在问题)。为了保证数据的安全性我们可以使用Hashtable，但是Hashtable的效率低下。</p>
+<p>基于以上两个原因我们可以使用JDK1.5以后所提供的ConcurrentHashMap。</p>
+<p><strong>体系结构 :</strong> </p>
+<p><img src="D:\HuaweiMoveData\Users\86147\Desktop\黑马java资料\新建文件夹\img\1591168965857.png" alt="1591168965857"></p>
+<p><strong>总结 :</strong> </p>
+<p>​	1 ，HashMap是线程不安全的。多线程环境下会有数据安全问题</p>
+<p>​	2 ，Hashtable是线程安全的，但是会将整张表锁起来，效率低下</p>
+<p>​	3，ConcurrentHashMap也是线程安全的，效率较高。     在JDK7和JDK8中，底层原理不一样。</p>
+<p><strong>代码实现 :</strong> </p>
+<pre><code class="java">package com.itheima.mymap;
+
+import java.util.Hashtable;
+import java.util.concurrent.ConcurrentHashMap;
+
+public class MyConcurrentHashMapDemo &#123;
+    public static void main(String[] args) throws InterruptedException &#123;
+        ConcurrentHashMap&lt;String, String&gt; hm = new ConcurrentHashMap&lt;&gt;(100);
+
+        Thread t1 = new Thread(() -&gt; &#123;
+            for (int i = 0; i &lt; 25; i++) &#123;
+                hm.put(i + &quot;&quot;, i + &quot;&quot;);
+            &#125;
+        &#125;);
+
+
+        Thread t2 = new Thread(() -&gt; &#123;
+            for (int i = 25; i &lt; 51; i++) &#123;
+                hm.put(i + &quot;&quot;, i + &quot;&quot;);
+            &#125;
+        &#125;);
+
+        t1.start();
+        t2.start();
+
+        System.out.println(&quot;----------------------------&quot;);
+        //为了t1和t2能把数据全部添加完毕
+        Thread.sleep(1000);
+
+        //0-0 1-1 ..... 50- 50
+
+        for (int i = 0; i &lt; 51; i++) &#123;
+            System.out.println(hm.get(i + &quot;&quot;));
+        &#125;//0 1 2 3 .... 50
+    &#125;
+&#125;
+</code></pre>
+<h3 id="3-3-并发工具类-ConcurrentHashMap1-7原理"><a href="#3-3-并发工具类-ConcurrentHashMap1-7原理" class="headerlink" title="3.3 并发工具类-ConcurrentHashMap1.7原理"></a>3.3 并发工具类-ConcurrentHashMap1.7原理</h3><p><img src="D:\HuaweiMoveData\Users\86147\Desktop\黑马java资料\新建文件夹\img\1591169254280.png" alt="1591169254280"></p>
+<h3 id="3-4-并发工具类-ConcurrentHashMap1-8原理"><a href="#3-4-并发工具类-ConcurrentHashMap1-8原理" class="headerlink" title="3.4 并发工具类-ConcurrentHashMap1.8原理"></a>3.4 并发工具类-ConcurrentHashMap1.8原理</h3><p><img src="D:\HuaweiMoveData\Users\86147\Desktop\黑马java资料\新建文件夹\img\1591169338256.png" alt="1591169338256"></p>
+<p><strong>总结 :</strong> </p>
+<p>​	1，如果使用空参构造创建ConcurrentHashMap对象，则什么事情都不做。     在第一次添加元素的时候创建哈希表</p>
+<p>​	2，计算当前元素应存入的索引。</p>
+<p>​	3，如果该索引位置为null，则利用cas算法，将本结点添加到数组中。</p>
+<p>​	4，如果该索引位置不为null，则利用volatile关键字获得当前位置最新的结点地址，挂在他下面，变成链表。		</p>
+<p>​	5，当链表的长度大于等于8时，自动转换成红黑树6，以链表或者红黑树头结点为锁对象，配合悲观锁保证多线程操作集合时数据的安全性</p>
+<h3 id="3-5-并发工具类-CountDownLatch"><a href="#3-5-并发工具类-CountDownLatch" class="headerlink" title="3.5 并发工具类-CountDownLatch"></a>3.5 并发工具类-CountDownLatch</h3><p><strong>CountDownLatch类 :</strong> 		</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>public CountDownLatch(int count)</td>
+<td>参数传递线程数，表示等待线程数量</td>
+</tr>
+<tr>
+<td>public void await()</td>
+<td>让线程等待</td>
+</tr>
+<tr>
+<td>public void countDown()</td>
+<td>当前线程执行完毕</td>
+</tr>
+</tbody></table>
+<p><strong>使用场景：</strong> 让某一条线程等待其他线程执行完毕之后再执行</p>
+<p><strong>代码实现 :</strong> </p>
+<pre><code class="java">package com.itheima.mycountdownlatch;
+
+import java.util.concurrent.CountDownLatch;
+
+public class ChileThread1 extends Thread &#123;
+
+    private CountDownLatch countDownLatch;
+    public ChileThread1(CountDownLatch countDownLatch) &#123;
+        this.countDownLatch = countDownLatch;
+    &#125;
+
+    @Override
+    public void run() &#123;
+        //1.吃饺子
+        for (int i = 1; i &lt;= 10; i++) &#123;
+            System.out.println(getName() + &quot;在吃第&quot; + i + &quot;个饺子&quot;);
+        &#125;
+        //2.吃完说一声
+        //每一次countDown方法的时候，就让计数器-1
+        countDownLatch.countDown();
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="java">package com.itheima.mycountdownlatch;
+
+import java.util.concurrent.CountDownLatch;
+
+public class ChileThread2 extends Thread &#123;
+
+    private CountDownLatch countDownLatch;
+    public ChileThread2(CountDownLatch countDownLatch) &#123;
+        this.countDownLatch = countDownLatch;
+    &#125;
+    @Override
+    public void run() &#123;
+        //1.吃饺子
+        for (int i = 1; i &lt;= 15; i++) &#123;
+            System.out.println(getName() + &quot;在吃第&quot; + i + &quot;个饺子&quot;);
+        &#125;
+        //2.吃完说一声
+        //每一次countDown方法的时候，就让计数器-1
+        countDownLatch.countDown();
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="java">package com.itheima.mycountdownlatch;
+
+import java.util.concurrent.CountDownLatch;
+
+public class ChileThread3 extends Thread &#123;
+
+    private CountDownLatch countDownLatch;
+    public ChileThread3(CountDownLatch countDownLatch) &#123;
+        this.countDownLatch = countDownLatch;
+    &#125;
+    @Override
+    public void run() &#123;
+        //1.吃饺子
+        for (int i = 1; i &lt;= 20; i++) &#123;
+            System.out.println(getName() + &quot;在吃第&quot; + i + &quot;个饺子&quot;);
+        &#125;
+        //2.吃完说一声
+        //每一次countDown方法的时候，就让计数器-1
+        countDownLatch.countDown();
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="java">package com.itheima.mycountdownlatch;
+
+import java.util.concurrent.CountDownLatch;
+
+public class MotherThread extends Thread &#123;
+    private CountDownLatch countDownLatch;
+    public MotherThread(CountDownLatch countDownLatch) &#123;
+        this.countDownLatch = countDownLatch;
+    &#125;
+
+    @Override
+    public void run() &#123;
+        //1.等待
+        try &#123;
+            //当计数器变成0的时候，会自动唤醒这里等待的线程。
+            countDownLatch.await();
+        &#125; catch (InterruptedException e) &#123;
+            e.printStackTrace();
+        &#125;
+        //2.收拾碗筷
+        System.out.println(&quot;妈妈在收拾碗筷&quot;);
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="java">package com.itheima.mycountdownlatch;
+
+import java.util.concurrent.CountDownLatch;
+
+public class MyCountDownLatchDemo &#123;
+    public static void main(String[] args) &#123;
+        //1.创建CountDownLatch的对象，需要传递给四个线程。
+        //在底层就定义了一个计数器，此时计数器的值就是3
+        CountDownLatch countDownLatch = new CountDownLatch(3);
+        //2.创建四个线程对象并开启他们。
+        MotherThread motherThread = new MotherThread(countDownLatch);
+        motherThread.start();
+
+        ChileThread1 t1 = new ChileThread1(countDownLatch);
+        t1.setName(&quot;小明&quot;);
+
+        ChileThread2 t2 = new ChileThread2(countDownLatch);
+        t2.setName(&quot;小红&quot;);
+
+        ChileThread3 t3 = new ChileThread3(countDownLatch);
+        t3.setName(&quot;小刚&quot;);
+
+        t1.start();
+        t2.start();
+        t3.start();
+    &#125;
+&#125;
+</code></pre>
+<p><strong>总结 :</strong> </p>
+<p>​	1. CountDownLatch(int count)：参数写等待线程的数量。并定义了一个计数器。</p>
+<p>​	2. await()：让线程等待，当计数器为0时，会唤醒等待的线程</p>
+<p>​	3. countDown()： 线程执行完毕时调用，会将计数器-1。</p>
+<h3 id="3-6-并发工具类-Semaphore"><a href="#3-6-并发工具类-Semaphore" class="headerlink" title="3.6 并发工具类-Semaphore"></a>3.6 并发工具类-Semaphore</h3><p><strong>使用场景 :</strong> </p>
+<p>​	可以控制访问特定资源的线程数量。</p>
+<p><strong>实现步骤 :</strong> </p>
+<p>​	1，需要有人管理这个通道</p>
+<p>​	2，当有车进来了，发通行许可证</p>
+<p>​	3，当车出去了，收回通行许可证</p>
+<p>​	4，如果通行许可证发完了，那么其他车辆只能等着</p>
+<p><strong>代码实现 :</strong> </p>
+<pre><code class="java">package com.itheima.mysemaphore;
+
+import java.util.concurrent.Semaphore;
+
+public class MyRunnable implements Runnable &#123;
+    //1.获得管理员对象，
+    private Semaphore semaphore = new Semaphore(2);
+    @Override
+    public void run() &#123;
+        //2.获得通行证
+        try &#123;
+            semaphore.acquire();
+            //3.开始行驶
+            System.out.println(&quot;获得了通行证开始行驶&quot;);
+            Thread.sleep(2000);
+            System.out.println(&quot;归还通行证&quot;);
+            //4.归还通行证
+            semaphore.release();
+        &#125; catch (InterruptedException e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="java">package com.itheima.mysemaphore;
+
+public class MySemaphoreDemo &#123;
+    public static void main(String[] args) &#123;
+        MyRunnable mr = new MyRunnable();
+
+        for (int i = 0; i &lt; 100; i++) &#123;
+            new Thread(mr).start();
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 陈小达的个人博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;chenjunda
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

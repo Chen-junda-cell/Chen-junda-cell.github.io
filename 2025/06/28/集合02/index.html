@@ -1,0 +1,685 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>集合02 | 陈小达的个人博客</title>
+    <meta name="author" content="chenjunda" />
+    <meta name="description" content="学习笔记" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>陈小达的个人博客</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-主页 fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-关于我 fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-分类 fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-标签 fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;陈小达的个人博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-主页 fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-关于我 fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-分类 fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-标签 fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>集合02</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/28
+        </span>
+        
+        <span class="category">
+            <a href="/categories/java/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                java
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/javaSE/" style="color: #ff7d73">
+                    javaSE
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h2 id="1-Map集合"><a href="#1-Map集合" class="headerlink" title="1.Map集合"></a>1.Map集合</h2><h3 id="1-1Map集合概述和特点【理解】"><a href="#1-1Map集合概述和特点【理解】" class="headerlink" title="1.1Map集合概述和特点【理解】"></a>1.1Map集合概述和特点【理解】</h3><ul>
+<li><p>Map集合概述</p>
+<pre><code class="java">interface Map&lt;K,V&gt;  K：键的类型；V：值的类型
+</code></pre>
+</li>
+<li><p>Map集合的特点</p>
+<ul>
+<li><p>双列集合,一个键对应一个值</p>
+</li>
+<li><p>键不可以重复,值可以重复</p>
+<span id="more"></span></li>
+</ul>
+</li>
+<li><p>Map集合的基本使用</p>
+<pre><code class="java">public class MapDemo01 &#123;
+    public static void main(String[] args) &#123;
+        //创建集合对象
+        Map&lt;String,String&gt; map = new HashMap&lt;String,String&gt;();
+
+        //V put(K key, V value) 将指定的值与该映射中的指定键相关联
+        map.put(&quot;itheima001&quot;,&quot;林青霞&quot;);
+        map.put(&quot;itheima002&quot;,&quot;张曼玉&quot;);
+        map.put(&quot;itheima003&quot;,&quot;王祖贤&quot;);
+        map.put(&quot;itheima003&quot;,&quot;柳岩&quot;);
+
+        //输出集合对象
+        System.out.println(map);
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h3 id="1-2Map集合的基本功能【应用】"><a href="#1-2Map集合的基本功能【应用】" class="headerlink" title="1.2Map集合的基本功能【应用】"></a>1.2Map集合的基本功能【应用】</h3><ul>
+<li><p>方法介绍</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>V   put(K key,V   value)</td>
+<td>添加元素</td>
+</tr>
+<tr>
+<td>V   remove(Object key)</td>
+<td>根据键删除键值对元素</td>
+</tr>
+<tr>
+<td>void   clear()</td>
+<td>移除所有的键值对元素</td>
+</tr>
+<tr>
+<td>boolean containsKey(Object key)</td>
+<td>判断集合是否包含指定的键</td>
+</tr>
+<tr>
+<td>boolean containsValue(Object value)</td>
+<td>判断集合是否包含指定的值</td>
+</tr>
+<tr>
+<td>boolean isEmpty()</td>
+<td>判断集合是否为空</td>
+</tr>
+<tr>
+<td>int size()</td>
+<td>集合的长度，也就是集合中键值对的个数</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>示例代码</p>
+<pre><code class="java">public class MapDemo02 &#123;
+    public static void main(String[] args) &#123;
+        //创建集合对象
+        Map&lt;String,String&gt; map = new HashMap&lt;String,String&gt;();
+
+        //V put(K key,V value)：添加元素
+        map.put(&quot;张无忌&quot;,&quot;赵敏&quot;);
+        map.put(&quot;郭靖&quot;,&quot;黄蓉&quot;);
+        map.put(&quot;杨过&quot;,&quot;小龙女&quot;);
+
+        //V remove(Object key)：根据键删除键值对元素
+//        System.out.println(map.remove(&quot;郭靖&quot;));
+//        System.out.println(map.remove(&quot;郭襄&quot;));
+
+        //void clear()：移除所有的键值对元素
+//        map.clear();
+
+        //boolean containsKey(Object key)：判断集合是否包含指定的键
+//        System.out.println(map.containsKey(&quot;郭靖&quot;));
+//        System.out.println(map.containsKey(&quot;郭襄&quot;));
+
+        //boolean isEmpty()：判断集合是否为空
+//        System.out.println(map.isEmpty());
+
+        //int size()：集合的长度，也就是集合中键值对的个数
+        System.out.println(map.size());
+
+        //输出集合对象
+        System.out.println(map);
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h3 id="1-3Map集合的获取功能【应用】"><a href="#1-3Map集合的获取功能【应用】" class="headerlink" title="1.3Map集合的获取功能【应用】"></a>1.3Map集合的获取功能【应用】</h3><ul>
+<li><p>方法介绍</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>V   get(Object key)</td>
+<td>根据键获取值</td>
+</tr>
+<tr>
+<td>Set<K>   keySet()</td>
+<td>获取所有键的集合</td>
+</tr>
+<tr>
+<td>Collection<V>   values()</td>
+<td>获取所有值的集合</td>
+</tr>
+<tr>
+<td>Set&lt;Map.Entry&lt;K,V&gt;&gt;   entrySet()</td>
+<td>获取所有键值对对象的集合</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>示例代码</p>
+<pre><code class="java">public class MapDemo03 &#123;
+    public static void main(String[] args) &#123;
+        //创建集合对象
+        Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();
+
+        //添加元素
+        map.put(&quot;张无忌&quot;, &quot;赵敏&quot;);
+        map.put(&quot;郭靖&quot;, &quot;黄蓉&quot;);
+        map.put(&quot;杨过&quot;, &quot;小龙女&quot;);
+
+        //V get(Object key):根据键获取值
+//        System.out.println(map.get(&quot;张无忌&quot;));
+//        System.out.println(map.get(&quot;张三丰&quot;));
+
+        //Set&lt;K&gt; keySet():获取所有键的集合
+//        Set&lt;String&gt; keySet = map.keySet();
+//        for(String key : keySet) &#123;
+//            System.out.println(key);
+//        &#125;
+
+        //Collection&lt;V&gt; values():获取所有值的集合
+        Collection&lt;String&gt; values = map.values();
+        for(String value : values) &#123;
+            System.out.println(value);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h3 id="1-4Map集合的遍历-方式1-【应用】"><a href="#1-4Map集合的遍历-方式1-【应用】" class="headerlink" title="1.4Map集合的遍历(方式1)【应用】"></a>1.4Map集合的遍历(方式1)【应用】</h3><ul>
+<li><p>遍历思路</p>
+<ul>
+<li>我们刚才存储的元素都是成对出现的，所以我们把Map看成是一个夫妻对的集合<ul>
+<li>把所有的丈夫给集中起来</li>
+<li>遍历丈夫的集合，获取到每一个丈夫</li>
+<li>根据丈夫去找对应的妻子</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>步骤分析</p>
+<ul>
+<li>获取所有键的集合。用keySet()方法实现</li>
+<li>遍历键的集合，获取到每一个键。用增强for实现  </li>
+<li>根据键去找值。用get(Object key)方法实现</li>
+</ul>
+</li>
+<li><p>代码实现</p>
+<pre><code class="java">public class MapDemo01 &#123;
+    public static void main(String[] args) &#123;
+        //创建集合对象
+        Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();
+
+        //添加元素
+        map.put(&quot;张无忌&quot;, &quot;赵敏&quot;);
+        map.put(&quot;郭靖&quot;, &quot;黄蓉&quot;);
+        map.put(&quot;杨过&quot;, &quot;小龙女&quot;);
+
+        //获取所有键的集合。用keySet()方法实现
+        Set&lt;String&gt; keySet = map.keySet();
+        //遍历键的集合，获取到每一个键。用增强for实现
+        for (String key : keySet) &#123;
+            //根据键去找值。用get(Object key)方法实现
+            String value = map.get(key);
+            System.out.println(key + &quot;,&quot; + value);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h3 id="1-5Map集合的遍历-方式2-【应用】"><a href="#1-5Map集合的遍历-方式2-【应用】" class="headerlink" title="1.5Map集合的遍历(方式2)【应用】"></a>1.5Map集合的遍历(方式2)【应用】</h3><ul>
+<li><p>遍历思路</p>
+<ul>
+<li>我们刚才存储的元素都是成对出现的，所以我们把Map看成是一个夫妻对的集合<ul>
+<li>获取所有结婚证的集合</li>
+<li>遍历结婚证的集合，得到每一个结婚证</li>
+<li>根据结婚证获取丈夫和妻子</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>步骤分析</p>
+<ul>
+<li>获取所有键值对对象的集合<ul>
+<li>Set&lt;Map.Entry&lt;K,V&gt;&gt; entrySet()：获取所有键值对对象的集合</li>
+</ul>
+</li>
+<li>遍历键值对对象的集合，得到每一个键值对对象<ul>
+<li>用增强for实现，得到每一个Map.Entry</li>
+</ul>
+</li>
+<li>根据键值对对象获取键和值<ul>
+<li>用getKey()得到键</li>
+<li>用getValue()得到值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>代码实现</p>
+<pre><code class="java">public class MapDemo02 &#123;
+    public static void main(String[] args) &#123;
+        //创建集合对象
+        Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();
+
+        //添加元素
+        map.put(&quot;张无忌&quot;, &quot;赵敏&quot;);
+        map.put(&quot;郭靖&quot;, &quot;黄蓉&quot;);
+        map.put(&quot;杨过&quot;, &quot;小龙女&quot;);
+
+        //获取所有键值对对象的集合
+        Set&lt;Map.Entry&lt;String, String&gt;&gt; entrySet = map.entrySet();
+        //遍历键值对对象的集合，得到每一个键值对对象
+        for (Map.Entry&lt;String, String&gt; me : entrySet) &#123;
+            //根据键值对对象获取键和值
+            String key = me.getKey();
+            String value = me.getValue();
+            System.out.println(key + &quot;,&quot; + value);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h2 id="2-HashMap集合"><a href="#2-HashMap集合" class="headerlink" title="2.HashMap集合"></a>2.HashMap集合</h2><h3 id="2-1HashMap集合概述和特点【理解】"><a href="#2-1HashMap集合概述和特点【理解】" class="headerlink" title="2.1HashMap集合概述和特点【理解】"></a>2.1HashMap集合概述和特点【理解】</h3><ul>
+<li>HashMap底层是哈希表结构的</li>
+<li>依赖hashCode方法和equals方法保证键的唯一</li>
+<li>如果键要存储的是自定义对象，需要重写hashCode和equals方法</li>
+</ul>
+<h3 id="2-2HashMap集合应用案例【应用】"><a href="#2-2HashMap集合应用案例【应用】" class="headerlink" title="2.2HashMap集合应用案例【应用】"></a>2.2HashMap集合应用案例【应用】</h3><ul>
+<li><p>案例需求</p>
+<ul>
+<li>创建一个HashMap集合，键是学生对象(Student)，值是居住地 (String)。存储多个元素，并遍历。</li>
+<li>要求保证键的唯一性：如果学生对象的成员变量值相同，我们就认为是同一个对象</li>
+</ul>
+</li>
+<li><p>代码实现</p>
+<p>学生类</p>
+<pre><code class="java">public class Student &#123;
+    private String name;
+    private int age;
+
+    public Student() &#123;
+    &#125;
+
+    public Student(String name, int age) &#123;
+        this.name = name;
+        this.age = age;
+    &#125;
+
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    public void setName(String name) &#123;
+        this.name = name;
+    &#125;
+
+    public int getAge() &#123;
+        return age;
+    &#125;
+
+    public void setAge(int age) &#123;
+        this.age = age;
+    &#125;
+
+    @Override
+    public boolean equals(Object o) &#123;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Student student = (Student) o;
+
+        if (age != student.age) return false;
+        return name != null ? name.equals(student.name) : student.name == null;
+    &#125;
+
+    @Override
+    public int hashCode() &#123;
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + age;
+        return result;
+    &#125;
+&#125;
+</code></pre>
+<p>测试类</p>
+<pre><code class="java">public class HashMapDemo &#123;
+    public static void main(String[] args) &#123;
+        //创建HashMap集合对象
+        HashMap&lt;Student, String&gt; hm = new HashMap&lt;Student, String&gt;();
+
+        //创建学生对象
+        Student s1 = new Student(&quot;林青霞&quot;, 30);
+        Student s2 = new Student(&quot;张曼玉&quot;, 35);
+        Student s3 = new Student(&quot;王祖贤&quot;, 33);
+        Student s4 = new Student(&quot;王祖贤&quot;, 33);
+
+        //把学生添加到集合
+        hm.put(s1, &quot;西安&quot;);
+        hm.put(s2, &quot;武汉&quot;);
+        hm.put(s3, &quot;郑州&quot;);
+        hm.put(s4, &quot;北京&quot;);
+
+        //遍历集合
+        Set&lt;Student&gt; keySet = hm.keySet();
+        for (Student key : keySet) &#123;
+            String value = hm.get(key);
+            System.out.println(key.getName() + &quot;,&quot; + key.getAge() + &quot;,&quot; + value);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h2 id="3-TreeMap集合"><a href="#3-TreeMap集合" class="headerlink" title="3.TreeMap集合"></a>3.TreeMap集合</h2><h3 id="3-1TreeMap集合概述和特点【理解】"><a href="#3-1TreeMap集合概述和特点【理解】" class="headerlink" title="3.1TreeMap集合概述和特点【理解】"></a>3.1TreeMap集合概述和特点【理解】</h3><ul>
+<li>TreeMap底层是红黑树结构</li>
+<li>依赖自然排序或者比较器排序,对键进行排序</li>
+<li>如果键存储的是自定义对象,需要实现Comparable接口或者在创建TreeMap对象时候给出比较器排序规则</li>
+</ul>
+<h3 id="3-2TreeMap集合应用案例【应用】"><a href="#3-2TreeMap集合应用案例【应用】" class="headerlink" title="3.2TreeMap集合应用案例【应用】"></a>3.2TreeMap集合应用案例【应用】</h3><ul>
+<li><p>案例需求</p>
+<ul>
+<li>创建一个TreeMap集合,键是学生对象(Student),值是籍贯(String),学生属性姓名和年龄,按照年龄进行排序并遍历</li>
+<li>要求按照学生的年龄进行排序,如果年龄相同则按照姓名进行排序</li>
+</ul>
+</li>
+<li><p>代码实现</p>
+<p>学生类</p>
+<pre><code class="java">public class Student implements Comparable&lt;Student&gt;&#123;
+    private String name;
+    private int age;
+
+    public Student() &#123;
+    &#125;
+
+    public Student(String name, int age) &#123;
+        this.name = name;
+        this.age = age;
+    &#125;
+
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    public void setName(String name) &#123;
+        this.name = name;
+    &#125;
+
+    public int getAge() &#123;
+        return age;
+    &#125;
+
+    public void setAge(int age) &#123;
+        this.age = age;
+    &#125;
+
+    @Override
+    public String toString() &#123;
+        return &quot;Student&#123;&quot; +
+                &quot;name=&#39;&quot; + name + &#39;\&#39;&#39; +
+                &quot;, age=&quot; + age +
+                &#39;&#125;&#39;;
+    &#125;
+
+    @Override
+    public int compareTo(Student o) &#123;
+        //按照年龄进行排序
+        int result = o.getAge() - this.getAge();
+        //次要条件，按照姓名排序。
+        result = result == 0 ? o.getName().compareTo(this.getName()) : result;
+        return result;
+    &#125;
+&#125;
+</code></pre>
+<p>测试类</p>
+<pre><code class="java">public class Test1 &#123;
+    public static void main(String[] args) &#123;
+          // 创建TreeMap集合对象
+        TreeMap&lt;Student,String&gt; tm = new TreeMap&lt;&gt;();
+      
+        // 创建学生对象
+        Student s1 = new Student(&quot;xiaohei&quot;,23);
+        Student s2 = new Student(&quot;dapang&quot;,22);
+        Student s3 = new Student(&quot;xiaomei&quot;,22);
+      
+        // 将学生对象添加到TreeMap集合中
+        tm.put(s1,&quot;江苏&quot;);
+        tm.put(s2,&quot;北京&quot;);
+        tm.put(s3,&quot;天津&quot;);
+      
+        // 遍历TreeMap集合,打印每个学生的信息
+        tm.forEach(
+                (Student key, String value)-&gt;&#123;
+                    System.out.println(key + &quot;---&quot; + value);
+                &#125;
+        );
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 陈小达的个人博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;chenjunda
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

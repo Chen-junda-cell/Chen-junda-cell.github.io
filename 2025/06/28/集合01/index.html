@@ -1,0 +1,851 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>集合01 | 陈小达的个人博客</title>
+    <meta name="author" content="chenjunda" />
+    <meta name="description" content="学习笔记" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>陈小达的个人博客</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-主页 fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-关于我 fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-分类 fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-标签 fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;陈小达的个人博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-主页 fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-关于我 fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-分类 fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-标签 fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>集合01</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/6/28
+        </span>
+        
+        <span class="category">
+            <a href="/categories/java/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                java
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/javaSE/" style="color: #00a596">
+                    javaSE
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h2 id="1-泛型"><a href="#1-泛型" class="headerlink" title="1.泛型"></a>1.泛型</h2><h3 id="1-1泛型概述"><a href="#1-1泛型概述" class="headerlink" title="1.1泛型概述"></a>1.1泛型概述</h3><ul>
+<li><p>泛型的介绍</p>
+<p>​	泛型是JDK5中引入的特性，它提供了编译时类型安全检测机制</p>
+</li>
+<li><p>泛型的好处</p>
+<span id="more"></span>
+
+<ol>
+<li>把运行时期的问题提前到了编译期间</li>
+<li>避免了强制类型转换</li>
+</ol>
+</li>
+<li><p>泛型的定义格式</p>
+<ul>
+<li>&lt;类型&gt;: 指定一种类型的格式.尖括号里面可以任意书写,一般只写一个字母.例如: <E> <T></li>
+<li>&lt;类型1,类型2…&gt;: 指定多种类型的格式,多种类型之间用逗号隔开.例如: &lt;E,T&gt; &lt;K,V&gt;</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-Set集合"><a href="#2-Set集合" class="headerlink" title="2.Set集合"></a>2.Set集合</h2><h3 id="2-1Set集合概述和特点【应用】"><a href="#2-1Set集合概述和特点【应用】" class="headerlink" title="2.1Set集合概述和特点【应用】"></a>2.1Set集合概述和特点【应用】</h3><ul>
+<li>不可以存储重复元素</li>
+<li>没有索引,不能使用普通for循环遍历</li>
+</ul>
+<h3 id="2-2Set集合的使用【应用】"><a href="#2-2Set集合的使用【应用】" class="headerlink" title="2.2Set集合的使用【应用】"></a>2.2Set集合的使用【应用】</h3><p>存储字符串并遍历</p>
+<pre><code class="java">public class MySet1 &#123;
+    public static void main(String[] args) &#123;
+          //创建集合对象
+        Set&lt;String&gt; set = new TreeSet&lt;&gt;();
+          //添加元素
+        set.add(&quot;ccc&quot;);
+        set.add(&quot;aaa&quot;);
+        set.add(&quot;aaa&quot;);
+        set.add(&quot;bbb&quot;);
+
+//        for (int i = 0; i &lt; set.size(); i++) &#123;
+//            //Set集合是没有索引的，所以不能使用通过索引获取元素的方法
+//        &#125;
+      
+          //遍历集合
+        Iterator&lt;String&gt; it = set.iterator();
+        while (it.hasNext())&#123;
+            String s = it.next();
+            System.out.println(s);
+        &#125;
+        System.out.println(&quot;-----------------------------------&quot;);
+        for (String s : set) &#123;
+            System.out.println(s);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h2 id="3-TreeSet集合"><a href="#3-TreeSet集合" class="headerlink" title="3.TreeSet集合"></a>3.TreeSet集合</h2><h3 id="3-1TreeSet集合概述和特点【应用】"><a href="#3-1TreeSet集合概述和特点【应用】" class="headerlink" title="3.1TreeSet集合概述和特点【应用】"></a>3.1TreeSet集合概述和特点【应用】</h3><ul>
+<li>不可以存储重复元素</li>
+<li>没有索引</li>
+<li>可以将元素按照规则进行排序<ul>
+<li>TreeSet()：根据其元素的自然排序进行排序</li>
+<li>TreeSet(Comparator comparator) ：根据指定的比较器进行排序</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-2TreeSet集合基本使用【应用】"><a href="#3-2TreeSet集合基本使用【应用】" class="headerlink" title="3.2TreeSet集合基本使用【应用】"></a>3.2TreeSet集合基本使用【应用】</h3><p>存储Integer类型的整数并遍历</p>
+<pre><code class="java">public class TreeSetDemo01 &#123;
+    public static void main(String[] args) &#123;
+        //创建集合对象
+        TreeSet&lt;Integer&gt; ts = new TreeSet&lt;Integer&gt;();
+
+        //添加元素
+        ts.add(10);
+        ts.add(40);
+        ts.add(30);
+        ts.add(50);
+        ts.add(20);
+
+        ts.add(30);
+
+        //遍历集合
+        for(Integer i : ts) &#123;
+            System.out.println(i);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h3 id="3-3自然排序Comparable的使用【应用】"><a href="#3-3自然排序Comparable的使用【应用】" class="headerlink" title="3.3自然排序Comparable的使用【应用】"></a>3.3自然排序Comparable的使用【应用】</h3><ul>
+<li><p>案例需求</p>
+<ul>
+<li>存储学生对象并遍历，创建TreeSet集合使用无参构造方法</li>
+<li>要求：按照年龄从小到大排序，年龄相同时，按照姓名的字母顺序排序</li>
+</ul>
+</li>
+<li><p>实现步骤</p>
+<ol>
+<li>使用空参构造创建TreeSet集合<ul>
+<li>用TreeSet集合存储自定义对象，无参构造方法使用的是自然排序对元素进行排序的</li>
+</ul>
+</li>
+<li>自定义的Student类实现Comparable接口<ul>
+<li>自然排序，就是让元素所属的类实现Comparable接口，重写compareTo(T o)方法</li>
+</ul>
+</li>
+<li>重写接口中的compareTo方法<ul>
+<li>重写方法时，一定要注意排序规则必须按照要求的主要条件和次要条件来写</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>代码实现</p>
+<p>学生类</p>
+<pre><code class="java">public class Student implements Comparable&lt;Student&gt;&#123;
+    private String name;
+    private int age;
+
+    public Student() &#123;
+    &#125;
+
+    public Student(String name, int age) &#123;
+        this.name = name;
+        this.age = age;
+    &#125;
+
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    public void setName(String name) &#123;
+        this.name = name;
+    &#125;
+
+    public int getAge() &#123;
+        return age;
+    &#125;
+
+    public void setAge(int age) &#123;
+        this.age = age;
+    &#125;
+
+    @Override
+    public String toString() &#123;
+        return &quot;Student&#123;&quot; +
+                &quot;name=&#39;&quot; + name + &#39;\&#39;&#39; +
+                &quot;, age=&quot; + age +
+                &#39;&#125;&#39;;
+    &#125;
+
+    @Override
+    public int compareTo(Student o) &#123;
+        //按照对象的年龄进行排序
+        //主要判断条件: 按照年龄从小到大排序
+        int result = this.age - o.age;
+        //次要判断条件: 年龄相同时，按照姓名的字母顺序排序
+        result = result == 0 ? this.name.compareTo(o.getName()) : result;
+        return result;
+    &#125;
+&#125;
+</code></pre>
+<p>测试类</p>
+<pre><code class="java">public class MyTreeSet2 &#123;
+    public static void main(String[] args) &#123;
+        //创建集合对象
+        TreeSet&lt;Student&gt; ts = new TreeSet&lt;&gt;();
+        //创建学生对象
+        Student s1 = new Student(&quot;zhangsan&quot;,28);
+        Student s2 = new Student(&quot;lisi&quot;,27);
+        Student s3 = new Student(&quot;wangwu&quot;,29);
+        Student s4 = new Student(&quot;zhaoliu&quot;,28);
+        Student s5 = new Student(&quot;qianqi&quot;,30);
+        //把学生添加到集合
+        ts.add(s1);
+        ts.add(s2);
+        ts.add(s3);
+        ts.add(s4);
+        ts.add(s5);
+        //遍历集合
+        for (Student student : ts) &#123;
+            System.out.println(student);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h3 id="3-4比较器排序Comparator的使用【应用】"><a href="#3-4比较器排序Comparator的使用【应用】" class="headerlink" title="3.4比较器排序Comparator的使用【应用】"></a>3.4比较器排序Comparator的使用【应用】</h3><ul>
+<li><p>案例需求</p>
+<ul>
+<li>存储老师对象并遍历，创建TreeSet集合使用带参构造方法</li>
+<li>要求：按照年龄从小到大排序，年龄相同时，按照姓名的字母顺序排序</li>
+</ul>
+</li>
+<li><p>实现步骤</p>
+<ul>
+<li>用TreeSet集合存储自定义对象，带参构造方法使用的是比较器排序对元素进行排序的</li>
+<li>比较器排序，就是让集合构造方法接收Comparator的实现类对象，重写compare(T o1,T o2)方法</li>
+<li>重写方法时，一定要注意排序规则必须按照要求的主要条件和次要条件来写</li>
+</ul>
+</li>
+<li><p>代码实现</p>
+<p>老师类</p>
+<pre><code class="java">public class Teacher &#123;
+    private String name;
+    private int age;
+
+    public Teacher() &#123;
+    &#125;
+
+    public Teacher(String name, int age) &#123;
+        this.name = name;
+        this.age = age;
+    &#125;
+
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    public void setName(String name) &#123;
+        this.name = name;
+    &#125;
+
+    public int getAge() &#123;
+        return age;
+    &#125;
+
+    public void setAge(int age) &#123;
+        this.age = age;
+    &#125;
+
+    @Override
+    public String toString() &#123;
+        return &quot;Teacher&#123;&quot; +
+                &quot;name=&#39;&quot; + name + &#39;\&#39;&#39; +
+                &quot;, age=&quot; + age +
+                &#39;&#125;&#39;;
+    &#125;
+&#125;
+</code></pre>
+<p>测试类</p>
+<pre><code class="java">public class MyTreeSet4 &#123;
+    public static void main(String[] args) &#123;
+          //创建集合对象
+        TreeSet&lt;Teacher&gt; ts = new TreeSet&lt;&gt;(new Comparator&lt;Teacher&gt;() &#123;
+            @Override
+            public int compare(Teacher o1, Teacher o2) &#123;
+                //o1表示现在要存入的那个元素
+                //o2表示已经存入到集合中的元素
+              
+                //主要条件
+                int result = o1.getAge() - o2.getAge();
+                //次要条件
+                result = result == 0 ? o1.getName().compareTo(o2.getName()) : result;
+                return result;
+            &#125;
+        &#125;);
+        //创建老师对象
+        Teacher t1 = new Teacher(&quot;zhangsan&quot;,23);
+        Teacher t2 = new Teacher(&quot;lisi&quot;,22);
+        Teacher t3 = new Teacher(&quot;wangwu&quot;,24);
+        Teacher t4 = new Teacher(&quot;zhaoliu&quot;,24);
+        //把老师添加到集合
+        ts.add(t1);
+        ts.add(t2);
+        ts.add(t3);
+        ts.add(t4);
+        //遍历集合
+        for (Teacher teacher : ts) &#123;
+            System.out.println(teacher);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+<h3 id="3-5两种比较方式总结【理解】"><a href="#3-5两种比较方式总结【理解】" class="headerlink" title="3.5两种比较方式总结【理解】"></a>3.5两种比较方式总结【理解】</h3><ul>
+<li>两种比较方式小结<ul>
+<li>自然排序: 自定义类实现Comparable接口,重写compareTo方法,根据返回值进行排序</li>
+<li>比较器排序: 创建TreeSet对象的时候传递Comparator的实现类对象,重写compare方法,根据返回值进行排序</li>
+<li>在使用的时候,默认使用自然排序,当自然排序不满足现在的需求时,必须使用比较器排序</li>
+</ul>
+</li>
+<li>两种方式中关于返回值的规则<ul>
+<li>如果返回值为负数，表示当前存入的元素是较小值，存左边</li>
+<li>如果返回值为0，表示当前存入的元素跟集合中元素重复了，不存</li>
+<li>如果返回值为正数，表示当前存入的元素是较大值，存右边</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-数据结构"><a href="#4-数据结构" class="headerlink" title="4.数据结构"></a>4.数据结构</h2><h3 id="4-1二叉树【理解】"><a href="#4-1二叉树【理解】" class="headerlink" title="4.1二叉树【理解】"></a>4.1二叉树【理解】</h3><ul>
+<li><p>二叉树的特点</p>
+<ul>
+<li>二叉树中,任意一个节点的度要小于等于2<ul>
+<li>节点: 在树结构中,每一个元素称之为节点</li>
+<li>度: 每一个节点的子节点数量称之为度</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>二叉树结构图</p>
+<p><img src="D:/HuaweiMoveData/Users/86147/Desktop/黑马java资料/新建文件夹/img/01_二叉树结构图.png" alt="01_二叉树结构图"></p>
+</li>
+</ul>
+<h3 id="4-2二叉查找树【理解】"><a href="#4-2二叉查找树【理解】" class="headerlink" title="4.2二叉查找树【理解】"></a>4.2二叉查找树【理解】</h3><ul>
+<li><p>二叉查找树的特点</p>
+<ul>
+<li>二叉查找树,又称二叉排序树或者二叉搜索树</li>
+<li>每一个节点上最多有两个子节点</li>
+<li>左子树上所有节点的值都小于根节点的值</li>
+<li>右子树上所有节点的值都大于根节点的值</li>
+</ul>
+</li>
+<li><p>二叉查找树结构图</p>
+<p><img src="D:/HuaweiMoveData/Users/86147/Desktop/黑马java资料/新建文件夹/img/02_二叉查找树结构图.png" alt="02_二叉查找树结构图"></p>
+</li>
+<li><p>二叉查找树和二叉树对比结构图</p>
+<p><img src="D:/HuaweiMoveData/Users/86147/Desktop/黑马java资料/新建文件夹/img/03_二叉查找树和二叉树对比结构图.png" alt="03_二叉查找树和二叉树对比结构图"></p>
+</li>
+<li><p>二叉查找树添加节点规则</p>
+<ul>
+<li>小的存左边</li>
+<li>大的存右边</li>
+<li>一样的不存</li>
+</ul>
+<p><img src="D:/HuaweiMoveData/Users/86147/Desktop/黑马java资料/新建文件夹/img/04_二叉查找树添加节点规则.png" alt="04_二叉查找树添加节点规则"></p>
+</li>
+</ul>
+<h3 id="4-3平衡二叉树【理解】"><a href="#4-3平衡二叉树【理解】" class="headerlink" title="4.3平衡二叉树【理解】"></a>4.3平衡二叉树【理解】</h3><ul>
+<li><p>平衡二叉树的特点</p>
+<ul>
+<li>二叉树左右两个子树的高度差不超过1</li>
+<li>任意节点的左右两个子树都是一颗平衡二叉树</li>
+</ul>
+</li>
+<li><p>平衡二叉树旋转</p>
+<ul>
+<li><p>旋转触发时机</p>
+<ul>
+<li>当添加一个节点之后,该树不再是一颗平衡二叉树</li>
+</ul>
+</li>
+<li><p>左旋</p>
+<ul>
+<li>就是将根节点的右侧往左拉,原先的右子节点变成新的父节点,并把多余的左子节点出让,给已经降级的根节点当右子节点</li>
+</ul>
+<p><img src="D:/HuaweiMoveData/Users/86147/Desktop/黑马java资料/新建文件夹/img/05_平衡二叉树左旋01.png" alt="05_平衡二叉树左旋01"></p>
+<p><img src="D:/HuaweiMoveData/Users/86147/Desktop/黑马java资料/新建文件夹/img/05_平衡二叉树左旋02.png" alt="05_平衡二叉树左旋02"></p>
+</li>
+<li><p>右旋</p>
+<ul>
+<li><p>就是将根节点的左侧往右拉,左子节点变成了新的父节点,并把多余的右子节点出让,给已经降级根节点当左子节点</p>
+<p><img src="D:/HuaweiMoveData/Users/86147/Desktop/黑马java资料/新建文件夹/img/06_平衡二叉树右旋01.png" alt="06_平衡二叉树右旋01"></p>
+<p><img src="D:/HuaweiMoveData/Users/86147/Desktop/黑马java资料/新建文件夹/img/06_平衡二叉树右旋02.png" alt="06_平衡二叉树右旋02"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>平衡二叉树和二叉查找树对比结构图</p>
+<p><img src="D:/HuaweiMoveData/Users/86147/Desktop/黑马java资料/新建文件夹/img/07_平衡二叉树和二叉查找树对比结构图.png" alt="07_平衡二叉树和二叉查找树对比结构图"></p>
+</li>
+<li><p>平衡二叉树旋转的四种情况</p>
+<ul>
+<li><p>左左</p>
+<ul>
+<li><p>左左: 当根节点左子树的左子树有节点插入,导致二叉树不平衡</p>
+</li>
+<li><p>如何旋转: 直接对整体进行右旋即可</p>
+<p><img src="D:/HuaweiMoveData/Users/86147/Desktop/黑马java资料/新建文件夹/img/08_平衡二叉树左左.png" alt="08_平衡二叉树左左"></p>
+</li>
+</ul>
+</li>
+<li><p>左右</p>
+<ul>
+<li><p>左右: 当根节点左子树的右子树有节点插入,导致二叉树不平衡</p>
+</li>
+<li><p>如何旋转: 先在左子树对应的节点位置进行左旋,在对整体进行右旋</p>
+<p><img src="D:/HuaweiMoveData/Users/86147/Desktop/黑马java资料/新建文件夹/img/09_平衡二叉树左右.png" alt="09_平衡二叉树左右"></p>
+</li>
+</ul>
+</li>
+<li><p>右右</p>
+<ul>
+<li><p>右右: 当根节点右子树的右子树有节点插入,导致二叉树不平衡</p>
+</li>
+<li><p>如何旋转: 直接对整体进行左旋即可</p>
+<p><img src="D:/HuaweiMoveData/Users/86147/Desktop/黑马java资料/新建文件夹/img/10_平衡二叉树右右.png" alt="10_平衡二叉树右右"></p>
+</li>
+</ul>
+</li>
+<li><p>右左</p>
+<ul>
+<li><p>右左:当根节点右子树的左子树有节点插入,导致二叉树不平衡</p>
+</li>
+<li><p>如何旋转: 先在右子树对应的节点位置进行右旋,在对整体进行左旋</p>
+<p><img src="D:/HuaweiMoveData/Users/86147/Desktop/黑马java资料/新建文件夹/img/11_平衡二叉树右左.png" alt="11_平衡二叉树右左"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-3红黑树【理解】"><a href="#4-3红黑树【理解】" class="headerlink" title="4.3红黑树【理解】"></a>4.3红黑树【理解】</h3><ul>
+<li><p>红黑树的特点</p>
+<ul>
+<li>平衡二叉B树</li>
+<li>每一个节点可以是红或者黑</li>
+<li>红黑树不是高度平衡的,它的平衡是通过”自己的红黑规则”进行实现的</li>
+</ul>
+</li>
+<li><p>红黑树的红黑规则有哪些</p>
+<ol>
+<li><p>每一个节点或是红色的,或者是黑色的</p>
+</li>
+<li><p>根节点必须是黑色</p>
+</li>
+<li><p>如果一个节点没有子节点或者父节点,则该节点相应的指针属性值为Nil,这些Nil视为叶节点,每个叶节点(Nil)是黑色的</p>
+</li>
+<li><p>如果某一个节点是红色,那么它的子节点必须是黑色(不能出现两个红色节点相连 的情况)</p>
+</li>
+<li><p>对每一个节点,从该节点到其所有后代叶节点的简单路径上,均包含相同数目的黑色节点</p>
+<p><img src="/img/12_%E7%BA%A2%E9%BB%91%E6%A0%91%E7%BB%93%E6%9E%84%E5%9B%BE.png" alt="12_红黑树结构图"></p>
+</li>
+</ol>
+</li>
+<li><p>红黑树添加节点的默认颜色</p>
+<ul>
+<li><p>添加节点时,默认为红色,效率高</p>
+<p><img src="/img/13_%E7%BA%A2%E9%BB%91%E6%A0%91%E6%B7%BB%E5%8A%A0%E8%8A%82%E7%82%B9%E9%A2%9C%E8%89%B2.png" alt="13_红黑树添加节点颜色"></p>
+</li>
+</ul>
+</li>
+<li><p>红黑树添加节点后如何保持红黑规则</p>
+<ul>
+<li>根节点位置<ul>
+<li>直接变为黑色</li>
+</ul>
+</li>
+<li>非根节点位置<ul>
+<li>父节点为黑色<ul>
+<li>不需要任何操作,默认红色即可</li>
+</ul>
+</li>
+<li>父节点为红色<ul>
+<li>叔叔节点为红色<ol>
+<li>将”父节点”设为黑色,将”叔叔节点”设为黑色</li>
+<li>将”祖父节点”设为红色</li>
+<li>如果”祖父节点”为根节点,则将根节点再次变成黑色</li>
+</ol>
+</li>
+<li>叔叔节点为黑色<ol>
+<li>将”父节点”设为黑色</li>
+<li>将”祖父节点”设为红色</li>
+<li>以”祖父节点”为支点进行旋转</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>##5.HashSet集合</p>
+<h3 id="5-1HashSet集合概述和特点【应用】"><a href="#5-1HashSet集合概述和特点【应用】" class="headerlink" title="5.1HashSet集合概述和特点【应用】"></a>5.1HashSet集合概述和特点【应用】</h3><ul>
+<li>底层数据结构是哈希表</li>
+<li>存取无序</li>
+<li>不可以存储重复元素</li>
+<li>没有索引,不能使用普通for循环遍历</li>
+</ul>
+<h3 id="5-2HashSet集合的基本应用【应用】"><a href="#5-2HashSet集合的基本应用【应用】" class="headerlink" title="5.2HashSet集合的基本应用【应用】"></a>5.2HashSet集合的基本应用【应用】</h3><p>存储字符串并遍历</p>
+<pre><code class="java">public class HashSetDemo &#123;
+    public static void main(String[] args) &#123;
+        //创建集合对象
+        HashSet&lt;String&gt; set = new HashSet&lt;String&gt;();
+
+        //添加元素
+        set.add(&quot;hello&quot;);
+        set.add(&quot;world&quot;);
+        set.add(&quot;java&quot;);
+        //不包含重复元素的集合
+        set.add(&quot;world&quot;);
+
+        //遍历
+        for(String s : set) &#123;
+            System.out.println(s);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h3 id="5-3哈希值【理解】"><a href="#5-3哈希值【理解】" class="headerlink" title="5.3哈希值【理解】"></a>5.3哈希值【理解】</h3><ul>
+<li><p>哈希值简介</p>
+<p>​	是JDK根据对象的地址或者字符串或者数字算出来的int类型的数值</p>
+</li>
+<li><p>如何获取哈希值</p>
+<p>​	Object类中的public int hashCode()：返回对象的哈希码值</p>
+</li>
+<li><p>哈希值的特点</p>
+<ul>
+<li>同一个对象多次调用hashCode()方法返回的哈希值是相同的</li>
+<li>默认情况下，不同对象的哈希值是不同的。而重写hashCode()方法，可以实现让不同对象的哈希值相同</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-4哈希表结构【理解】"><a href="#5-4哈希表结构【理解】" class="headerlink" title="5.4哈希表结构【理解】"></a>5.4哈希表结构【理解】</h3><ul>
+<li><p>JDK1.8以前</p>
+<p>​	数组 + 链表</p>
+<p><img src="F:/JavaSE%E6%9C%80%E6%96%B0%E7%89%88%EF%BC%88B%E7%AB%99%EF%BC%89/day23-%E9%9B%86%E5%90%88%EF%BC%88%E6%B3%9B%E5%9E%8B&Set&%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%89/%E7%AC%94%E8%AE%B0/img/14_JKD8%E4%BB%A5%E5%89%8D%E5%93%88%E5%B8%8C%E8%A1%A8.png" alt="14_JKD8以前哈希表"></p>
+</li>
+<li><p>JDK1.8以后</p>
+<ul>
+<li><p>节点个数少于等于8个</p>
+<p>​	数组 + 链表</p>
+</li>
+<li><p>节点个数多于8个</p>
+<p>​	数组 + 红黑树</p>
+</li>
+</ul>
+<p><img src="F:/JavaSE%E6%9C%80%E6%96%B0%E7%89%88%EF%BC%88B%E7%AB%99%EF%BC%89/day23-%E9%9B%86%E5%90%88%EF%BC%88%E6%B3%9B%E5%9E%8B&Set&%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%89/%E7%AC%94%E8%AE%B0/img/15_JKD8%E4%BB%A5%E5%90%8E%E5%93%88%E5%B8%8C%E8%A1%A8.png" alt="15_JKD8以后哈希表"></p>
+</li>
+</ul>
+<h3 id="5-5HashSet集合存储学生对象并遍历【应用】"><a href="#5-5HashSet集合存储学生对象并遍历【应用】" class="headerlink" title="5.5HashSet集合存储学生对象并遍历【应用】"></a>5.5HashSet集合存储学生对象并遍历【应用】</h3><ul>
+<li><p>案例需求</p>
+<ul>
+<li>创建一个存储学生对象的集合，存储多个学生对象，使用程序实现在控制台遍历该集合</li>
+<li>要求：学生对象的成员变量值相同，我们就认为是同一个对象</li>
+</ul>
+</li>
+<li><p>代码实现</p>
+<p>学生类</p>
+<pre><code class="java">public class Student &#123;
+    private String name;
+    private int age;
+
+    public Student() &#123;
+    &#125;
+
+    public Student(String name, int age) &#123;
+        this.name = name;
+        this.age = age;
+    &#125;
+
+    public String getName() &#123;
+        return name;
+    &#125;
+
+    public void setName(String name) &#123;
+        this.name = name;
+    &#125;
+
+    public int getAge() &#123;
+        return age;
+    &#125;
+
+    public void setAge(int age) &#123;
+        this.age = age;
+    &#125;
+
+    @Override
+    public boolean equals(Object o) &#123;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Student student = (Student) o;
+
+        if (age != student.age) return false;
+        return name != null ? name.equals(student.name) : student.name == null;
+    &#125;
+
+    @Override
+    public int hashCode() &#123;
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + age;
+        return result;
+    &#125;
+&#125;
+</code></pre>
+<p>测试类</p>
+<pre><code class="java">public class HashSetDemo02 &#123;
+    public static void main(String[] args) &#123;
+        //创建HashSet集合对象
+        HashSet&lt;Student&gt; hs = new HashSet&lt;Student&gt;();
+
+        //创建学生对象
+        Student s1 = new Student(&quot;林青霞&quot;, 30);
+        Student s2 = new Student(&quot;张曼玉&quot;, 35);
+        Student s3 = new Student(&quot;王祖贤&quot;, 33);
+
+        Student s4 = new Student(&quot;王祖贤&quot;, 33);
+
+        //把学生添加到集合
+        hs.add(s1);
+        hs.add(s2);
+        hs.add(s3);
+        hs.add(s4);
+
+        //遍历集合(增强for)
+        for (Student s : hs) &#123;
+            System.out.println(s.getName() + &quot;,&quot; + s.getAge());
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>总结</p>
+<p>​	HashSet集合存储自定义类型元素,要想实现元素的唯一,要求必须重写hashCode方法和equals方法</p>
+</li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 陈小达的个人博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;chenjunda
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
