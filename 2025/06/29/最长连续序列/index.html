@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>第一篇博客 | 陈小达的个人博客</title>
+    <title>最长连续序列 | 陈小达的个人博客</title>
     <meta name="author" content="chenjunda" />
     <meta name="description" content="学习笔记" />
     <meta name="keywords" content="" />
@@ -161,22 +161,22 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>第一篇博客</h1>
+        <h1>最长连续序列</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2025/6/28
+            2025/6/29
         </span>
         
         <span class="category">
-            <a href="/categories/%E5%AD%A6%E4%B9%A0/">
+            <a href="/categories/%E7%AE%97%E6%B3%95/">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
-                学习
+                算法
             </a>
         </span>
         
@@ -189,15 +189,8 @@
             
             <span class="tag">
                 
-                <a href="/tags/Hexo/" style="color: #ff7d73">
-                    Hexo
-                </a>
-            </span>
-            
-            <span class="tag">
-                
-                <a href="/tags/TEST/" style="color: #ffa2c4">
-                    TEST
+                <a href="/tags/leecode-Hot100/" style="color: #ffa2c4">
+                    leecode Hot100
                 </a>
             </span>
             
@@ -206,17 +199,118 @@
     </div>
     
     <div class="content" v-pre>
-        <p>欢迎来到我的博客！这是一篇测试文章。</p>
-<h2 id="🧩-分类与标签"><a href="#🧩-分类与标签" class="headerlink" title="🧩 分类与标签"></a>🧩 分类与标签</h2><p>你可以通过这篇文章了解：</p>
+        <p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/longest-consecutive-sequence/">128. 最长连续序列</a></p>
+<p>给定一个未排序的整数数组 <code>nums</code> ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。</p>
+<p>请你设计并实现时间复杂度为 <code>O(n)</code> 的算法解决此问题。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：nums = [100,4,200,1,3,2]
+输出：4
+解释：最长数字连续序列是 [1, 2, 3, 4]。它的长度为 4。
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：nums = [0,3,7,2,5,8,4,6,0,1]
+输出：9
+</code></pre>
+<p><strong>示例 3：</strong></p>
+<pre><code>输入：nums = [1,0,1,2]
+输出：3
+</code></pre>
+<p><strong>提示：</strong></p>
 <ul>
-<li>如何为文章添加分类 <code>categories</code></li>
-<li>如何添加多个标签 <code>tags</code></li>
-<li>如何让文章出现在分类&#x2F;标签页面</li>
+<li><code>0 &lt;= nums.length &lt;= 10^5</code></li>
+<li><code>-10^9 &lt;= nums[i] &lt;= 10^9</code></li>
 </ul>
-<h2 id="📝-示例代码"><a href="#📝-示例代码" class="headerlink" title="📝 示例代码"></a>📝 示例代码</h2><pre><code class="java">public class HelloWorld &#123;
-    public static void main(String[] args) &#123;
-        System.out.println(&quot;Hello Hexo!&quot;);
+<p>拿到这道题的一开始还准备直接开辟10001的数组仿制哈希set来解决，没想到忘记了负数的存在，并且这道题是10^9开不了那么大的数</p>
+<p>本题的核心是发掘hashSet的本质特点，hashSet的特点是什么呢？那么这道题是如何借助hashSet的特点来解决的呢？</p>
+<p>只知道解法还是不够，得知道解决问题的本质，于是我问了chatGpt</p>
+<p>chatGPT：</p>
+<p>这个问题问得非常深入，非常 INFJ 式地想挖“<strong>本质与灵感来源</strong>”，我来尽量用你喜欢的方式解释：</p>
+<hr>
+<h2 id="✅-一、HashSet-被用到的两个关键“性质”"><a href="#✅-一、HashSet-被用到的两个关键“性质”" class="headerlink" title="✅ 一、HashSet 被用到的两个关键“性质”"></a>✅ 一、HashSet 被用到的两个关键“性质”</h2><h3 id="🌟-1-快速查找-O-1-——-set-contains-x"><a href="#🌟-1-快速查找-O-1-——-set-contains-x" class="headerlink" title="🌟 1. 快速查找 O(1) —— set.contains(x)"></a>🌟 1. <strong>快速查找 O(1)</strong> —— <code>set.contains(x)</code></h3><blockquote>
+<p>判断一个数是否存在，不用遍历，直接查，时间复杂度 O(1)</p>
+</blockquote>
+<p>这是最关键的特性。因为我们需要在序列中判断一个数的“前一个”或“后一个”是否存在，HashSet 能极快完成这个判断。</p>
+<hr>
+<h3 id="🌟-2-去重"><a href="#🌟-2-去重" class="headerlink" title="🌟 2. 去重"></a>🌟 2. <strong>去重</strong></h3><blockquote>
+<p>数组里可能有重复项，HashSet 自动帮你去重</p>
+</blockquote>
+<p>这对于 <code>nums = [1,0,1,2]</code> 这种输入是必要的，否则你可能会重复处理。</p>
+<hr>
+<h2 id="✅-二、这道题的“感觉”或“直觉”"><a href="#✅-二、这道题的“感觉”或“直觉”" class="headerlink" title="✅ 二、这道题的“感觉”或“直觉”"></a>✅ 二、这道题的“感觉”或“直觉”</h2><p>很多人第一反应会是：排序 → 然后遍历。但排序是 O(nlogn)，不符合要求。</p>
+<p>而这道题的 <strong>直觉点在于</strong>：</p>
+<blockquote>
+<p>🌱“只要我知道一个连续序列的<strong>起点</strong>，我就可以一路 <code>+1</code> 找下去。”</p>
+</blockquote>
+<hr>
+<h3 id="💡-于是我们思考："><a href="#💡-于是我们思考：" class="headerlink" title="💡 于是我们思考："></a>💡 于是我们思考：</h3><p>如果我能<strong>快速知道一个数是否在原数组中</strong>，那我就能从每个可能的起点 <code>x</code> 出发，查 <code>x+1, x+2...</code>，直到查不到为止。</p>
+<p>但怎么快速查？<br> 👉 这就自然想到 HashSet！</p>
+<hr>
+<h3 id="✅-所以，问题就转化成了："><a href="#✅-所以，问题就转化成了：" class="headerlink" title="✅ 所以，问题就转化成了："></a>✅ 所以，问题就转化成了：</h3><ul>
+<li><strong>先把所有数字放到 set 中</strong></li>
+<li><strong>从每个“可能的起点”出发往右找</strong></li>
+</ul>
+<hr>
+<h3 id="🚩-如何判断某个数是“起点”？"><a href="#🚩-如何判断某个数是“起点”？" class="headerlink" title="🚩 如何判断某个数是“起点”？"></a>🚩 如何判断某个数是“起点”？</h3><p>答案是：</p>
+<pre><code>java
+
+
+复制编辑
+if (!set.contains(num - 1))
+</code></pre>
+<p>也就是：</p>
+<blockquote>
+<p>只有当 <code>num-1</code> 不存在时，<code>num</code> 才是这个连续序列的第一个数。</p>
+</blockquote>
+<p>这样就保证了每个序列只被处理一次，时间复杂度 O(n)。</p>
+<hr>
+<h2 id="✅-总结：为什么-HashSet-是灵魂"><a href="#✅-总结：为什么-HashSet-是灵魂" class="headerlink" title="✅ 总结：为什么 HashSet 是灵魂"></a>✅ 总结：为什么 HashSet 是灵魂</h2><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>在这道题中的作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查找快 O(1)</td>
+<td>快速判断某个数是否存在</td>
+</tr>
+<tr>
+<td>去重</td>
+<td>防止重复处理同一个数字</td>
+</tr>
+<tr>
+<td>空间换时间</td>
+<td>用 O(n) 空间换 O(n) 时间</td>
+</tr>
+<tr>
+<td>语义契合</td>
+<td>“是否存在”的判断语义就是 Set 本质</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="🌌-最后的“感觉”总结一句话："><a href="#🌌-最后的“感觉”总结一句话：" class="headerlink" title="🌌 最后的“感觉”总结一句话："></a>🌌 最后的“感觉”总结一句话：</h2><blockquote>
+<p>这道题的关键感受是：“我需要<strong>快速判断一个数字是否存在</strong>”，这种需求一出现，HashSet 就成了<strong>最自然的选择</strong>，它的 <code>contains()</code> 就像“意识的触角”一样可以立刻知晓答案。</p>
+</blockquote>
+<pre><code class="java">public static int longestConsecutive(int[] nums) &#123;
+    HashSet&lt;Integer&gt; set = new HashSet&lt;&gt;();
+    int ans=0;
+    for (int i = 0; i &lt; nums.length; i++) &#123;
+        if(!set.contains(nums[i])) &#123;
+            set.add(nums[i]);
+        &#125;
     &#125;
+    for (Integer i : set) &#123;
+        if(!set.contains(i-1)) &#123;
+            int cur=i;
+            int len=1;
+            while(set.contains(cur+1)) &#123;
+                len++;
+                cur++;
+            &#125;
+            ans = Math.max(ans, len);
+        &#125;
+    &#125;
+    return ans;
 &#125;
 </code></pre>
 
