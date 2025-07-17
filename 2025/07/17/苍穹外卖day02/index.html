@@ -1,0 +1,1297 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>苍穹外卖day02 | 陈小达的个人博客</title>
+    <meta name="author" content="chenjunda" />
+    <meta name="description" content="学习笔记" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+<script src="/js/lib/math.js"></script>
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>陈小达的个人博客</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;陈小达的个人博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>苍穹外卖day02</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/7/17
+        </span>
+        
+        <span class="category">
+            <a href="/categories/java/">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                java
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                
+                <a href="/tags/javaWeb/" style="color: #00a596">
+                    javaWeb
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="苍穹外卖day02"><a href="#苍穹外卖day02" class="headerlink" title="苍穹外卖day02"></a>苍穹外卖day02</h1><span id="more"></span>
+
+<h2 id="1-新增员工"><a href="#1-新增员工" class="headerlink" title="1. 新增员工"></a>1. 新增员工</h2><h3 id="1-1-需求分析和设计"><a href="#1-1-需求分析和设计" class="headerlink" title="1.1 需求分析和设计"></a>1.1 需求分析和设计</h3><h4 id="1-1-1-产品原型"><a href="#1-1-1-产品原型" class="headerlink" title="1.1.1 产品原型"></a>1.1.1 产品原型</h4><p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221111161120975.png" alt="image-20221111161120975"></p>
+<p><strong>注意事项：</strong></p>
+<ol>
+<li>账号必须是唯一的</li>
+<li>手机号为合法的11位手机号码</li>
+<li>身份证号为合法的18位身份证号码</li>
+<li>密码默认为123456</li>
+</ol>
+<h4 id="1-1-2-接口设计"><a href="#1-1-2-接口设计" class="headerlink" title="1.1.2 接口设计"></a>1.1.2 接口设计</h4><img src="苍穹外卖day02/image-20221111162912753.png" alt="image-20221111162912753" style="zoom: 67%;" />
+
+<img src="苍穹外卖day02/image-20221111162930483.png" alt="image-20221111162930483" style="zoom: 67%;" />
+
+<p>本项目约定：</p>
+<ul>
+<li><strong>管理端</strong>发出的请求，统一使用**&#x2F;admin**作为前缀。</li>
+<li><strong>用户端</strong>发出的请求，统一使用**&#x2F;user**作为前缀。</li>
+</ul>
+<h4 id="1-1-3-表设计"><a href="#1-1-3-表设计" class="headerlink" title="1.1.3 表设计"></a>1.1.3 表设计</h4><p>新增员工，其实就是将我们新增页面录入的员工数据插入到employee表。</p>
+<p><strong>employee表结构：</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>字段名</strong></th>
+<th><strong>数据类型</strong></th>
+<th><strong>说明</strong></th>
+<th><strong>备注</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>bigint</td>
+<td>主键</td>
+<td>自增</td>
+</tr>
+<tr>
+<td>name</td>
+<td>varchar(32)</td>
+<td>姓名</td>
+<td></td>
+</tr>
+<tr>
+<td>username</td>
+<td>varchar(32)</td>
+<td>用户名</td>
+<td>唯一</td>
+</tr>
+<tr>
+<td>password</td>
+<td>varchar(64)</td>
+<td>密码</td>
+<td></td>
+</tr>
+<tr>
+<td>phone</td>
+<td>varchar(11)</td>
+<td>手机号</td>
+<td></td>
+</tr>
+<tr>
+<td>sex</td>
+<td>varchar(2)</td>
+<td>性别</td>
+<td></td>
+</tr>
+<tr>
+<td>id_number</td>
+<td>varchar(18)</td>
+<td>身份证号</td>
+<td></td>
+</tr>
+<tr>
+<td>status</td>
+<td>Int</td>
+<td>账号状态</td>
+<td>1正常 0锁定</td>
+</tr>
+<tr>
+<td>create_time</td>
+<td>Datetime</td>
+<td>创建时间</td>
+<td></td>
+</tr>
+<tr>
+<td>update_time</td>
+<td>datetime</td>
+<td>最后修改时间</td>
+<td></td>
+</tr>
+<tr>
+<td>create_user</td>
+<td>bigint</td>
+<td>创建人id</td>
+<td></td>
+</tr>
+<tr>
+<td>update_user</td>
+<td>bigint</td>
+<td>最后修改人id</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>其中，employee表中的status字段已经设置了默认值1，表示状态正常。</p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221111180159188.png" alt="image-20221111180159188"></p>
+<h3 id="1-2-代码开发"><a href="#1-2-代码开发" class="headerlink" title="1.2 代码开发"></a>1.2 代码开发</h3><h4 id="1-2-1-设计DTO类"><a href="#1-2-1-设计DTO类" class="headerlink" title="1.2.1 设计DTO类"></a>1.2.1 设计DTO类</h4><p><strong>根据新增员工接口设计对应的DTO</strong></p>
+<p>前端传递参数列表：</p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221111164002448.png" alt="image-20221111164002448"></p>
+<p><strong>思考：</strong>是否可以使用对应的实体类来接收呢？</p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221111164453341.png" alt="image-20221111164453341"></p>
+<p><strong>注意：</strong>当前端提交的数据和实体类中对应的属性差别比较大时，建议使用DTO来封装数据</p>
+<p>由于上述传入参数和实体类有较大差别，所以自定义DTO类。</p>
+<p>进入sky-pojo模块，在com.sky.dto包下，已定义EmployeeDTO</p>
+<pre><code class="java">package com.sky.dto;
+
+import lombok.Data;
+
+import java.io.Serializable;
+
+@Data
+public class EmployeeDTO implements Serializable &#123;
+
+    private Long id;
+
+    private String username;
+
+    private String name;
+
+    private String phone;
+
+    private String sex;
+
+    private String idNumber;
+
+&#125;
+</code></pre>
+<h4 id="1-2-2-Controller层"><a href="#1-2-2-Controller层" class="headerlink" title="1.2.2 Controller层"></a>1.2.2 Controller层</h4><p> <strong>EmployeeController中创建新增员工方法</strong></p>
+<p>进入到sky-server模块中，在com.sky.controller.admin包下，在EmployeeController中创建新增员工方法，接收前端提交的参数。</p>
+<pre><code class="java">    /**
+     * 新增员工
+     * @param employeeDTO
+     * @return
+     */
+    @PostMapping
+    @ApiOperation(&quot;新增员工&quot;)
+    public Result save(@RequestBody EmployeeDTO employeeDTO)&#123;
+        log.info(&quot;新增员工：&#123;&#125;&quot;,employeeDTO);
+        employeeService.save(employeeDTO);//该方法后续步骤会定义
+        return Result.success();
+    &#125;
+</code></pre>
+<p><strong>注：</strong>Result类定义了后端统一返回结果格式。</p>
+<p>进入sky-common模块，在com.sky.result包下定义了Result.java</p>
+<pre><code class="java">package com.sky.result;
+
+import lombok.Data;
+
+import java.io.Serializable;
+
+/**
+ * 后端统一返回结果
+ * @param &lt;T&gt;
+ */
+@Data
+public class Result&lt;T&gt; implements Serializable &#123;
+
+    private Integer code; //编码：1成功，0和其它数字为失败
+    private String msg; //错误信息
+    private T data; //数据
+
+    public static &lt;T&gt; Result&lt;T&gt; success() &#123;
+        Result&lt;T&gt; result = new Result&lt;T&gt;();
+        result.code = 1;
+        return result;
+    &#125;
+
+    public static &lt;T&gt; Result&lt;T&gt; success(T object) &#123;
+        Result&lt;T&gt; result = new Result&lt;T&gt;();
+        result.data = object;
+        result.code = 1;
+        return result;
+    &#125;
+
+    public static &lt;T&gt; Result&lt;T&gt; error(String msg) &#123;
+        Result result = new Result();
+        result.msg = msg;
+        result.code = 0;
+        return result;
+    &#125;
+
+&#125;
+</code></pre>
+<h4 id="1-2-3-Service层接口"><a href="#1-2-3-Service层接口" class="headerlink" title="1.2.3 Service层接口"></a>1.2.3 Service层接口</h4><p><strong>在EmployeeService接口中声明新增员工方法</strong></p>
+<p>进入到sky-server模块中,com.sky.server.EmployeeService</p>
+<pre><code class="java">    /**
+     * 新增员工
+     * @param employeeDTO
+     */
+    void save(EmployeeDTO employeeDTO);
+</code></pre>
+<h4 id="1-2-4-Service层实现类"><a href="#1-2-4-Service层实现类" class="headerlink" title="1.2.4 Service层实现类"></a>1.2.4 Service层实现类</h4><p><strong>在EmployeeServiceImpl中实现新增员工方法</strong></p>
+<p>com.sky.server.impl.EmployeeServiceImpl中创建方法</p>
+<pre><code class="java">/**
+ * 新增员工
+ * @param employeeDTO
+ */
+@Override
+public void save(EmployeeDTO employeeDTO) &#123;
+    Employee employee = new Employee();
+
+    //通过DTO部分导入员工类的属性
+    BeanUtils.copyProperties(employeeDTO, employee);
+    //剩下的属性要手动配置
+
+    //配置status属性
+    employee.setStatus(StatusConstant.ENABLE);
+
+    //DigestUtils.md5DigestAsHex(...)
+    //这是 Spring 框架提供的工具类，作用是：
+    //用 MD5 算法加密字节数组
+    //并返回一个 32位的十六进制字符串
+    //比如：
+    //&quot;123456&quot; 加密后是：e10adc3949ba59abbe56e057f20f883e
+    //
+
+
+    //employee.setPassword(...)
+    //把加密后的字符串设置为员工对象的密码。
+    employee.setPassword(DigestUtils.md5DigestAsHex(employee.getPassword().getBytes()));
+
+    //设置当前记录的创建时间和修改时间
+    employee.setCreateTime(LocalDateTime.now());
+    employee.setUpdateTime(LocalDateTime.now());
+
+    //设置当前记录创建人id和修改人id
+    //TODO目前写个假数据，后期修改
+            employee.setCreateUser(10L);//a
+            employee.setUpdateUser(10L);
+
+           employeeMapper.insert(employee);//后续步骤定义
+&#125;
+</code></pre>
+<p>在sky-common模块com.sky.constants包下已定义StatusConstant.java</p>
+<pre><code class="java">package com.sky.constant;
+
+/**
+ * 状态常量，启用或者禁用
+ */
+public class StatusConstant &#123;
+
+    //启用
+    public static final Integer ENABLE = 1;
+
+    //禁用
+    public static final Integer DISABLE = 0;
+&#125;
+</code></pre>
+<h4 id="1-2-5-Mapper层"><a href="#1-2-5-Mapper层" class="headerlink" title="1.2.5 Mapper层"></a>1.2.5 Mapper层</h4><p><strong>在EmployeeMapper中声明insert方法</strong></p>
+<p>com.sky.EmployeeMapper中添加方法</p>
+<pre><code class="java">/**
+ * 插入员工数据
+ * @param employee
+ */
+@Insert(&quot;insert into employee (name, username, password, phone, sex, id_number, create_time, update_time, create_user, update_user,status) &quot; +
+        &quot;values &quot; +
+        &quot;(#&#123;name&#125;,#&#123;username&#125;,#&#123;password&#125;,#&#123;phone&#125;,#&#123;sex&#125;,#&#123;idNumber&#125;,#&#123;createTime&#125;,#&#123;updateTime&#125;,#&#123;createUser&#125;,#&#123;updateUser&#125;,#&#123;status&#125;)&quot;)
+void insert(Employee employee);
+</code></pre>
+<p>在application.yml中已开启驼峰命名，故id_number和idNumber可对应。</p>
+<pre><code class="yaml">mybatis:
+  configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
+</code></pre>
+<p>如果不开就要手动AS映射到java</p>
+<select id="getAll" resultType="com.example.Employee">
+    SELECT
+        id,
+        name,
+        id_number AS idNumber  -- 指定别名为Java属性名
+    FROM employee
+</select>
+
+<h3 id="1-3-功能测试"><a href="#1-3-功能测试" class="headerlink" title="1.3 功能测试"></a>1.3 功能测试</h3><p>代码已经发开发完毕，对新增员工功能进行测试。</p>
+<p><strong>功能测试实现方式：</strong></p>
+<ul>
+<li>通过接口文档测试</li>
+<li>通前后端联调测试</li>
+</ul>
+<p>接下来我们使用上述两种方式分别测试。</p>
+<h4 id="1-3-1-接口文档测试"><a href="#1-3-1-接口文档测试" class="headerlink" title="1.3.1 接口文档测试"></a>1.3.1 接口文档测试</h4><p><strong>启动服务：</strong>访问<a target="_blank" rel="noopener" href="http://localhost:8080/doc.html%EF%BC%8C%E8%BF%9B%E5%85%A5%E6%96%B0%E5%A2%9E%E5%91%98%E5%B7%A5%E6%8E%A5%E5%8F%A3">http://localhost:8080/doc.html，进入新增员工接口</a></p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221111184934153.png" alt="image-20221111184934153"></p>
+<p>json数据：</p>
+<pre><code class="json">&#123;
+  &quot;id&quot;: 0,
+  &quot;idNumber&quot;: &quot;111222333444555666&quot;,
+  &quot;name&quot;: &quot;xiaozhi&quot;,
+  &quot;phone&quot;: &quot;13812344321&quot;,
+  &quot;sex&quot;: &quot;1&quot;,
+  &quot;username&quot;: &quot;小智&quot;
+&#125;
+</code></pre>
+<p>响应码：401 报错</p>
+<p><strong>通过断点调试：</strong>进入到JwtTokenAdminInterceptor拦截器</p>
+<p><strong>通过断点调试：</strong>进入到JwtTokenAdminInterceptor拦截器</p>
+<pre><code class="java">     /**
+     * 校验jwt
+     *
+     * @param request
+     * @param response
+     * @param handler
+     * @return
+     * @throws Exception
+     */
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception &#123;
+        //判断当前拦截到的是Controller的方法还是其他资源
+        if (!(handler instanceof HandlerMethod)) &#123;
+            //当前拦截到的不是动态方法，直接放行
+            return true;
+        &#125;
+
+        //1、从请求头中获取令牌 jwtProperties.getAdminTokenName()获取为token
+        String token = request.getHeader(jwtProperties.getAdminTokenName());
+
+        //2、校验令牌
+        try &#123;
+            log.info(&quot;jwt校验:&#123;&#125;&quot;, token);
+            Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
+            Long empId = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
+            log.info(&quot;当前员工id：&quot;, empId);
+            //3、通过，放行
+            return true;
+        &#125; catch (Exception ex) &#123;
+            //4、不通过，响应401状态码
+            response.setStatus(401);
+            return false;
+        &#125;
+    &#125;
+</code></pre>
+<p><strong>报错原因：</strong>由于JWT令牌校验失败，导致EmployeeController的save方法没有被调用</p>
+<p><strong>解决方法：</strong>调用员工登录接口获得一个合法的JWT令牌</p>
+<p>使用admin用户登录获取令牌</p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221111185649636.png" alt="image-20221111185649636"></p>
+<p><strong>添加令牌：</strong></p>
+<p>将合法的JWT令牌添加到全局参数中</p>
+<p>文档管理–&gt;全局参数设置–&gt;添加参数</p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221111185901726.png" alt="image-20221111185901726"></p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/Snipaste_2025-07-17_15-57-36.png" alt="Snipaste_2025-07-17_15-57-36"></p>
+<p>测试成功！！</p>
+<h4 id="1-3-2-前后端联调测试"><a href="#1-3-2-前后端联调测试" class="headerlink" title="1.3.2 前后端联调测试"></a>1.3.2 前后端联调测试</h4><p>启动nginx,访问 <a target="_blank" rel="noopener" href="http://localhost:89/">http://localhost:89</a></p>
+<p>登录–&gt;员工管理–&gt;添加员工</p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/Snipaste_2025-07-17_16-03-38.png" alt="Snipaste_2025-07-17_16-03-38"></p>
+<p>测试成功。</p>
+<p><strong>注意：</strong>由于开发阶段前端和后端是并行开发的，后端完成某个功能后，此时前端对应的功能可能还没有开发完成，<br>导致无法进行前后端联调测试。所以在开发阶段，后端测试主要以接口文档测试为主。</p>
+<h3 id="1-4-代码完善"><a href="#1-4-代码完善" class="headerlink" title="1.4 代码完善"></a>1.4 代码完善</h3><p>目前，程序存在的问题主要有两个：</p>
+<ul>
+<li>录入的用户名已存，抛出的异常后没有处理</li>
+<li>新增员工时，创建人id和修改人id设置为固定值</li>
+</ul>
+<p>接下来，我们对上述两个问题依次进行分析和解决。</p>
+<h4 id="1-4-1-问题一"><a href="#1-4-1-问题一" class="headerlink" title="1.4.1 问题一"></a>1.4.1 问题一</h4><p><strong>描述：</strong>录入的用户名已存，抛出的异常后没有处理</p>
+<p><strong>分析：</strong></p>
+<p>新增username&#x3D;zhangsan的用户，若employee表中之前已存在。</p>
+<p>发现，username已经添加了唯一约束，不能重复。</p>
+<p><strong>解决：</strong></p>
+<p>通过全局异常处理器来处理。</p>
+<p>进入到sky-server模块，com.sky.hander包下，GlobalExceptionHandler.java添加方法</p>
+<pre><code class="java">    /**
+     * 处理SQL异常
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler
+    public Result exceptionHandler(SQLIntegrityConstraintViolationException ex)&#123;
+        //Duplicate entry &#39;zhangsan&#39; for key &#39;employee.idx_username&#39;
+        String message = ex.getMessage();
+        if(message.contains(&quot;Duplicate entry&quot;))&#123;
+            String[] split = message.split(&quot; &quot;);
+            String username = split[2];
+            String msg = username + MessageConstant.ALREADY_EXISTS;
+            return Result.error(msg);
+        &#125;else&#123;
+            return Result.error(MessageConstant.UNKNOWN_ERROR);
+        &#125;
+    &#125;
+</code></pre>
+<p>进入到sky-common模块，在MessageConstant.java添加</p>
+<pre><code class="java">public static final String ALREADY_EXISTS = &quot;已存在&quot;;
+</code></pre>
+<p>再次，接口测试：</p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/Snipaste_2025-07-17_16-17-02.png" alt="Snipaste_2025-07-17_16-17-02"></p>
+<h4 id="1-4-2-问题二"><a href="#1-4-2-问题二" class="headerlink" title="1.4.2 问题二"></a>1.4.2 问题二</h4><p><strong>描述</strong>：新增员工时，创建人id和修改人id设置为固定值</p>
+<p><strong>分析：</strong></p>
+<pre><code class="java">    /**
+     * 新增员工
+     *
+     * @param employeeDTO
+     */
+    public void save(EmployeeDTO employeeDTO) &#123;
+        Employee employee = new Employee();
+        //................
+        //////////当前设置的id为固定值10//////////
+        employee.setCreateUser(10L);
+        employee.setUpdateUser(10L);
+        //////////////////////////////////////
+        //.................................
+
+        employeeMapper.insert(employee);//后续步骤定义
+    &#125;
+</code></pre>
+<p><strong>解决：</strong></p>
+<p>通过某种方式动态获取当前登录员工的id。</p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221111201922482.png" alt="image-20221111201922482"></p>
+<p>员工登录成功后会生成JWT令牌并响应给前端：</p>
+<p>在sky-server模块</p>
+<pre><code class="java">package com.sky.controller.admin;
+/**
+ * 员工管理
+ */
+@RestController
+@RequestMapping(&quot;/admin/employee&quot;)
+@Slf4j
+@Api(tags = &quot;员工相关接口&quot;)
+public class EmployeeController &#123;
+
+    @Autowired
+    private EmployeeService employeeService;
+    @Autowired
+    private JwtProperties jwtProperties;
+
+    /**
+     * 登录
+     *
+     * @param employeeLoginDTO
+     * @return
+     */
+    @PostMapping(&quot;/login&quot;)
+    @ApiOperation(value = &quot;员工登录&quot;)
+    public Result&lt;EmployeeLoginVO&gt; login(@RequestBody EmployeeLoginDTO employeeLoginDTO) &#123;
+        //.........
+
+        //登录成功后，生成jwt令牌
+        Map&lt;String, Object&gt; claims = new HashMap&lt;&gt;();
+        claims.put(JwtClaimsConstant.EMP_ID, employee.getId());
+        String token = JwtUtil.createJWT(
+                jwtProperties.getAdminSecretKey(),
+                jwtProperties.getAdminTtl(),
+                claims);
+
+        //............
+
+        return Result.success(employeeLoginVO);
+    &#125;
+
+&#125;
+</code></pre>
+<p>后续请求中，前端会携带JWT令牌，通过JWT令牌可以解析出当前登录员工id：</p>
+<p>JwtTokenAdminInterceptor.java</p>
+<pre><code class="java">package com.sky.interceptor;
+
+/**
+ * jwt令牌校验的拦截器
+ */
+@Component
+@Slf4j
+public class JwtTokenAdminInterceptor implements HandlerInterceptor &#123;
+
+    @Autowired
+    private JwtProperties jwtProperties;
+
+    /**
+     * 校验jwt
+     *
+     * @param request
+     * @param response
+     * @param handler
+     * @return
+     * @throws Exception
+     */
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception &#123;
+       
+        //..............
+        
+        //1、从请求头中获取令牌
+        String token = request.getHeader(jwtProperties.getAdminTokenName());
+
+        //2、校验令牌
+        try &#123;
+            log.info(&quot;jwt校验:&#123;&#125;&quot;, token);
+            Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
+            Long empId = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
+            log.info(&quot;当前员工id：&quot;, empId);
+            //3、通过，放行
+            return true;
+        &#125; catch (Exception ex) &#123;
+            //4、不通过，响应401状态码
+            response.setStatus(401);
+            return false;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>思考：</strong>解析出登录员工id后，如何传递给Service的save方法？</p>
+<p>通过ThreadLocal进行传递。</p>
+<h4 id="1-4-3-ThreadLocal"><a href="#1-4-3-ThreadLocal" class="headerlink" title="1.4.3 ThreadLocal"></a>1.4.3 ThreadLocal</h4><p><strong>介绍：</strong></p>
+<p>ThreadLocal 并不是一个Thread，而是Thread的局部变量。<br>ThreadLocal为每个线程提供单独一份存储空间，具有线程隔离的效果，只有在线程内才能获取到对应的值，线程外则不能访问。</p>
+<p><strong>常用方法：</strong></p>
+<ul>
+<li>public void set(T value) 	设置当前线程的线程局部变量的值</li>
+<li>public T get() 		返回当前线程所对应的线程局部变量的值</li>
+<li>public void remove()        移除当前线程的线程局部变量</li>
+</ul>
+<p>对ThreadLocal有了一定认识后，接下来继续解决<strong>问题二</strong></p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221111212349365.png" alt="image-20221111212349365"></p>
+<p>初始工程中已经封装了 ThreadLocal 操作的工具类：</p>
+<p>在sky-common模块</p>
+<pre><code class="java">package com.sky.context;
+
+public class BaseContext &#123;
+
+    public static ThreadLocal&lt;Long&gt; threadLocal = new ThreadLocal&lt;&gt;();
+
+    public static void setCurrentId(Long id) &#123;
+        threadLocal.set(id);
+    &#125;
+
+    public static Long getCurrentId() &#123;
+        return threadLocal.get();
+    &#125;
+
+    public static void removeCurrentId() &#123;
+        threadLocal.remove();
+    &#125;
+
+&#125;
+</code></pre>
+<p>在拦截器中解析出当前登录员工id，并放入线程局部变量中：</p>
+<p>在sky-server模块中，拦截器：</p>
+<pre><code class="java">package com.sky.interceptor;
+
+/**
+ * jwt令牌校验的拦截器
+ */
+@Component
+@Slf4j
+public class JwtTokenAdminInterceptor implements HandlerInterceptor &#123;
+
+    @Autowired
+    private JwtProperties jwtProperties;
+
+    /**
+     * 校验jwt
+     *
+     * @param request
+     * @param response
+     * @param handler
+     * @return
+     * @throws Exception
+     */
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception &#123;
+        
+        //.............................
+       
+        //2、校验令牌
+        try &#123;
+            //.................
+            Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
+            Long empId = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
+            log.info(&quot;当前员工id：&quot;, empId);
+            /////将用户id存储到ThreadLocal////////
+            BaseContext.setCurrentId(empId);
+            ////////////////////////////////////
+            //3、通过，放行
+            return true;
+        &#125; catch (Exception ex) &#123;
+            //......................
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>在Service中获取线程局部变量中的值：</p>
+<pre><code class="java">/**
+     * 新增员工
+     *
+     * @param employeeDTO
+     */
+    public void save(EmployeeDTO employeeDTO) &#123;
+        //.............................
+
+        //设置当前记录创建人id和修改人id
+        employee.setCreateUser(BaseContext.getCurrentId());//目前写个假数据，后期修改
+        employee.setUpdateUser(BaseContext.getCurrentId());
+
+        employeeMapper.insert(employee);
+    &#125;
+</code></pre>
+<p>测试：使用admin(id&#x3D;1)用户登录后添加一条记录</p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/Snipaste_2025-07-17_16-43-42.png" alt="Snipaste_2025-07-17_16-43-42"></p>
+<h2 id="1-5-代码提交"><a href="#1-5-代码提交" class="headerlink" title="1.5 代码提交"></a>1.5 代码提交</h2><h2 id="2-员工分页查询"><a href="#2-员工分页查询" class="headerlink" title="2. 员工分页查询"></a>2. 员工分页查询</h2><h3 id="2-1-需求分析和设计"><a href="#2-1-需求分析和设计" class="headerlink" title="2.1 需求分析和设计"></a>2.1 需求分析和设计</h3><h4 id="2-1-1-产品原型"><a href="#2-1-1-产品原型" class="headerlink" title="2.1.1 产品原型"></a>2.1.1 产品原型</h4><p>系统中的员工很多的时候，如果在一个页面中全部展示出来会显得比较乱，不便于查看，所以一般的系统中都会以分页的方式来展示列表数据。而在我们的分页查询页面中, 除了分页条件以外，还有一个查询条件 “员工姓名”。</p>
+<p><strong>查询员工原型：</strong></p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221111215309289.png" alt="image-20221111215309289"></p>
+<p><strong>业务规则</strong>：</p>
+<ul>
+<li>根据页码展示员工信息</li>
+<li>每页展示10条数据</li>
+<li>分页查询时可以根据需要，输入员工姓名进行查询</li>
+</ul>
+<h4 id="2-1-2-接口设计"><a href="#2-1-2-接口设计" class="headerlink" title="2.1.2 接口设计"></a>2.1.2 接口设计</h4><p><img src="苍穹外卖day02/image-20221111220031113.png" alt="image-20221111220031113" style="zoom:67%;" /><img src="苍穹外卖day02/image-20221111220041965.png" alt="image-20221111220041965" style="zoom:67%;" /></p>
+<p><strong>注意事项：</strong></p>
+<ul>
+<li>请求参数类型为Query，不是json格式提交，在路径后直接拼接。&#x2F;admin&#x2F;employee&#x2F;page?name&#x3D;zhangsan</li>
+<li>返回数据中records数组中使用Employee实体类对属性进行封装。</li>
+</ul>
+<h3 id="2-2-代码开发"><a href="#2-2-代码开发" class="headerlink" title="2.2 代码开发"></a>2.2 代码开发</h3><h4 id="2-2-1-设计DTO类"><a href="#2-2-1-设计DTO类" class="headerlink" title="2.2.1 设计DTO类"></a>2.2.1 设计DTO类</h4><p>根据请求参数进行封装，在sky-pojo模块中</p>
+<pre><code class="java">package com.sky.dto;
+
+import lombok.Data;
+
+import java.io.Serializable;
+
+@Data
+public class EmployeePageQueryDTO implements Serializable &#123;
+
+    //员工姓名
+    private String name;
+
+    //页码
+    private int page;
+
+    //每页显示记录数
+    private int pageSize;
+
+&#125;
+</code></pre>
+<h4 id="2-2-2-封装PageResult"><a href="#2-2-2-封装PageResult" class="headerlink" title="2.2.2 封装PageResult"></a>2.2.2 封装PageResult</h4><p>后面所有的分页查询，统一都封装为PageResult对象。</p>
+<p>在sky-common模块</p>
+<pre><code class="java">package com.sky.result;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * 封装分页查询结果
+ */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class PageResult implements Serializable &#123;
+
+    private long total; //总记录数
+
+    private List records; //当前页数据集合
+
+&#125;
+</code></pre>
+<p>员工信息分页查询后端返回的对象类型为: Result<PageResult></p>
+<pre><code class="java">package com.sky.result;
+
+import lombok.Data;
+
+import java.io.Serializable;
+
+/**
+ * 后端统一返回结果
+ * @param &lt;T&gt;
+ */
+@Data
+public class Result&lt;T&gt; implements Serializable &#123;
+
+    private Integer code; //编码：1成功，0和其它数字为失败
+    private String msg; //错误信息
+    private T data; //数据
+
+    public static &lt;T&gt; Result&lt;T&gt; success() &#123;
+        Result&lt;T&gt; result = new Result&lt;T&gt;();
+        result.code = 1;
+        return result;
+    &#125;
+
+    public static &lt;T&gt; Result&lt;T&gt; success(T object) &#123;
+        Result&lt;T&gt; result = new Result&lt;T&gt;();
+        result.data = object;
+        result.code = 1;
+        return result;
+    &#125;
+
+    public static &lt;T&gt; Result&lt;T&gt; error(String msg) &#123;
+        Result result = new Result();
+        result.msg = msg;
+        result.code = 0;
+        return result;
+    &#125;
+
+&#125;
+</code></pre>
+<h4 id="2-2-3-Controller层"><a href="#2-2-3-Controller层" class="headerlink" title="2.2.3 Controller层"></a>2.2.3 Controller层</h4><p>在sky-server模块中，com.sky.controller.admin.EmployeeController中添加分页查询方法。</p>
+<pre><code class="java">    /**
+     * 员工分页查询
+     * @param employeePageQueryDTO
+     * @return
+     */
+    @GetMapping(&quot;/page&quot;)
+    @ApiOperation(&quot;员工分页查询&quot;)
+    public Result&lt;PageResult&gt; page(EmployeePageQueryDTO employeePageQueryDTO)&#123;
+        log.info(&quot;员工分页查询，参数为：&#123;&#125;&quot;, employeePageQueryDTO);
+        PageResult pageResult = employeeService.pageQuery(employeePageQueryDTO);//后续定义
+        return Result.success(pageResult);
+    &#125;
+</code></pre>
+<h4 id="2-2-4-Service层接口"><a href="#2-2-4-Service层接口" class="headerlink" title="2.2.4 Service层接口"></a>2.2.4 Service层接口</h4><p>在EmployeeService接口中声明pageQuery方法：</p>
+<pre><code class="java">    /**
+     * 分页查询
+     * @param employeePageQueryDTO
+     * @return
+     */
+    PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
+</code></pre>
+<h4 id="2-2-5-Service层实现类"><a href="#2-2-5-Service层实现类" class="headerlink" title="2.2.5 Service层实现类"></a>2.2.5 Service层实现类</h4><p>在EmployeeServiceImpl中实现pageQuery方法：</p>
+<pre><code class="java">    /**
+     * 分页查询
+     *
+     * @param employeePageQueryDTO
+     * @return
+     */
+    public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) &#123;
+        // select * from employee limit 0,10
+        //开始分页查询
+        PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
+
+        Page&lt;Employee&gt; page = employeeMapper.pageQuery(employeePageQueryDTO);//后续定义
+
+        long total = page.getTotal();
+        List&lt;Employee&gt; records = page.getResult();
+
+        return new PageResult(total, records);
+    &#125;
+</code></pre>
+<p><code>PageHelper</code> 是 MyBatis 的分页插件，它的底层实现核心原理是：</p>
+<hr>
+<h3 id="✅-基于-MyBatis-拦截器机制，在-SQL-执行前自动修改原-SQL，加上分页语句"><a href="#✅-基于-MyBatis-拦截器机制，在-SQL-执行前自动修改原-SQL，加上分页语句" class="headerlink" title="✅ 基于 MyBatis 拦截器机制，在 SQL 执行前自动修改原 SQL，加上分页语句"></a>✅ <strong>基于 MyBatis 拦截器机制，在 SQL 执行前自动修改原 SQL，加上分页语句</strong></h3><hr>
+<h3 id="🔍-具体工作机制如下："><a href="#🔍-具体工作机制如下：" class="headerlink" title="🔍 具体工作机制如下："></a>🔍 具体工作机制如下：</h3><h4 id="1-PageHelper-startPage-pageNum-pageSize-被调用时："><a href="#1-PageHelper-startPage-pageNum-pageSize-被调用时：" class="headerlink" title="1. PageHelper.startPage(pageNum, pageSize) 被调用时："></a>1. <code>PageHelper.startPage(pageNum, pageSize)</code> 被调用时：</h4><ul>
+<li>它会在当前线程（<code>ThreadLocal</code>）中保存分页参数。</li>
+<li>例如保存成：<code>&#123;pageNum: 1, pageSize: 10&#125;</code>。</li>
+</ul>
+<h4 id="2-当-MyBatis-执行查询-SQL-时（如-employeeMapper-pageQuery-）："><a href="#2-当-MyBatis-执行查询-SQL-时（如-employeeMapper-pageQuery-）：" class="headerlink" title="2. 当 MyBatis 执行查询 SQL 时（如 employeeMapper.pageQuery()）："></a>2. 当 MyBatis 执行查询 SQL 时（如 <code>employeeMapper.pageQuery()</code>）：</h4><ul>
+<li><code>PageHelper</code> 注册的拦截器（拦截的是 <code>Executor.query(...)</code> 方法）会被触发。</li>
+<li>在这个拦截器中，PageHelper 会：<ul>
+<li>检测是否调用过 <code>startPage()</code>（判断 <code>ThreadLocal</code> 中是否有分页参数）。</li>
+<li>如果有，就自动 <strong>修改 SQL 语句</strong>，拼接分页语法。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="🧠-例子："><a href="#🧠-例子：" class="headerlink" title="🧠 例子："></a>🧠 例子：</h3><p>原始 SQL：</p>
+<pre><code>sql
+
+
+复制编辑
+SELECT * FROM employee
+</code></pre>
+<p>分页后实际执行的 SQL（MySQL）：</p>
+<pre><code>sql
+
+
+复制编辑
+SELECT * FROM employee LIMIT 0, 10
+</code></pre>
+<p>如果你传的是 <code>page=2, pageSize=10</code>，它会生成：</p>
+<pre><code>sql
+
+
+复制编辑
+SELECT * FROM employee LIMIT 10, 10
+</code></pre>
+<hr>
+<h3 id="✅-总结一句话："><a href="#✅-总结一句话：" class="headerlink" title="✅ 总结一句话："></a>✅ 总结一句话：</h3><p><code>PageHelper</code> 是通过 <strong>拦截 MyBatis 查询语句并动态拼接 <code>LIMIT</code> 语句</strong> 实现分页的，本质是 <strong>在执行 SQL 前修改原始 SQL</strong> 来实现数据库级分页。</p>
+<p><strong>注意：</strong>此处使用 mybatis 的分页插件 PageHelper 来简化分页代码的开发。底层基于 mybatis 的拦截器实现。</p>
+<p>故在pom.xml文中添加依赖(初始工程已添加)</p>
+<pre><code class="xml">&lt;dependency&gt;
+   &lt;groupId&gt;com.github.pagehelper&lt;/groupId&gt;
+   &lt;artifactId&gt;pagehelper-spring-boot-starter&lt;/artifactId&gt;
+   &lt;version&gt;$&#123;pagehelper&#125;&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h4 id="2-2-6-Mapper层"><a href="#2-2-6-Mapper层" class="headerlink" title="2.2.6 Mapper层"></a>2.2.6 Mapper层</h4><p>在 EmployeeMapper 中声明 pageQuery 方法：</p>
+<pre><code class="java">    /**
+     * 分页查询
+     * @param employeePageQueryDTO
+     * @return
+     */
+    Page&lt;Employee&gt; pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
+</code></pre>
+<p>在 src&#x2F;main&#x2F;resources&#x2F;mapper&#x2F;EmployeeMapper.xml 中编写SQL：</p>
+<pre><code class="sql">&lt;select id=&quot;pageQuery&quot; resultType=&quot;com.sky.entity.Employee&quot;&gt;
+        select * from employee
+        &lt;where&gt;
+            &lt;if test=&quot;name != null and name != &#39;&#39;&quot;&gt;
+                and name like concat(&#39;%&#39;,#&#123;name&#125;,&#39;%&#39;)
+            &lt;/if&gt;
+        &lt;/where&gt;
+        order by create_time desc
+    &lt;/select&gt;
+</code></pre>
+<p><strong>这段其实返回的是 <code>List&lt;Employee&gt;</code>，但用 PageHelper 包了一层后，变成了 <code>Page&lt;Employee&gt;</code>。</strong></p>
+<h3 id="2-3-功能测试"><a href="#2-3-功能测试" class="headerlink" title="2.3 功能测试"></a>2.3 功能测试</h3><p>可以通过接口文档进行测试，也可以进行前后端联调测试。</p>
+<p>接下来使用两种方式分别测试：</p>
+<h4 id="2-3-1-接口文档测试"><a href="#2-3-1-接口文档测试" class="headerlink" title="2.3.1 接口文档测试"></a>2.3.1 接口文档测试</h4><p><strong>重启服务：</strong>访问<a target="_blank" rel="noopener" href="http://localhost:8080/doc.html%EF%BC%8C%E8%BF%9B%E5%85%A5%E5%91%98%E5%B7%A5%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2">http://localhost:8080/doc.html，进入员工分页查询</a></p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221112101946022.png" alt="image-20221112101946022"></p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221112102441810.png" alt="image-20221112102441810"></p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221112102540938.png" alt="image-20221112102540938"></p>
+<p>不难发现，<strong>最后操作时间格式</strong>不清晰，在<strong>代码完善</strong>中解决。</p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221112102745437.png" alt="image-20221112102745437"></p>
+<h3 id="2-4-代码完善"><a href="#2-4-代码完善" class="headerlink" title="2.4 代码完善"></a>2.4 代码完善</h3><p><strong>问题描述：</strong>操作时间字段显示有问题。</p>
+<p><strong>解决方式：</strong></p>
+<p><strong>1).  方式一</strong></p>
+<p>在属性上加上注解，对日期进行格式化</p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221112103501581.png" alt="image-20221112103501581"></p>
+<p><strong>2).  方式二（推荐 )</strong></p>
+<p>在WebMvcConfiguration中扩展SpringMVC的消息转换器，统一对日期类型进行格式处理</p>
+<pre><code class="java">    /**
+     * 扩展Spring MVC框架的消息转化器
+     * @param converters
+     */
+    protected void extendMessageConverters(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters) &#123;
+        log.info(&quot;扩展消息转换器...&quot;);
+        //创建一个消息转换器对象
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        //需要为消息转换器设置一个对象转换器，对象转换器可以将Java对象序列化为json数据
+        converter.setObjectMapper(new JacksonObjectMapper());
+        //将自己的消息转化器加入容器中
+        converters.add(0,converter);
+    &#125;
+</code></pre>
+<p>添加后，再次测试</p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221112104305608.png" alt="image-20221112104305608"></p>
+<p>时间格式定义，sky-common模块中</p>
+<pre><code class="java">package com.sky.json;
+
+public class JacksonObjectMapper extends ObjectMapper &#123;
+
+    //.......
+    public static final String DEFAULT_DATE_TIME_FORMAT = &quot;yyyy-MM-dd HH:mm&quot;;
+    //.......
+
+    &#125;
+&#125;
+</code></pre>
+<h3 id="2-5-代码提交"><a href="#2-5-代码提交" class="headerlink" title="2.5 代码提交"></a>2.5 代码提交</h3><h2 id="3-启用禁用员工账号"><a href="#3-启用禁用员工账号" class="headerlink" title="3. 启用禁用员工账号"></a>3. 启用禁用员工账号</h2><h3 id="3-1-需求分析与设计"><a href="#3-1-需求分析与设计" class="headerlink" title="3.1 需求分析与设计"></a>3.1 需求分析与设计</h3><h4 id="3-1-1-产品原型"><a href="#3-1-1-产品原型" class="headerlink" title="3.1.1 产品原型"></a>3.1.1 产品原型</h4><p>在员工管理列表页面，可以对某个员工账号进行启用或者禁用操作。账号禁用的员工不能登录系统，启用后的员工可以正常登录。如果某个员工账号状态为正常，则按钮显示为 “禁用”，如果员工账号状态为已禁用，则按钮显示为”启用”。</p>
+<p><strong>启禁用员工原型：</strong></p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221112112359233.png" alt="image-20221112112359233"></p>
+<p><strong>业务规则：</strong></p>
+<ul>
+<li>可以对状态为“启用” 的员工账号进行“禁用”操作</li>
+<li>可以对状态为“禁用”的员工账号进行“启用”操作</li>
+<li>状态为“禁用”的员工账号不能登录系统</li>
+</ul>
+<h4 id="3-1-2-接口设计"><a href="#3-1-2-接口设计" class="headerlink" title="3.1.2 接口设计"></a>3.1.2 接口设计</h4><p><img src="苍穹外卖day02/image-20221112112728333.png" alt="image-20221112112728333" style="zoom:50%;" /><img src="苍穹外卖day02/image-20221112112739680.png" alt="image-20221112112739680" style="zoom:50%;" /></p>
+<p>1). 路径参数携带状态值。</p>
+<p>2). 同时，把id传递过去，明确对哪个用户进行操作。</p>
+<p>3). 返回数据code状态是必须，其它是非必须。</p>
+<h3 id="3-2-代码开发"><a href="#3-2-代码开发" class="headerlink" title="3.2 代码开发"></a>3.2 代码开发</h3><h4 id="3-2-1-Controller层"><a href="#3-2-1-Controller层" class="headerlink" title="3.2.1 Controller层"></a>3.2.1 Controller层</h4><p>在sky-server模块中，根据接口设计中的请求参数形式对应的在 EmployeeController 中创建启用禁用员工账号的方法：</p>
+<pre><code class="java">    /**
+     * 启用禁用员工账号
+     * @param status
+     * @param id
+     * @return
+     */
+    @PostMapping(&quot;/status/&#123;status&#125;&quot;)
+    @ApiOperation(&quot;启用禁用员工账号&quot;)
+    public Result startOrStop(@PathVariable Integer status,Long id)&#123;
+        log.info(&quot;启用禁用员工账号：&#123;&#125;,&#123;&#125;&quot;,status,id);
+        employeeService.startOrStop(status,id);//后绪步骤定义
+        return Result.success();
+    &#125;
+</code></pre>
+<h4 id="3-2-2-Service层接口"><a href="#3-2-2-Service层接口" class="headerlink" title="3.2.2 Service层接口"></a>3.2.2 Service层接口</h4><p>在 EmployeeService 接口中声明启用禁用员工账号的业务方法：</p>
+<pre><code class="java">    /**
+     * 启用禁用员工账号
+     * @param status
+     * @param id
+     */
+    void startOrStop(Integer status, Long id);
+</code></pre>
+<h4 id="3-2-3-Service层实现类"><a href="#3-2-3-Service层实现类" class="headerlink" title="3.2.3 Service层实现类"></a>3.2.3 Service层实现类</h4><p>在 EmployeeServiceImpl 中实现启用禁用员工账号的业务方法：</p>
+<pre><code class="java">    /**
+     * 启用禁用员工账号
+     *
+     * @param status
+     * @param id
+     */
+    public void startOrStop(Integer status, Long id) &#123;
+        Employee employee = Employee.builder()
+                .status(status)
+                .id(id)
+                .build();
+
+        employeeMapper.update(employee);
+    &#125;
+</code></pre>
+<h4 id="3-2-4-Mapper层"><a href="#3-2-4-Mapper层" class="headerlink" title="3.2.4 Mapper层"></a>3.2.4 Mapper层</h4><p>在 EmployeeMapper 接口中声明 update 方法：</p>
+<pre><code class="java">    /**
+     * 根据主键动态修改属性
+     * @param employee
+     */
+    void update(Employee employee);
+</code></pre>
+<p>在 EmployeeMapper.xml 中编写SQL：</p>
+<pre><code class="sql">&lt;update id=&quot;update&quot; parameterType=&quot;Employee&quot;&gt;
+        update employee
+        &lt;set&gt;
+            &lt;if test=&quot;name != null&quot;&gt;name = #&#123;name&#125;,&lt;/if&gt;
+            &lt;if test=&quot;username != null&quot;&gt;username = #&#123;username&#125;,&lt;/if&gt;
+            &lt;if test=&quot;password != null&quot;&gt;password = #&#123;password&#125;,&lt;/if&gt;
+            &lt;if test=&quot;phone != null&quot;&gt;phone = #&#123;phone&#125;,&lt;/if&gt;
+            &lt;if test=&quot;sex != null&quot;&gt;sex = #&#123;sex&#125;,&lt;/if&gt;
+            &lt;if test=&quot;idNumber != null&quot;&gt;id_Number = #&#123;idNumber&#125;,&lt;/if&gt;
+            &lt;if test=&quot;updateTime != null&quot;&gt;update_Time = #&#123;updateTime&#125;,&lt;/if&gt;
+            &lt;if test=&quot;updateUser != null&quot;&gt;update_User = #&#123;updateUser&#125;,&lt;/if&gt;
+            &lt;if test=&quot;status != null&quot;&gt;status = #&#123;status&#125;,&lt;/if&gt;
+        &lt;/set&gt;
+        where id = #&#123;id&#125;
+    &lt;/update&gt;
+</code></pre>
+<h3 id="3-3-功能测试"><a href="#3-3-功能测试" class="headerlink" title="3.3 功能测试"></a>3.3 功能测试</h3><h4 id="3-3-1-接口文档测试"><a href="#3-3-1-接口文档测试" class="headerlink" title="3.3.1 接口文档测试"></a>3.3.1 接口文档测试</h4><p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221112143316357.png" alt="image-20221112143316357"></p>
+<h4 id="3-3-2-前后端联调测试"><a href="#3-3-2-前后端联调测试" class="headerlink" title="3.3.2 前后端联调测试"></a>3.3.2 前后端联调测试</h4><p><strong>测试前：</strong></p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221112143552246.png" alt="image-20221112143552246"></p>
+<p><strong>点击启用:</strong></p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221112143655318.png" alt="image-20221112143655318"></p>
+<h3 id="3-4-代码提交"><a href="#3-4-代码提交" class="headerlink" title="3.4 代码提交"></a>3.4 代码提交</h3><h2 id="4-编辑员工"><a href="#4-编辑员工" class="headerlink" title="4. 编辑员工"></a>4. 编辑员工</h2><h3 id="4-1-需求分析与设计"><a href="#4-1-需求分析与设计" class="headerlink" title="4.1 需求分析与设计"></a>4.1 需求分析与设计</h3><h4 id="4-1-1-产品原型"><a href="#4-1-1-产品原型" class="headerlink" title="4.1.1 产品原型"></a>4.1.1 产品原型</h4><p>在员工管理列表页面点击 “编辑” 按钮，跳转到编辑页面，在编辑页面回显员工信息并进行修改，最后点击 “保存” 按钮完成编辑操作。</p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221112144731759.png" alt="image-20221112144731759"></p>
+<p><strong>修改页面原型</strong>：</p>
+<p>注：点击修改时，数据应该正常回显到修改页面。</p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221112144842825.png" alt="image-20221112144842825"></p>
+<h4 id="4-1-2-接口设计"><a href="#4-1-2-接口设计" class="headerlink" title="4.1.2 接口设计"></a>4.1.2 接口设计</h4><p>根据上述原型图分析，编辑员工功能涉及到两个接口：</p>
+<ul>
+<li>根据id查询员工信息</li>
+<li>编辑员工信息</li>
+</ul>
+<p><strong>1). 根据id查询员工信息</strong></p>
+<p><img src="苍穹外卖day02/image-20221112145607939.png" alt="image-20221112145607939" style="zoom:50%;" /><img src="苍穹外卖day02/image-20221112145619775.png" alt="image-20221112145619775" style="zoom:50%;" /></p>
+<p><img src="苍穹外卖day02/image-20221112145643769.png" alt="image-20221112145643769" style="zoom:50%;" /><img src="苍穹外卖day02/image-20221112145659035.png" alt="image-20221112145659035" style="zoom:50%;" /></p>
+<h3 id="4-2-代码开发"><a href="#4-2-代码开发" class="headerlink" title="4.2 代码开发"></a>4.2 代码开发</h3><h4 id="4-2-1-回显员工信息功能"><a href="#4-2-1-回显员工信息功能" class="headerlink" title="4.2.1 回显员工信息功能"></a>4.2.1 回显员工信息功能</h4><p><strong>1). Controller层</strong></p>
+<p>在 EmployeeController 中创建 getById 方法：</p>
+<pre><code class="java">    /**
+     * 根据id查询员工信息
+     * @param id
+     * @return
+     */
+    @GetMapping(&quot;/&#123;id&#125;&quot;)
+    @ApiOperation(&quot;根据id查询员工信息&quot;)
+    public Result&lt;Employee&gt; getById(@PathVariable Long id)&#123;
+        Employee employee = employeeService.getById(id);
+        return Result.success(employee);
+    &#125;
+</code></pre>
+<p><strong>2). Service层接口</strong></p>
+<p>在 EmployeeService 接口中声明 getById 方法：</p>
+<pre><code class="java">    /**
+     * 根据id查询员工
+     * @param id
+     * @return
+     */
+    Employee getById(Long id);
+</code></pre>
+<p><strong>3). Service层实现类</strong></p>
+<p>在 EmployeeServiceImpl 中实现 getById 方法：</p>
+<pre><code class="java">     /**
+     * 根据id查询员工
+     *
+     * @param id
+     * @return
+     */
+    public Employee getById(Long id) &#123;
+        Employee employee = employeeMapper.getById(id);
+        employee.setPassword(&quot;****&quot;);
+        return employee;
+    &#125;
+</code></pre>
+<p><strong>4). Mapper层</strong></p>
+<p>在 EmployeeMapper 接口中声明 getById 方法：</p>
+<pre><code class="java">    /**
+     * 根据id查询员工信息
+     * @param id
+     * @return
+     */
+    @Select(&quot;select * from employee where id = #&#123;id&#125;&quot;)
+    Employee getById(Long id);
+</code></pre>
+<h4 id="4-2-2-修改员工信息功能"><a href="#4-2-2-修改员工信息功能" class="headerlink" title="4.2.2 修改员工信息功能"></a>4.2.2 修改员工信息功能</h4><p><strong>1). Controller层</strong></p>
+<p>在 EmployeeController 中创建 update 方法：</p>
+<pre><code class="java">    /**
+     * 编辑员工信息
+     * @param employeeDTO
+     * @return
+     */
+    @PutMapping
+    @ApiOperation(&quot;编辑员工信息&quot;)
+    public Result update(@RequestBody EmployeeDTO employeeDTO)&#123;
+        log.info(&quot;编辑员工信息：&#123;&#125;&quot;, employeeDTO);
+        employeeService.update(employeeDTO);
+        return Result.success();
+    &#125;
+</code></pre>
+<p><strong>2). Service层接口</strong></p>
+<p>在 EmployeeService 接口中声明 update 方法：</p>
+<pre><code class="java">    /**
+     * 编辑员工信息
+     * @param employeeDTO
+     */
+    void update(EmployeeDTO employeeDTO);
+</code></pre>
+<p><strong>3). Service层实现类</strong></p>
+<p>在 EmployeeServiceImpl 中实现 update 方法：</p>
+<pre><code class="java">     /**
+     * 编辑员工信息
+     *
+     * @param employeeDTO
+     */
+    public void update(EmployeeDTO employeeDTO) &#123;
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO, employee);
+
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+
+        employeeMapper.update(employee);
+    &#125;
+</code></pre>
+<p>在实现<strong>启用禁用员工账号</strong>功能时，已实现employeeMapper.update(employee)，在此不需写Mapper层代码。</p>
+<h3 id="4-3-功能测试"><a href="#4-3-功能测试" class="headerlink" title="4.3 功能测试"></a>4.3 功能测试</h3><h4 id="4-3-1-接口文档测试"><a href="#4-3-1-接口文档测试" class="headerlink" title="4.3.1 接口文档测试"></a>4.3.1 接口文档测试</h4><p>分别测试<strong>根据id查询员工信息</strong>和<strong>编辑员工信息</strong>两个接口</p>
+<p><strong>1). 根据id查询员工信息</strong></p>
+<p>查询employee表中的数据，以id&#x3D;4的记录为例</p>
+<p>开始测试</p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221112155206712.png" alt="image-20221112155206712"></p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221112155430652.png" alt="image-20221112155430652"></p>
+<p><img src="/%E8%8B%8D%E7%A9%B9%E5%A4%96%E5%8D%96day02/image-20221112155559298.png" alt="image-20221112155559298"></p>
+<h3 id="4-4-代码提交"><a href="#4-4-代码提交" class="headerlink" title="4.4 代码提交"></a>4.4 代码提交</h3><h2 id="5-导入分类模块功能代码"><a href="#5-导入分类模块功能代码" class="headerlink" title="5. 导入分类模块功能代码"></a>5. 导入分类模块功能代码</h2><h3 id="5-1-需求分析与设计"><a href="#5-1-需求分析与设计" class="headerlink" title="5.1 需求分析与设计"></a>5.1 需求分析与设计</h3><h4 id="5-1-1-产品原型"><a href="#5-1-1-产品原型" class="headerlink" title="5.1.1 产品原型"></a>5.1.1 产品原型</h4><p>后台系统中可以管理分类信息，分类包括两种类型，分别是 <strong>菜品分类</strong> 和 <strong>套餐分类</strong> 。</p>
+<p>先来分析<strong>菜品分类</strong>相关功能。</p>
+<p><strong>新增菜品分类：</strong>当我们在后台系统中添加菜品时需要选择一个菜品分类，在移动端也会按照菜品分类来展示对应的菜品。</p>
+<p><strong>菜品分类分页查询：</strong>系统中的分类很多的时候，如果在一个页面中全部展示出来会显得比较乱，不便于查看，所以一般的系统中都会以分页的方式来展示列表数据。</p>
+<p><strong>根据id删除菜品分类：</strong>在分类管理列表页面，可以对某个分类进行删除操作。需要注意的是当分类关联了菜品或者套餐时，此分类不允许删除。</p>
+<p><strong>修改菜品分类：</strong>在分类管理列表页面点击修改按钮，弹出修改窗口，在修改窗口回显分类信息并进行修改，最后点击确定按钮完成修改操作。</p>
+<p><strong>启用禁用菜品分类：</strong>在分类管理列表页面，可以对某个分类进行启用或者禁用操作。</p>
+<p><strong>分类类型查询：</strong>当点击分类类型下拉框时，从数据库中查询所有的菜品分类数据进行展示。</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 陈小达的个人博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;chenjunda
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
